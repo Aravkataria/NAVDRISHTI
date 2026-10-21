@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="../styles.css">
 </head>
 <body>
 
@@ -26,7 +26,7 @@
   <!-- Navigation Bar -->
   <nav class="navbar">
     <div class="container nav-container">
-      <a href="index.html" class="nav-brand">
+      <a href="../index.html" class="nav-brand">
         <div class="logo-icon">
           <i class="fa-solid fa-bolt-lightning"></i>
         </div>
@@ -38,7 +38,7 @@
 
       <!-- Multi-Page Navigation Links -->
       <div class="nav-links">
-        <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="../index.html" class="nav-link"><i class="fa-solid fa-house"></i> Home</a>
         <a href="jobs.html" class="nav-link active"><i class="fa-solid fa-compass"></i> Find Gigs</a>
         <a href="student-dashboard.html" class="nav-link"><i class="fa-solid fa-user-graduate"></i> Student Hub</a>
         <a href="post-job.html" class="nav-link"><i class="fa-solid fa-store"></i> Post a Gig</a>
@@ -58,7 +58,6 @@
           </div>
         </div>
 
-        <!-- Dark Mode Toggle Button -->
         <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Dark/Light Mode">
           <i class="fa-solid fa-moon"></i>
         </button>
@@ -81,7 +80,6 @@
 
   <!-- Search & Feed Content -->
   <main class="container">
-    <!-- Live Search & Filter Bar -->
     <div class="search-bar-box">
       <div class="search-input-wrapper">
         <i class="fa-solid fa-magnifying-glass"></i>
@@ -95,7 +93,6 @@
       </div>
     </div>
 
-    <!-- Category Tabs -->
     <div class="feed-header">
       <div class="category-tabs" id="categoryFilterTabs">
         <button class="cat-tab active" data-category="all">All Gigs</button>
@@ -108,14 +105,12 @@
       <span class="text-muted" style="font-size: 0.85rem;"><i class="fa-solid fa-shield-halved text-success"></i> All gigs 100% escrow secured</span>
     </div>
 
-    <!-- Projects Grid -->
     <div class="projects-grid" id="projectsContainer">
       <!-- Dynamically filled by app.js -->
     </div>
   </main>
 
-  <!-- Modals -->
-  <!-- 1. Apply Modal -->
+  <!-- Apply Modal -->
   <div class="modal-overlay" id="applyModal">
     <div class="modal-box">
       <div class="modal-header">
@@ -231,7 +226,7 @@
         <span><strong>SkillBridge AI</strong> — Developed for Pitchathon & Hackathon Demonstrations.</span>
       </div>
       <div class="footer-links">
-        <a href="index.html">Home</a>
+        <a href="../index.html">Home</a>
         <a href="jobs.html">Browse Gigs</a>
         <a href="student-dashboard.html">Student Hub</a>
         <a href="post-job.html">Post a Gig</a>
@@ -240,6 +235,6 @@
     </div>
   </footer>
 
-  <script src="app.js"></script>
+  <script src="../app.js"></script>
 </body>
 </html>

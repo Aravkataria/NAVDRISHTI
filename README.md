@@ -5,20 +5,45 @@
 
 ---
 
-## 🌟 Multi-Page Application Architecture
+## 📁 Clean Project & Folder Structure
 
-SkillBridge AI features a full-fledged **multi-page portal architecture** with unified state persistence, seamless navigation, and dark mode support:
+```
+startup/
+│
+├── index.html                   # 🏠 Main Front / Landing Page
+├── styles.css                   # 🎨 Design System (Light & Dark Theme)
+├── app.js                       # ⚡ Unified Router, State Manager & VAJRA AI
+├── server.py                    # 🐍 Python Flask Backend API & SQLite Database
+├── run_server.bat               # 🚀 1-Click Server Launcher
+├── requirements.txt             # 📦 Python Dependencies (Flask)
+├── README.md                    # 📖 Project Overview & Quick Start Guide
+│
+├── pages/                       # 📄 Interior Portal Pages
+│   ├── jobs.html                # 🔍 Job Finding & Discovery Page
+│   ├── student-dashboard.html   # 🎓 Student Career Hub & Portfolio
+│   ├── post-job.html            # 🏪 Business Merchant Hub & Post a Gig
+│   └── how-it-works.html        # 📊 Unit Economics & Escrow Guide
+│
+└── docs/                        # 📚 Pitch Deck & Technical Documentation
+    ├── PITCH_DECK_SCRIPT.md     # 🏆 3-Minute Pitch Script & Judge Q&A
+    ├── SYSTEM_ARCHITECTURE.md   # 🏗️ Architecture Flow & Data Diagram
+    └── LEGAL_AND_COMPLIANCE.md  # ⚖️ Indian Contract Act, IP & Tax Guide
+```
 
-1. **[index.html](file:///C:/Users/LENOVO/Desktop/startup/index.html) — Home / Front Page:**
-   * High-converting SaaS landing page with hero banner, live student earnings ticker, top matched gig preview, and quick portals.
-2. **[jobs.html](file:///C:/Users/LENOVO/Desktop/startup/jobs.html) — Job Finding & Discovery Page:**
-   * Search bar with live keyword filtering, category tabs (Design, Web, Video, Content, Social Media), smart AI match ranking, and 1-click application modal.
-3. **[student-dashboard.html](file:///C:/Users/LENOVO/Desktop/startup/student-dashboard.html) — Student Career Hub:**
-   * Priya Sharma's college-verified profile, skill tag manager, availability preferences, applications milestone tracker, and simulated UPI withdrawal ledger.
-4. **[post-job.html](file:///C:/Users/LENOVO/Desktop/startup/post-job.html) — Business Merchant Hub:**
-   * Sweet Delights Bakery portal to post new micro-gigs, inspect student drafts, release escrow payouts, and generate GST-ready tax invoices.
-5. **[how-it-works.html](file:///C:/Users/LENOVO/Desktop/startup/how-it-works.html) — Economics & Legal Guide:**
-   * Interactive 10% platform revenue calculator slider, legal micro-contract explanation (automatic IP copyright assignment), and tax compliance (TDS & 18% GST).
+---
+
+## 🌟 Multi-Page Application Breakdown
+
+1. **[index.html](file:///C:/Users/LENOVO/Desktop/startup/index.html) — Main Front Page:**
+   * SaaS hero banner with value proposition, student earnings metrics ticker, top AI matched micro-gigs preview, and quick access portals.
+2. **[pages/jobs.html](file:///C:/Users/LENOVO/Desktop/startup/pages/jobs.html) — Job Finding & Discovery:**
+   * Live search bar, category filter pills (*Design, Web, Social, Video, Writing*), AI match percentage ranking, and 1-click application modal.
+3. **[pages/student-dashboard.html](file:///C:/Users/LENOVO/Desktop/startup/pages/student-dashboard.html) — Student Career Hub:**
+   * Priya Sharma's college-verified profile, skill tag manager, application milestone tracker, and simulated UPI withdrawal balance.
+4. **[pages/post-job.html](file:///C:/Users/LENOVO/Desktop/startup/pages/post-job.html) — Business Merchant Hub:**
+   * Sweet Delights Bakery portal to post micro-gigs, inspect student drafts, release escrow payouts, and generate GST-ready tax receipts.
+5. **[pages/how-it-works.html](file:///C:/Users/LENOVO/Desktop/startup/pages/how-it-works.html) — Economics & Escrow Guide:**
+   * Interactive 10% platform revenue calculator slider, legal micro-contract explanation (automatic IP copyright assignment), and tax compliance.
 
 ---
 
@@ -48,26 +73,10 @@ Present across **every page** via the floating lightning widget (`⚡ Ask VAJRA 
    python server.py
    ```
 2. Open **[http://127.0.0.1:5000](http://127.0.0.1:5000)** in your browser.
-3. Routes available: `/`, `/jobs`, `/student-dashboard`, `/post-job`, `/how-it-works`.
 
 ### Method 2: Instant Static Mode (Zero Setup)
 1. Double-click [index.html](file:///C:/Users/LENOVO/Desktop/startup/index.html) in your file explorer.
 2. Navigate seamlessly between pages with `localStorage` state persistence.
-
----
-
-## 🛠️ Backend REST API Endpoints
-
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `GET` | `/api/health` | Health check & database connection status |
-| `POST`| `/api/vajra/chat` | VAJRA SLM Copilot conversational reasoning endpoint |
-| `GET` | `/api/student` | Fetch verified student profile & active skill tags |
-| `GET` | `/api/projects` | Fetch all active micro-gigs with server-calculated AI match % |
-| `POST` | `/api/projects` | Post a new micro-gig and deposit simulated escrow into SQLite |
-| `GET` | `/api/applications`| List student applications and review statuses |
-| `POST` | `/api/applications`| Submit student application with standard IP transfer agreement |
-| `POST` | `/api/escrow/release`| Release escrow: 90% to student wallet, 10% platform fee |
 
 ---
 
@@ -78,21 +87,3 @@ Present across **every page** via the floating lightning widget (`⚡ Ask VAJRA 
   2. Go to **Settings** > **Pages** > Select `main` branch > Click **Save**.
   3. Live URL: `https://aravkataria.github.io/NAVDRISHTI/`
 * **Netlify Drop:** Drag and drop this folder directly into [app.netlify.com/drop](https://app.netlify.com/drop).
-
----
-
-## 📁 Repository Structure
-```
-├── index.html              # Home / Front Page
-├── jobs.html               # Job Finding & Discovery Page
-├── student-dashboard.html  # Student Career & Portfolio Hub
-├── post-job.html           # Merchant Hub & Post a Gig
-├── how-it-works.html       # Unit Economics & Legal Escrow Guide
-├── server.py               # Python Flask backend with multi-page routing & SQLite
-├── run_server.bat          # 1-Click Windows launcher for Python server
-├── requirements.txt        # Python dependencies
-├── styles.css              # Dark/Light SaaS design system & responsive styling
-├── app.js                  # Multi-page state manager & VAJRA AI copilot engine
-├── README.md               # Documentation and pitch guide
-└── .gitignore              # Standard git ignore file
-```

@@ -431,20 +431,24 @@ def serve_index():
     return send_from_directory('.', 'index.html')
 
 @app.route('/jobs')
+@app.route('/pages/jobs.html')
 def serve_jobs():
-    return send_from_directory('.', 'jobs.html')
+    return send_from_directory('pages', 'jobs.html')
 
 @app.route('/student-dashboard')
+@app.route('/pages/student-dashboard.html')
 def serve_student_dashboard():
-    return send_from_directory('.', 'student-dashboard.html')
+    return send_from_directory('pages', 'student-dashboard.html')
 
 @app.route('/post-job')
+@app.route('/pages/post-job.html')
 def serve_post_job():
-    return send_from_directory('.', 'post-job.html')
+    return send_from_directory('pages', 'post-job.html')
 
 @app.route('/how-it-works')
+@app.route('/pages/how-it-works.html')
 def serve_how_it_works():
-    return send_from_directory('.', 'how-it-works.html')
+    return send_from_directory('pages', 'how-it-works.html')
 
 @app.route('/<path:path>')
 def serve_static(path):
