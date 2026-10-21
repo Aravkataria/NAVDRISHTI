@@ -1,9 +1,9 @@
 /**
  * SkillBridge AI — Core Prototype Application Engine
- * Pure Vanilla JavaScript (ES6+) • Client-Side Reactive State • LocalStorage Persistence
+ * Pure Vanilla JavaScript (ES6+) • Dual-Mode Architecture (Flask SQLite API + LocalStorage Fallback)
  */
 
-// Initial Seed Data
+// Initial Seed Data (Used for LocalStorage fallback or offline mode)
 const DEFAULT_STUDENT = {
   name: "Priya Sharma",
   college: "St. Xavier's College, Mumbai",
@@ -34,7 +34,7 @@ const DEFAULT_PROJECTS = [
     estHours: "4 Hours",
     description: "We are running a 20% discount on sourdough loaves this weekend. Need 3 mouth-watering 1080x1350 Instagram carousel slides following our pastel warm brand tones.",
     escrowFunded: true,
-    status: "in-progress", // open, in-progress, completed
+    status: "in-progress",
     hasSubmission: true,
     submissionNotes: "Here is the finalized Instagram poster set for the Weekend Sourdough Special. Created in high-resolution 1080x1350 with bakery branding guidelines applied!",
     submissionImage: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&auto=format&fit=crop&q=80"
@@ -116,16 +116,21 @@ const DEFAULT_APPLICATIONS = [
   }
 ];
 
+// Determine API Base URL dynamically
+const API_BASE = window.location.origin.includes(":5000") 
+  ? "/api" 
+  : "http://127.0.0.1:5000/api";
+
 // App State Management
 class AppState {
   constructor() {
+    this.useBackend = false;
     this.student = this.load("sb_student", DEFAULT_STUDENT);
     this.projects = this.load("sb_projects", DEFAULT_PROJECTS);
     this.applications = this.load("sb_applications", DEFAULT_APPLICATIONS);
     this.currentPersona = "student"; // 'student' or 'business'
     this.activeCategory = "all";
     this.sortBy = "match-desc";
-    this.platformEarnings = 50;
   }
 
   load(key, fallback) {
@@ -152,15 +157,66 @@ class AppState {
     this.applications = JSON.parse(JSON.stringify(DEFAULT_APPLICATIONS));
     this.save();
   }
+
+  async checkBackend() {
+    const badge = document.getElementById("backendStatusBadge");
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 1200);
+      const res = await fetch(`${API_BASE}/health`, { signal: controller.signal });
+      clearTimeout(timeoutId);
+
+      if (res.ok) {
+        const info = await res.json();
+        this.useBackend = true;
+        badge.className = "backend-badge connected";
+        badge.innerHTML = `<i class="fa-solid fa-server"></i> Python API (SQLite Active)`;
+        badge.title = "Connected to Flask + SQLite server at 127.0.0.1:5000";
+        await this.syncWithBackend();
+        return true;
+      }
+    } catch (e) {
+      // Backend not running; gracefully fallback to localStorage
+    }
+
+    this.useBackend = false;
+    badge.className = "backend-badge offline";
+    badge.innerHTML = `<i class="fa-solid fa-database"></i> LocalStorage Mode`;
+    badge.title = "Running locally in-browser. Start server.py to enable Python + SQLite API.";
+    return false;
+  }
+
+  async syncWithBackend() {
+    if (!this.useBackend) return;
+    try {
+      const [projRes, appRes, stRes] = await Promise.all([
+        fetch(`${API_BASE}/projects`),
+        fetch(`${API_BASE}/applications`),
+        fetch(`${API_BASE}/student`)
+      ]);
+
+      if (projRes.ok) this.projects = await projRes.json();
+      if (appRes.ok) this.applications = await appRes.json();
+      if (stRes.ok) this.student = { ...this.student, ...(await stRes.json()) };
+
+      this.save();
+    } catch (err) {
+      console.warn("Backend sync failed, using cached state", err);
+    }
+  }
 }
 
 const state = new AppState();
 
-// AI Smart Matching Engine (Client-Side Deterministic Scoring)
+// Smart Matching Engine (Client-Side Deterministic Scoring)
 function calculateMatchScore(project, student) {
-  // 1. Skill Overlap Ratio (Weight: 60%)
-  const projectSkills = project.skills.map(s => s.toLowerCase());
-  const studentSkills = student.skills.map(s => s.toLowerCase());
+  // If backend already calculated it, prefer it
+  if (project.matchData && typeof project.matchData.score === "number") {
+    return project.matchData;
+  }
+
+  const projectSkills = (project.skills || []).map(s => s.toLowerCase());
+  const studentSkills = (student.skills || []).map(s => s.toLowerCase());
 
   let matchedSkills = [];
   projectSkills.forEach(reqSkill => {
@@ -174,18 +230,11 @@ function calculateMatchScore(project, student) {
   const skillRatio = projectSkills.length > 0 ? (matchedSkills.length / projectSkills.length) : 0;
   const skillScore = Math.min(skillRatio, 1) * 60;
 
-  // 2. Budget Compatibility (Weight: 25%)
   let budgetScore = 25;
-  if (project.budget < student.minBudget) {
-    budgetScore = 15;
-  } else if (project.budget > student.maxBudget) {
-    budgetScore = 10;
-  }
+  if (project.budget < (student.minBudget || 500)) budgetScore = 15;
+  else if (project.budget > (student.maxBudget || 2500)) budgetScore = 10;
 
-  // 3. Availability & College Status (Weight: 15%)
   let availabilityScore = student.isIdVerified ? 15 : 8;
-
-  // Total Score (out of 100)
   const totalScore = Math.round(skillScore + budgetScore + availabilityScore);
   const clampedScore = Math.min(Math.max(totalScore, 42), 98);
 
@@ -207,7 +256,7 @@ function renderStudentProfile() {
   // Skills tags
   const skillsContainer = document.getElementById("studentSkillsList");
   skillsContainer.innerHTML = "";
-  s.skills.forEach(skill => {
+  (s.skills || []).forEach(skill => {
     const chip = document.createElement("span");
     chip.className = "tag-chip matched";
     chip.innerHTML = `<i class="fa-solid fa-check"></i> ${skill}`;
@@ -229,13 +278,12 @@ function renderProjectsFeed() {
   const container = document.getElementById("projectsContainer");
   container.innerHTML = "";
 
-  // Filter projects by category
   let list = [...state.projects];
   if (state.activeCategory !== "all") {
     list = list.filter(p => p.category === state.activeCategory);
   }
 
-  // Calculate AI Match Score for each project
+  // Calculate Match Score for each
   list = list.map(p => {
     const match = calculateMatchScore(p, state.student);
     return { ...p, matchData: match };
@@ -265,8 +313,8 @@ function renderProjectsFeed() {
     const hasApplied = state.applications.some(a => a.projectId === project.id);
     const takeHome = Math.round(project.budget * 0.9);
 
-    const skillsHtml = project.skills.map(sk => {
-      const isMatched = state.student.skills.some(s => s.toLowerCase() === sk.toLowerCase());
+    const skillsHtml = (project.skills || []).map(sk => {
+      const isMatched = (state.student.skills || []).some(s => s.toLowerCase() === sk.toLowerCase());
       return `<span class="tag-chip ${isMatched ? 'matched' : ''}">${isMatched ? '✓ ' : ''}${sk}</span>`;
     }).join("");
 
@@ -279,11 +327,11 @@ function renderProjectsFeed() {
           </span>
         </div>
         <h4>${project.title}</h4>
-        <p class="project-desc">${project.description}</p>
+        <p class="project-desc">${project.description || 'No description provided.'}</p>
         <div class="project-skills">${skillsHtml}</div>
         <div class="match-explain">
           <i class="fa-solid fa-bolt text-primary"></i> 
-          ${project.matchData.matchedCount} of ${project.matchData.totalRequired} skills match • Est: ${project.estHours}
+          ${project.matchData.matchedCount} of ${project.matchData.totalRequired} skills match • Est: ${project.estHours || '4-6 Hours'}
         </div>
       </div>
       <div class="card-bottom">
@@ -364,7 +412,7 @@ function renderBusinessDashboard() {
       <div class="biz-top-row">
         <div>
           <h4>${project.title}</h4>
-          <span class="text-muted" style="font-size: 0.8rem;"><i class="fa-solid fa-calendar"></i> Posted 1 day ago • Category: ${project.category}</span>
+          <span class="text-muted" style="font-size: 0.8rem;"><i class="fa-solid fa-calendar"></i> Category: ${project.category}</span>
         </div>
         <div style="text-align: right;">
           <span style="font-size: 1.25rem; font-weight: 800; font-family: 'Space Grotesk', sans-serif;">₹${project.budget}</span>
@@ -588,7 +636,7 @@ function initEventListeners() {
   });
 
   // Apply Form Submit
-  document.getElementById("applyProjectForm").addEventListener("submit", (e) => {
+  document.getElementById("applyProjectForm").addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!selectedProjectId) return;
 
@@ -611,13 +659,25 @@ function initEventListeners() {
       canReview: true
     };
 
+    if (state.useBackend) {
+      try {
+        await fetch(`${API_BASE}/applications`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newApp)
+        });
+      } catch (err) {
+        console.warn("Backend apply error, using local fallback", err);
+      }
+    }
+
     state.applications.unshift(newApp);
     state.save();
 
     closeApplyModal();
     renderProjectsFeed();
     renderStudentApplications();
-    showToast(`Application submitted with legal IP agreement! ₹${payout} queued.`, "success");
+    showToast(`Application saved! ₹${payout} queued for milestone approval.`, "success");
   });
 
   document.getElementById("closeApplyModalBtn").addEventListener("click", closeApplyModal);
@@ -636,7 +696,7 @@ function initEventListeners() {
     document.getElementById("postProjectModal").classList.remove("active-modal");
   });
 
-  document.getElementById("postProjectForm").addEventListener("submit", (e) => {
+  document.getElementById("postProjectForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
     const title = document.getElementById("postTitle").value.trim();
@@ -663,6 +723,18 @@ function initEventListeners() {
       hasSubmission: false
     };
 
+    if (state.useBackend) {
+      try {
+        await fetch(`${API_BASE}/projects`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newProj)
+        });
+      } catch (err) {
+        console.warn("Backend post error, using local fallback", err);
+      }
+    }
+
     state.projects.unshift(newProj);
     state.save();
 
@@ -671,28 +743,37 @@ function initEventListeners() {
 
     renderProjectsFeed();
     renderBusinessDashboard();
-    showToast(`Project published! ₹${budget} deposited into SkillBridge Escrow.`, "success");
+    showToast(`Project published! ₹${budget} secured in escrow.`, "success");
   });
 
   // Escrow Release & Review Buttons
   document.getElementById("closeReviewModalBtn").addEventListener("click", closeReviewModal);
 
-  document.getElementById("confirmReleaseEscrowBtn").addEventListener("click", () => {
+  document.getElementById("confirmReleaseEscrowBtn").addEventListener("click", async () => {
     if (!selectedProjectId) return;
     const project = state.projects.find(p => p.id === selectedProjectId);
     if (!project) return;
 
     project.status = "completed";
-
-    // Update student wallet
     const payout = Math.round(project.budget * 0.9);
     state.student.walletBalance += payout;
 
-    // Update application status
     const app = state.applications.find(a => a.projectId === project.id);
     if (app) {
       app.status = "Completed & Paid";
       app.canReview = false;
+    }
+
+    if (state.useBackend) {
+      try {
+        await fetch(`${API_BASE}/escrow/release`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ projectId: project.id })
+        });
+      } catch (err) {
+        console.warn("Backend escrow release error, using local fallback", err);
+      }
     }
 
     state.save();
@@ -704,7 +785,6 @@ function initEventListeners() {
 
     showToast(`Approved! ₹${payout} released to student wallet. ₹50 fee captured.`, "success");
 
-    // Automatically prompt GST invoice
     setTimeout(() => {
       openInvoiceModal(project.id);
     }, 800);
@@ -779,11 +859,18 @@ function initEventListeners() {
 }
 
 // Startup
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   renderStudentProfile();
   renderProjectsFeed();
   renderStudentApplications();
   renderBusinessDashboard();
   setupRevenueCalculator();
   initEventListeners();
+
+  // Async backend detection & initial sync
+  await state.checkBackend();
+  renderStudentProfile();
+  renderProjectsFeed();
+  renderStudentApplications();
+  renderBusinessDashboard();
 });
