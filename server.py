@@ -425,10 +425,26 @@ def release_escrow():
         "message": f"Released ₹{payout} to Student Wallet and captured ₹{fee} (10%) platform revenue."
     })
 
-# Serve Frontend Root & Assets
+# Serve Frontend Root & Multi-Page Routes
 @app.route('/')
 def serve_index():
     return send_from_directory('.', 'index.html')
+
+@app.route('/jobs')
+def serve_jobs():
+    return send_from_directory('.', 'jobs.html')
+
+@app.route('/student-dashboard')
+def serve_student_dashboard():
+    return send_from_directory('.', 'student-dashboard.html')
+
+@app.route('/post-job')
+def serve_post_job():
+    return send_from_directory('.', 'post-job.html')
+
+@app.route('/how-it-works')
+def serve_how_it_works():
+    return send_from_directory('.', 'how-it-works.html')
 
 @app.route('/<path:path>')
 def serve_static(path):

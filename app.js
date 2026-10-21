@@ -1,9 +1,9 @@
 /**
- * SkillBridge AI — Core Prototype Application Engine
- * Pure Vanilla JavaScript (ES6+) • Dual-Mode Architecture (Flask SQLite API + LocalStorage Fallback)
+ * SkillBridge AI — Unified Core Application Engine
+ * Supports Multi-Page Architecture • Dark Mode • Dual-Mode Backend/LocalStorage • VAJRA AI Copilot
  */
 
-// Initial Seed Data (Used for LocalStorage fallback or offline mode)
+// Initial Seed Data
 const DEFAULT_STUDENT = {
   name: "Priya Sharma",
   college: "St. Xavier's College, Mumbai",
@@ -128,8 +128,10 @@ class AppState {
     this.student = this.load("sb_student", DEFAULT_STUDENT);
     this.projects = this.load("sb_projects", DEFAULT_PROJECTS);
     this.applications = this.load("sb_applications", DEFAULT_APPLICATIONS);
-    this.currentPersona = "student"; // 'student' or 'business'
+    this.currentPersona = this.load("sb_persona", "student"); // 'student' or 'business'
+    this.theme = this.load("sb_theme", "light");
     this.activeCategory = "all";
+    this.searchQuery = "";
     this.sortBy = "match-desc";
   }
 
@@ -146,6 +148,8 @@ class AppState {
     localStorage.setItem("sb_student", JSON.stringify(this.student));
     localStorage.setItem("sb_projects", JSON.stringify(this.projects));
     localStorage.setItem("sb_applications", JSON.stringify(this.applications));
+    localStorage.setItem("sb_persona", JSON.stringify(this.currentPersona));
+    localStorage.setItem("sb_theme", JSON.stringify(this.theme));
   }
 
   reset() {
@@ -160,6 +164,8 @@ class AppState {
 
   async checkBackend() {
     const badge = document.getElementById("backendStatusBadge");
+    if (!badge) return false;
+
     try {
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 1200);
@@ -167,7 +173,6 @@ class AppState {
       clearTimeout(timeoutId);
 
       if (res.ok) {
-        const info = await res.json();
         this.useBackend = true;
         badge.className = "backend-badge connected";
         badge.innerHTML = `<i class="fa-solid fa-server"></i> Python API (SQLite Active)`;
@@ -176,13 +181,13 @@ class AppState {
         return true;
       }
     } catch (e) {
-      // Backend not running; gracefully fallback to localStorage
+      // Offline fallback
     }
 
     this.useBackend = false;
     badge.className = "backend-badge offline";
     badge.innerHTML = `<i class="fa-solid fa-database"></i> LocalStorage Mode`;
-    badge.title = "Running locally in-browser. Start server.py to enable Python + SQLite API.";
+    badge.title = "Running in-browser. Start server.py to enable Python + SQLite API.";
     return false;
   }
 
@@ -208,9 +213,8 @@ class AppState {
 
 const state = new AppState();
 
-// Smart Matching Engine (Client-Side Deterministic Scoring)
+// AI Smart Matching Engine
 function calculateMatchScore(project, student) {
-  // If backend already calculated it, prefer it
   if (project.matchData && typeof project.matchData.score === "number") {
     return project.matchData;
   }
@@ -246,36 +250,130 @@ function calculateMatchScore(project, student) {
   };
 }
 
-// DOM Rendering Functions
-function renderStudentProfile() {
-  const s = state.student;
-  document.getElementById("studentName").textContent = s.name;
-  document.getElementById("studentEarningsDisplay").textContent = `₹${s.walletBalance + 900}`;
-  document.getElementById("navWalletBalance").textContent = `Wallet: ₹${s.walletBalance}`;
+// Dark Mode Controller
+function initTheme() {
+  const savedTheme = state.theme || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  applyTheme(savedTheme);
 
-  // Skills tags
-  const skillsContainer = document.getElementById("studentSkillsList");
-  skillsContainer.innerHTML = "";
-  (s.skills || []).forEach(skill => {
-    const chip = document.createElement("span");
-    chip.className = "tag-chip matched";
-    chip.innerHTML = `<i class="fa-solid fa-check"></i> ${skill}`;
-    skillsContainer.appendChild(chip);
-  });
-
-  // Verification Pill
-  const pill = document.getElementById("verificationStatusPill");
-  if (s.isIdVerified) {
-    pill.innerHTML = `ID: Verified ✓`;
-    pill.className = "text-success";
-  } else {
-    pill.innerHTML = `Verify ID`;
-    pill.className = "text-warning";
+  const themeBtn = document.getElementById("themeToggleBtn");
+  if (themeBtn) {
+    themeBtn.addEventListener("click", () => {
+      const newTheme = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      applyTheme(newTheme);
+      state.theme = newTheme;
+      state.save();
+      showToast(`Switched to ${newTheme.toUpperCase()} mode`, "info");
+    });
   }
 }
 
+function applyTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  const themeBtn = document.getElementById("themeToggleBtn");
+  if (themeBtn) {
+    themeBtn.innerHTML = theme === "dark" ? `<i class="fa-solid fa-sun"></i>` : `<i class="fa-solid fa-moon"></i>`;
+    themeBtn.title = `Switch to ${theme === 'dark' ? 'Light' : 'Dark'} Mode`;
+  }
+}
+
+// Persona Switcher Controller
+function initPersonaSwitcher() {
+  const studentBtn = document.getElementById("studentPersonaBtn");
+  const businessBtn = document.getElementById("businessPersonaBtn");
+
+  if (!studentBtn || !businessBtn) return;
+
+  function updateButtons() {
+    if (state.currentPersona === "student") {
+      studentBtn.classList.add("active");
+      businessBtn.classList.remove("active");
+    } else {
+      businessBtn.classList.add("active");
+      studentBtn.classList.remove("active");
+    }
+  }
+
+  studentBtn.addEventListener("click", () => {
+    state.currentPersona = "student";
+    state.save();
+    updateButtons();
+    showToast("Switched persona: Priya Sharma (Student 🎓)", "info");
+    if (window.location.pathname.includes("post-job")) {
+      window.location.href = "student-dashboard.html";
+    } else {
+      refreshActivePage();
+    }
+  });
+
+  businessBtn.addEventListener("click", () => {
+    state.currentPersona = "business";
+    state.save();
+    updateButtons();
+    showToast("Switched persona: Sweet Delights Bakery (Business 🏪)", "info");
+    if (window.location.pathname.includes("student-dashboard")) {
+      window.location.href = "post-job.html";
+    } else {
+      refreshActivePage();
+    }
+  });
+
+  updateButtons();
+}
+
+// Refresh Active Page View
+function refreshActivePage() {
+  renderSharedNav();
+  if (document.getElementById("projectsContainer")) renderProjectsFeed();
+  if (document.getElementById("studentSkillsList")) renderStudentProfile();
+  if (document.getElementById("studentApplicationsBody")) renderStudentApplications();
+  if (document.getElementById("businessProjectsContainer")) renderBusinessDashboard();
+}
+
+// Shared Navigation Info (Wallet & ID pill)
+function renderSharedNav() {
+  const wallet = document.getElementById("navWalletBalance");
+  if (wallet) {
+    wallet.textContent = `Wallet: ₹${state.student.walletBalance}`;
+  }
+
+  const idStatus = document.getElementById("verificationStatusPill");
+  if (idStatus) {
+    if (state.student.isIdVerified) {
+      idStatus.innerHTML = `ID: Verified ✓`;
+      idStatus.className = "text-success";
+    } else {
+      idStatus.innerHTML = `Verify ID`;
+      idStatus.className = "text-warning";
+    }
+  }
+}
+
+// Student Profile Rendering (Student Dashboard)
+function renderStudentProfile() {
+  const s = state.student;
+  const nameEl = document.getElementById("studentName");
+  if (nameEl) nameEl.textContent = s.name;
+
+  const earnEl = document.getElementById("studentEarningsDisplay");
+  if (earnEl) earnEl.textContent = `₹${s.walletBalance + 900}`;
+
+  const skillsContainer = document.getElementById("studentSkillsList");
+  if (skillsContainer) {
+    skillsContainer.innerHTML = "";
+    (s.skills || []).forEach(skill => {
+      const chip = document.createElement("span");
+      chip.className = "tag-chip matched";
+      chip.innerHTML = `<i class="fa-solid fa-check"></i> ${skill}`;
+      skillsContainer.appendChild(chip);
+    });
+  }
+}
+
+// Projects Feed (Jobs Page & Home Preview)
 function renderProjectsFeed() {
   const container = document.getElementById("projectsContainer");
+  if (!container) return;
+
   container.innerHTML = "";
 
   let list = [...state.projects];
@@ -283,13 +381,20 @@ function renderProjectsFeed() {
     list = list.filter(p => p.category === state.activeCategory);
   }
 
-  // Calculate Match Score for each
+  if (state.searchQuery && state.searchQuery.trim()) {
+    const q = state.searchQuery.toLowerCase();
+    list = list.filter(p => 
+      p.title.toLowerCase().includes(q) || 
+      p.client.toLowerCase().includes(q) ||
+      (p.skills || []).some(sk => sk.toLowerCase().includes(q))
+    );
+  }
+
   list = list.map(p => {
     const match = calculateMatchScore(p, state.student);
     return { ...p, matchData: match };
   });
 
-  // Sort
   if (state.sortBy === "match-desc") {
     list.sort((a, b) => b.matchData.score - a.matchData.score);
   } else if (state.sortBy === "budget-desc") {
@@ -298,9 +403,9 @@ function renderProjectsFeed() {
 
   if (list.length === 0) {
     container.innerHTML = `
-      <div style="grid-column: 1/-1; text-align: center; padding: 40px; background: #fff; border-radius: 12px; border: 1px solid #e2e8f0;">
+      <div style="grid-column: 1/-1; text-align: center; padding: 40px; background: var(--bg-card); border-radius: 12px; border: 1px solid var(--border-color);">
         <i class="fa-regular fa-folder-open" style="font-size: 2rem; color: #94a3b8; margin-bottom: 10px;"></i>
-        <p style="color: #64748b;">No projects found in this category. Post one to test!</p>
+        <p style="color: var(--text-muted);">No micro-gigs match your criteria. Try adjusting filters or search keywords!</p>
       </div>
     `;
     return;
@@ -351,21 +456,22 @@ function renderProjectsFeed() {
     container.appendChild(card);
   });
 
-  // Attach Apply Listeners
   document.querySelectorAll(".apply-btn").forEach(btn => {
     btn.addEventListener("click", () => {
-      const projId = btn.getAttribute("data-id");
-      openApplyModal(projId);
+      openApplyModal(btn.getAttribute("data-id"));
     });
   });
 }
 
+// Student Applications Tracker
 function renderStudentApplications() {
   const tbody = document.getElementById("studentApplicationsBody");
+  if (!tbody) return;
+
   tbody.innerHTML = "";
 
   if (state.applications.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted" style="padding: 24px;">No applications submitted yet. Browse projects above!</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="5" class="text-center text-muted" style="padding: 24px;">No applications submitted yet. Browse gigs to apply!</td></tr>`;
     return;
   }
 
@@ -397,8 +503,11 @@ function renderStudentApplications() {
   });
 }
 
+// Business Active Projects (Post Job Page)
 function renderBusinessDashboard() {
   const container = document.getElementById("businessProjectsContainer");
+  if (!container) return;
+
   container.innerHTML = "";
 
   state.projects.forEach(project => {
@@ -420,7 +529,6 @@ function renderBusinessDashboard() {
         </div>
       </div>
       
-      <!-- Submissions / Applicant Card -->
       ${project.hasSubmission ? `
         <div class="biz-applicant-card">
           <div class="applicant-profile">
@@ -444,7 +552,7 @@ function renderBusinessDashboard() {
           </div>
         </div>
       ` : `
-        <div style="font-size: 0.82rem; color: #64748b; background: #f8fafc; padding: 8px 12px; border-radius: 6px;">
+        <div style="font-size: 0.82rem; color: var(--text-muted); background: var(--bg-subtle); padding: 8px 12px; border-radius: 6px;">
           <i class="fa-solid fa-user-clock"></i> AI Matching active: 3 students notified in Mumbai area.
         </div>
       `}
@@ -453,7 +561,6 @@ function renderBusinessDashboard() {
     container.appendChild(item);
   });
 
-  // Attach buttons
   document.querySelectorAll(".inspect-submission-btn").forEach(btn => {
     btn.addEventListener("click", () => {
       openReviewModal(btn.getAttribute("data-id"));
@@ -477,16 +584,25 @@ function openApplyModal(projectId) {
 
   const studentTakeHome = Math.round(project.budget * 0.9);
 
-  document.getElementById("modalProjectTitle").textContent = project.title;
-  document.getElementById("modalProjectClient").textContent = project.client;
-  document.getElementById("modalProjectBudget").textContent = `₹${project.budget}`;
-  document.getElementById("modalStudentTakeHome").textContent = `₹${studentTakeHome}`;
+  const titleEl = document.getElementById("modalProjectTitle");
+  if (titleEl) titleEl.textContent = project.title;
 
-  document.getElementById("applyModal").classList.add("active-modal");
+  const clientEl = document.getElementById("modalProjectClient");
+  if (clientEl) clientEl.textContent = project.client;
+
+  const budEl = document.getElementById("modalProjectBudget");
+  if (budEl) budEl.textContent = `₹${project.budget}`;
+
+  const takeEl = document.getElementById("modalStudentTakeHome");
+  if (takeEl) takeEl.textContent = `₹${studentTakeHome}`;
+
+  const modal = document.getElementById("applyModal");
+  if (modal) modal.classList.add("active-modal");
 }
 
 function closeApplyModal() {
-  document.getElementById("applyModal").classList.remove("active-modal");
+  const modal = document.getElementById("applyModal");
+  if (modal) modal.classList.remove("active-modal");
 }
 
 function openReviewModal(projectId) {
@@ -494,19 +610,22 @@ function openReviewModal(projectId) {
   const project = state.projects.find(p => p.id === projectId);
   if (!project) return;
 
-  document.getElementById("submissionProjectName").textContent = project.title;
-  if (project.submissionNotes) {
-    document.getElementById("submissionNotesText").textContent = `"${project.submissionNotes}"`;
-  }
-  if (project.submissionImage) {
-    document.getElementById("submissionMockImg").src = project.submissionImage;
-  }
+  const nameEl = document.getElementById("submissionProjectName");
+  if (nameEl) nameEl.textContent = project.title;
 
-  document.getElementById("submissionReviewModal").classList.add("active-modal");
+  const notesEl = document.getElementById("submissionNotesText");
+  if (notesEl && project.submissionNotes) notesEl.textContent = `"${project.submissionNotes}"`;
+
+  const imgEl = document.getElementById("submissionMockImg");
+  if (imgEl && project.submissionImage) imgEl.src = project.submissionImage;
+
+  const modal = document.getElementById("submissionReviewModal");
+  if (modal) modal.classList.add("active-modal");
 }
 
 function closeReviewModal() {
-  document.getElementById("submissionReviewModal").classList.remove("active-modal");
+  const modal = document.getElementById("submissionReviewModal");
+  if (modal) modal.classList.remove("active-modal");
 }
 
 function openInvoiceModal(projectId) {
@@ -516,22 +635,35 @@ function openInvoiceModal(projectId) {
   const netBeforeTax = (fee / 1.18).toFixed(2);
   const gst = (fee - parseFloat(netBeforeTax)).toFixed(2);
 
-  document.getElementById("invoiceProjectItem").textContent = project.title;
-  document.getElementById("invoiceGross").textContent = `₹${project.budget}.00`;
-  document.getElementById("invoiceStudentPart").textContent = `- ₹${payout}.00`;
-  document.getElementById("invoiceNetFee").textContent = `₹${netBeforeTax}`;
-  document.getElementById("invoiceGst").textContent = `₹${gst}`;
+  const itemEl = document.getElementById("invoiceProjectItem");
+  if (itemEl) itemEl.textContent = project.title;
 
-  document.getElementById("invoiceModal").classList.add("active-modal");
+  const grossEl = document.getElementById("invoiceGross");
+  if (grossEl) grossEl.textContent = `₹${project.budget}.00`;
+
+  const partEl = document.getElementById("invoiceStudentPart");
+  if (partEl) partEl.textContent = `- ₹${payout}.00`;
+
+  const feeEl = document.getElementById("invoiceNetFee");
+  if (feeEl) feeEl.textContent = `₹${netBeforeTax}`;
+
+  const gstEl = document.getElementById("invoiceGst");
+  if (gstEl) gstEl.textContent = `₹${gst}`;
+
+  const modal = document.getElementById("invoiceModal");
+  if (modal) modal.classList.add("active-modal");
 }
 
 function closeInvoiceModal() {
-  document.getElementById("invoiceModal").classList.remove("active-modal");
+  const modal = document.getElementById("invoiceModal");
+  if (modal) modal.classList.remove("active-modal");
 }
 
 // Toast Notifications
 function showToast(message, type = "info") {
   const container = document.getElementById("toastContainer");
+  if (!container) return;
+
   const toast = document.createElement("div");
   toast.className = `toast toast-${type}`;
   
@@ -550,34 +682,11 @@ function showToast(message, type = "info") {
   }, 3500);
 }
 
-// Persona Switcher Logic
-function setPersona(persona) {
-  state.currentPersona = persona;
-
-  const studentBtn = document.getElementById("studentPersonaBtn");
-  const businessBtn = document.getElementById("businessPersonaBtn");
-  const studentSection = document.getElementById("studentDashboardSection");
-  const businessSection = document.getElementById("businessDashboardSection");
-
-  if (persona === "student") {
-    studentBtn.classList.add("active");
-    businessBtn.classList.remove("active");
-    studentSection.classList.add("active-view");
-    businessSection.classList.remove("active-view");
-    showToast("Switched to Student Mode: Priya Sharma", "info");
-  } else {
-    businessBtn.classList.add("active");
-    studentBtn.classList.remove("active");
-    businessSection.classList.add("active-view");
-    studentSection.classList.remove("active-view");
-    renderBusinessDashboard();
-    showToast("Switched to Business Mode: Sweet Delights Bakery", "info");
-  }
-}
-
-// Interactive Revenue Calculator
+// Interactive Revenue Calculator (Home & How It Works Page)
 function setupRevenueCalculator() {
   const slider = document.getElementById("calcProjectBudget");
+  if (!slider) return;
+
   const budgetVal = document.getElementById("calcBudgetValue");
   const studentCut = document.getElementById("calcStudentCut");
   const platformCut = document.getElementById("calcPlatformCut");
@@ -588,21 +697,246 @@ function setupRevenueCalculator() {
     const pFee = Math.round(val * 0.1);
     const sPay = val - pFee;
 
-    budgetVal.textContent = `₹${val}`;
-    studentCut.textContent = `₹${sPay}`;
-    platformCut.textContent = `₹${pFee}`;
-    totalEscrow.textContent = `₹${val}`;
+    if (budgetVal) budgetVal.textContent = `₹${val}`;
+    if (studentCut) studentCut.textContent = `₹${sPay}`;
+    if (platformCut) platformCut.textContent = `₹${pFee}`;
+    if (totalEscrow) totalEscrow.textContent = `₹${val}`;
   }
 
   slider.addEventListener("input", update);
   update();
 }
 
-// Event Listeners Initialization
-function initEventListeners() {
-  // Persona switcher
-  document.getElementById("studentPersonaBtn").addEventListener("click", () => setPersona("student"));
-  document.getElementById("businessPersonaBtn").addEventListener("click", () => setPersona("business"));
+// Shared Listeners
+function initSharedEventListeners() {
+  initTheme();
+  initPersonaSwitcher();
+  initVajraAssistant();
+
+  // Reset Demo State
+  const resetBtn = document.getElementById("resetDataBtn");
+  if (resetBtn) {
+    resetBtn.addEventListener("click", () => {
+      if (confirm("Reset demo data to initial factory state?")) {
+        state.reset();
+        refreshActivePage();
+        showToast("Demo state reset successfully!", "info");
+      }
+    });
+  }
+
+  // ID Verification Modal Flow
+  const verifyNavBtn = document.getElementById("verifyIdNavBtn");
+  const verifyModal = document.getElementById("verifyIdModal");
+  if (verifyNavBtn && verifyModal) {
+    verifyNavBtn.addEventListener("click", () => verifyModal.classList.add("active-modal"));
+    const closeVerifyBtn = document.getElementById("closeVerifyIdModalBtn");
+    if (closeVerifyBtn) closeVerifyBtn.addEventListener("click", () => verifyModal.classList.remove("active-modal"));
+
+    const idInput = document.getElementById("idFileInput");
+    if (idInput) {
+      idInput.addEventListener("change", () => {
+        const dropBox = document.getElementById("dropZoneBox");
+        if (dropBox) dropBox.style.display = "none";
+        const ocrBox = document.getElementById("ocrStatusBox");
+        if (ocrBox) ocrBox.style.display = "block";
+
+        setTimeout(() => {
+          if (ocrBox) ocrBox.style.display = "none";
+          const card = document.getElementById("verifiedCard");
+          if (card) card.style.display = "block";
+          state.student.isIdVerified = true;
+          state.save();
+          renderSharedNav();
+          renderStudentProfile();
+          showToast("College Identity Verified via OCR!", "success");
+        }, 1200);
+      });
+    }
+
+    const finishBtn = document.getElementById("finishVerificationBtn");
+    if (finishBtn) finishBtn.addEventListener("click", () => verifyModal.classList.remove("active-modal"));
+  }
+
+  // Apply Form Submit
+  const applyForm = document.getElementById("applyProjectForm");
+  if (applyForm) {
+    applyForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      if (!selectedProjectId) return;
+
+      const project = state.projects.find(p => p.id === selectedProjectId);
+      if (!project) return;
+
+      const payout = Math.round(project.budget * 0.9);
+      const fee = project.budget - payout;
+
+      const newApp = {
+        id: "app-" + Date.now(),
+        projectId: project.id,
+        projectTitle: project.title,
+        client: project.client,
+        budget: project.budget,
+        studentPayout: payout,
+        platformFee: fee,
+        status: "Submitted & In Review",
+        appliedDate: "Just now",
+        canReview: true
+      };
+
+      if (state.useBackend) {
+        try {
+          await fetch(`${API_BASE}/applications`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newApp)
+          });
+        } catch (err) {
+          console.warn("Backend apply error", err);
+        }
+      }
+
+      state.applications.unshift(newApp);
+      state.save();
+
+      closeApplyModal();
+      refreshActivePage();
+      showToast(`Application saved! ₹${payout} queued for milestone approval.`, "success");
+    });
+
+    const closeApplyBtn = document.getElementById("closeApplyModalBtn");
+    if (closeApplyBtn) closeApplyBtn.addEventListener("click", closeApplyModal);
+    const cancelApplyBtn = document.getElementById("cancelApplyBtn");
+    if (cancelApplyBtn) cancelApplyBtn.addEventListener("click", closeApplyModal);
+  }
+
+  // Post Project Form Submit
+  const postForm = document.getElementById("postProjectForm");
+  if (postForm) {
+    postForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const title = document.getElementById("postTitle").value.trim();
+      const category = document.getElementById("postCategory").value;
+      const budget = parseInt(document.getElementById("postBudget").value, 10);
+      const skills = document.getElementById("postSkills").value.split(",").map(s => s.trim()).filter(Boolean);
+      const deadline = document.getElementById("postDeadline").value.trim();
+      const estHours = document.getElementById("postEstHours").value.trim();
+      const description = document.getElementById("postDescription").value.trim();
+
+      const newProj = {
+        id: "proj-" + Date.now(),
+        title,
+        client: "Sweet Delights Artisan Bakery",
+        clientType: "Bakery / Merchant",
+        category,
+        skills,
+        budget,
+        deadline,
+        estHours,
+        description,
+        escrowFunded: true,
+        status: "open",
+        hasSubmission: false
+      };
+
+      if (state.useBackend) {
+        try {
+          await fetch(`${API_BASE}/projects`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(newProj)
+          });
+        } catch (err) {
+          console.warn("Backend post error", err);
+        }
+      }
+
+      state.projects.unshift(newProj);
+      state.save();
+
+      postForm.reset();
+      const postModal = document.getElementById("postProjectModal");
+      if (postModal) postModal.classList.remove("active-modal");
+
+      refreshActivePage();
+      showToast(`Project published! ₹${budget} secured in escrow.`, "success");
+    });
+
+    const openPostBtn = document.getElementById("openPostProjectModalBtn");
+    if (openPostBtn) {
+      openPostBtn.addEventListener("click", () => {
+        document.getElementById("postProjectModal").classList.add("active-modal");
+      });
+    }
+
+    const closePostBtn = document.getElementById("closePostModalBtn");
+    if (closePostBtn) closePostBtn.addEventListener("click", () => document.getElementById("postProjectModal").classList.remove("active-modal"));
+    const cancelPostBtn = document.getElementById("cancelPostBtn");
+    if (cancelPostBtn) cancelPostBtn.addEventListener("click", () => document.getElementById("postProjectModal").classList.remove("active-modal"));
+  }
+
+  // Escrow Release Buttons
+  const confirmReleaseBtn = document.getElementById("confirmReleaseEscrowBtn");
+  if (confirmReleaseBtn) {
+    confirmReleaseBtn.addEventListener("click", async () => {
+      if (!selectedProjectId) return;
+      const project = state.projects.find(p => p.id === selectedProjectId);
+      if (!project) return;
+
+      project.status = "completed";
+      const payout = Math.round(project.budget * 0.9);
+      state.student.walletBalance += payout;
+
+      const app = state.applications.find(a => a.projectId === project.id);
+      if (app) {
+        app.status = "Completed & Paid";
+        app.canReview = false;
+      }
+
+      if (state.useBackend) {
+        try {
+          await fetch(`${API_BASE}/escrow/release`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ projectId: project.id })
+          });
+        } catch (err) {
+          console.warn("Backend release error", err);
+        }
+      }
+
+      state.save();
+      closeReviewModal();
+      refreshActivePage();
+
+      showToast(`Approved! ₹${payout} released to student wallet. ₹50 fee captured.`, "success");
+      setTimeout(() => openInvoiceModal(project.id), 800);
+    });
+
+    const closeReviewBtn = document.getElementById("closeReviewModalBtn");
+    if (closeReviewBtn) closeReviewBtn.addEventListener("click", closeReviewModal);
+
+    const revisionBtn = document.getElementById("requestRevisionBtn");
+    if (revisionBtn) {
+      revisionBtn.addEventListener("click", () => {
+        showToast("Feedback sent to student: 'Please adjust font contrast'.", "warning");
+        closeReviewModal();
+      });
+    }
+  }
+
+  const closeInvoiceBtn = document.getElementById("closeInvoiceModalBtn");
+  if (closeInvoiceBtn) closeInvoiceBtn.addEventListener("click", closeInvoiceModal);
+
+  // Search input on Jobs page
+  const searchInput = document.getElementById("jobsSearchInput");
+  if (searchInput) {
+    searchInput.addEventListener("input", (e) => {
+      state.searchQuery = e.target.value;
+      renderProjectsFeed();
+    });
+  }
 
   // Category filters
   document.querySelectorAll(".cat-tab").forEach(tab => {
@@ -615,250 +949,28 @@ function initEventListeners() {
   });
 
   // Sort dropdown
-  document.getElementById("sortProjectsSelect").addEventListener("change", (e) => {
-    state.sortBy = e.target.value;
-    renderProjectsFeed();
-  });
-
-  // Hero Quick CTAs
-  document.getElementById("heroExploreBtn").addEventListener("click", () => {
-    setPersona("student");
-    document.getElementById("studentDashboardSection").scrollIntoView({ behavior: "smooth" });
-  });
-
-  document.getElementById("heroPostProjectBtn").addEventListener("click", () => {
-    setPersona("business");
-    document.getElementById("postProjectModal").classList.add("active-modal");
-  });
-
-  document.getElementById("heroHowItWorksBtn").addEventListener("click", () => {
-    document.getElementById("howItWorksSection").scrollIntoView({ behavior: "smooth" });
-  });
-
-  // Apply Form Submit
-  document.getElementById("applyProjectForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    if (!selectedProjectId) return;
-
-    const project = state.projects.find(p => p.id === selectedProjectId);
-    if (!project) return;
-
-    const payout = Math.round(project.budget * 0.9);
-    const fee = project.budget - payout;
-
-    const newApp = {
-      id: "app-" + Date.now(),
-      projectId: project.id,
-      projectTitle: project.title,
-      client: project.client,
-      budget: project.budget,
-      studentPayout: payout,
-      platformFee: fee,
-      status: "Submitted & In Review",
-      appliedDate: "Just now",
-      canReview: true
-    };
-
-    if (state.useBackend) {
-      try {
-        await fetch(`${API_BASE}/applications`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newApp)
-        });
-      } catch (err) {
-        console.warn("Backend apply error, using local fallback", err);
-      }
-    }
-
-    state.applications.unshift(newApp);
-    state.save();
-
-    closeApplyModal();
-    renderProjectsFeed();
-    renderStudentApplications();
-    showToast(`Application saved! ₹${payout} queued for milestone approval.`, "success");
-  });
-
-  document.getElementById("closeApplyModalBtn").addEventListener("click", closeApplyModal);
-  document.getElementById("cancelApplyBtn").addEventListener("click", closeApplyModal);
-
-  // Business Post Project Modal
-  document.getElementById("openPostProjectModalBtn").addEventListener("click", () => {
-    document.getElementById("postProjectModal").classList.add("active-modal");
-  });
-
-  document.getElementById("closePostModalBtn").addEventListener("click", () => {
-    document.getElementById("postProjectModal").classList.remove("active-modal");
-  });
-
-  document.getElementById("cancelPostBtn").addEventListener("click", () => {
-    document.getElementById("postProjectModal").classList.remove("active-modal");
-  });
-
-  document.getElementById("postProjectForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const title = document.getElementById("postTitle").value.trim();
-    const category = document.getElementById("postCategory").value;
-    const budget = parseInt(document.getElementById("postBudget").value, 10);
-    const skills = document.getElementById("postSkills").value.split(",").map(s => s.trim()).filter(Boolean);
-    const deadline = document.getElementById("postDeadline").value.trim();
-    const estHours = document.getElementById("postEstHours").value.trim();
-    const description = document.getElementById("postDescription").value.trim();
-
-    const newProj = {
-      id: "proj-" + Date.now(),
-      title,
-      client: "Sweet Delights Artisan Bakery",
-      clientType: "Bakery / Merchant",
-      category,
-      skills,
-      budget,
-      deadline,
-      estHours,
-      description,
-      escrowFunded: true,
-      status: "open",
-      hasSubmission: false
-    };
-
-    if (state.useBackend) {
-      try {
-        await fetch(`${API_BASE}/projects`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(newProj)
-        });
-      } catch (err) {
-        console.warn("Backend post error, using local fallback", err);
-      }
-    }
-
-    state.projects.unshift(newProj);
-    state.save();
-
-    document.getElementById("postProjectForm").reset();
-    document.getElementById("postProjectModal").classList.remove("active-modal");
-
-    renderProjectsFeed();
-    renderBusinessDashboard();
-    showToast(`Project published! ₹${budget} secured in escrow.`, "success");
-  });
-
-  // Escrow Release & Review Buttons
-  document.getElementById("closeReviewModalBtn").addEventListener("click", closeReviewModal);
-
-  document.getElementById("confirmReleaseEscrowBtn").addEventListener("click", async () => {
-    if (!selectedProjectId) return;
-    const project = state.projects.find(p => p.id === selectedProjectId);
-    if (!project) return;
-
-    project.status = "completed";
-    const payout = Math.round(project.budget * 0.9);
-    state.student.walletBalance += payout;
-
-    const app = state.applications.find(a => a.projectId === project.id);
-    if (app) {
-      app.status = "Completed & Paid";
-      app.canReview = false;
-    }
-
-    if (state.useBackend) {
-      try {
-        await fetch(`${API_BASE}/escrow/release`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ projectId: project.id })
-        });
-      } catch (err) {
-        console.warn("Backend escrow release error, using local fallback", err);
-      }
-    }
-
-    state.save();
-    closeReviewModal();
-
-    renderStudentProfile();
-    renderStudentApplications();
-    renderBusinessDashboard();
-
-    showToast(`Approved! ₹${payout} released to student wallet. ₹50 fee captured.`, "success");
-
-    setTimeout(() => {
-      openInvoiceModal(project.id);
-    }, 800);
-  });
-
-  document.getElementById("requestRevisionBtn").addEventListener("click", () => {
-    showToast("Feedback sent to student: 'Please adjust font contrast'.", "warning");
-    closeReviewModal();
-  });
-
-  // Invoice Modal
-  document.getElementById("closeInvoiceModalBtn").addEventListener("click", closeInvoiceModal);
-
-  // ID Verification Modal Flow
-  const verifyModal = document.getElementById("verifyIdModal");
-  document.getElementById("verifyIdNavBtn").addEventListener("click", () => {
-    verifyModal.classList.add("active-modal");
-  });
-  document.getElementById("closeVerifyIdModalBtn").addEventListener("click", () => {
-    verifyModal.classList.remove("active-modal");
-  });
-
-  document.getElementById("idFileInput").addEventListener("change", () => {
-    document.getElementById("dropZoneBox").style.display = "none";
-    const ocrBox = document.getElementById("ocrStatusBox");
-    ocrBox.style.display = "block";
-
-    setTimeout(() => {
-      ocrBox.style.display = "none";
-      document.getElementById("verifiedCard").style.display = "block";
-      state.student.isIdVerified = true;
-      state.save();
-      renderStudentProfile();
-      showToast("College Identity Verified via OCR!", "success");
-    }, 1200);
-  });
-
-  document.getElementById("finishVerificationBtn").addEventListener("click", () => {
-    verifyModal.classList.remove("active-modal");
-  });
-
-  // Wallet nav shortcut
-  document.getElementById("walletNavBtn").addEventListener("click", () => {
-    setPersona("student");
-    document.getElementById("studentEarningsDisplay").scrollIntoView({ behavior: "smooth" });
-    showToast(`Current Student Balance: ₹${state.student.walletBalance}`, "info");
-  });
-
-  // Reset Demo State
-  document.getElementById("resetDataBtn").addEventListener("click", () => {
-    if (confirm("Reset demo data to initial factory state?")) {
-      state.reset();
-      renderStudentProfile();
+  const sortSelect = document.getElementById("sortProjectsSelect");
+  if (sortSelect) {
+    sortSelect.addEventListener("change", (e) => {
+      state.sortBy = e.target.value;
       renderProjectsFeed();
-      renderStudentApplications();
-      renderBusinessDashboard();
-      showToast("Demo state reset successfully!", "info");
-    }
-  });
+    });
+  }
 
   // Add Skill quick button
-  document.getElementById("addSkillBtn").addEventListener("click", () => {
-    const newSkill = prompt("Enter new skill tag (e.g. Video Editing, Python, UI/UX):");
-    if (newSkill && newSkill.trim()) {
-      state.student.skills.push(newSkill.trim());
-      state.save();
-      renderStudentProfile();
-      renderProjectsFeed();
-      showToast(`Skill '${newSkill}' added! Match scores recalculated.`, "success");
-    }
-  });
-
-  // VAJRA AI Assistant Drawer Listeners
-  initVajraAssistant();
+  const addSkillBtn = document.getElementById("addSkillBtn");
+  if (addSkillBtn) {
+    addSkillBtn.addEventListener("click", () => {
+      const newSkill = prompt("Enter new skill tag (e.g. Video Editing, Python, UI/UX):");
+      if (newSkill && newSkill.trim()) {
+        state.student.skills.push(newSkill.trim());
+        state.save();
+        renderStudentProfile();
+        if (document.getElementById("projectsContainer")) renderProjectsFeed();
+        showToast(`Skill '${newSkill}' added! Match scores recalculated.`, "success");
+      }
+    });
+  }
 }
 
 // VAJRA AI Copilot Implementation
@@ -871,6 +983,8 @@ function initVajraAssistant() {
   const messagesContainer = document.getElementById("vajraMessages");
   const chipsContainer = document.getElementById("vajraQuickChips");
 
+  if (!launcher || !drawer || !form) return;
+
   launcher.addEventListener("click", () => {
     drawer.classList.toggle("active-drawer");
     if (drawer.classList.contains("active-drawer")) {
@@ -878,29 +992,30 @@ function initVajraAssistant() {
     }
   });
 
-  closeBtn.addEventListener("click", () => {
-    drawer.classList.remove("active-drawer");
-  });
-
-  // Quick Chips
-  chipsContainer.querySelectorAll(".vajra-chip").forEach(chip => {
-    chip.addEventListener("click", () => {
-      const promptText = chip.getAttribute("data-prompt");
-      input.value = promptText;
-      form.dispatchEvent(new Event("submit"));
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      drawer.classList.remove("active-drawer");
     });
-  });
+  }
+
+  if (chipsContainer) {
+    chipsContainer.querySelectorAll(".vajra-chip").forEach(chip => {
+      chip.addEventListener("click", () => {
+        const promptText = chip.getAttribute("data-prompt");
+        input.value = promptText;
+        form.dispatchEvent(new Event("submit"));
+      });
+    });
+  }
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const query = input.value.trim();
     if (!query) return;
 
-    // Append User Message
     appendVajraMessage(query, "vajra-user");
     input.value = "";
 
-    // Append Typing Indicator
     const typingId = "vajra-typing-" + Date.now();
     const typingElem = document.createElement("div");
     typingElem.id = typingId;
@@ -930,24 +1045,23 @@ function initVajraAssistant() {
       botReply = localVajraFallback(query, state.currentPersona);
     }
 
-    // Remove typing
     const el = document.getElementById(typingId);
     if (el) el.remove();
 
-    // Append Bot Message
     appendVajraMessage(botReply, "vajra-bot");
   });
 }
 
 function appendVajraMessage(text, type) {
   const container = document.getElementById("vajraMessages");
+  if (!container) return;
+
   const msgWrapper = document.createElement("div");
   msgWrapper.className = `vajra-msg ${type}`;
 
   const bubble = document.createElement("div");
   bubble.className = "vajra-msg-bubble";
 
-  // Simple Markdown formatting
   let formatted = text
     .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
     .replace(/\*(.*?)\*/g, "<em>$1</em>")
@@ -955,7 +1069,6 @@ function appendVajraMessage(text, type) {
 
   bubble.innerHTML = formatted;
 
-  // If response contains a proposal, add an action button to copy into Apply modal
   if (type === "vajra-bot" && (text.includes("Proposal Draft") || text.includes("Namaste! I saw your requirement"))) {
     const actionBtn = document.createElement("button");
     actionBtn.className = "vajra-bot-action-btn";
@@ -963,8 +1076,10 @@ function appendVajraMessage(text, type) {
     actionBtn.addEventListener("click", () => {
       openApplyModal("proj-101");
       const coverText = "Hi! I saw your requirement for the Instagram carousel posters. I am a 2nd-year BCA student with active experience in Canva and Figma. I can deliver 3 high-converting 1080x1350 slides within 24-48 hours with 1 free revision.";
-      document.getElementById("applyCoverLetter").value = coverText;
-      document.getElementById("vajraDrawer").classList.remove("active-drawer");
+      const inputEl = document.getElementById("applyCoverLetter");
+      if (inputEl) inputEl.value = coverText;
+      const drawer = document.getElementById("vajraDrawer");
+      if (drawer) drawer.classList.remove("active-drawer");
       showToast("VAJRA proposal inserted into application!", "success");
     });
     bubble.appendChild(document.createElement("br"));
@@ -995,17 +1110,11 @@ function localVajraFallback(prompt, persona) {
 
 // Startup
 document.addEventListener("DOMContentLoaded", async () => {
-  renderStudentProfile();
-  renderProjectsFeed();
-  renderStudentApplications();
-  renderBusinessDashboard();
+  initSharedEventListeners();
+  refreshActivePage();
   setupRevenueCalculator();
-  initEventListeners();
 
   // Async backend detection & initial sync
   await state.checkBackend();
-  renderStudentProfile();
-  renderProjectsFeed();
-  renderStudentApplications();
-  renderBusinessDashboard();
+  refreshActivePage();
 });

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How It Works & Economics — SkillBridge AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar">
+    <div class="container announcement-content">
+      <span><i class="fa-solid fa-calculator"></i> <strong>Transparent Unit Economics:</strong> 10% Flat Take-Rate • 90% Direct Student Payout • Instant GST Invoice.</span>
+      <div class="demo-reset">
+        <span id="backendStatusBadge" class="backend-badge"><i class="fa-solid fa-circle-notch fa-spin"></i> Checking Backend...</span>
+        <button id="resetDataBtn" title="Reset sample demo data"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="index.html" class="nav-brand">
+        <div class="logo-icon">
+          <i class="fa-solid fa-bolt-lightning"></i>
+        </div>
+        <div class="logo-text">
+          <span class="brand-title">SkillBridge<span class="brand-ai">AI</span></span>
+          <span class="brand-subtitle">Student Micro-Gigs</span>
+        </div>
+      </a>
+
+      <!-- Multi-Page Navigation Links -->
+      <div class="nav-links">
+        <a href="index.html" class="nav-link"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="jobs.html" class="nav-link"><i class="fa-solid fa-compass"></i> Find Gigs</a>
+        <a href="student-dashboard.html" class="nav-link"><i class="fa-solid fa-user-graduate"></i> Student Hub</a>
+        <a href="post-job.html" class="nav-link"><i class="fa-solid fa-store"></i> Post a Gig</a>
+        <a href="how-it-works.html" class="nav-link active"><i class="fa-solid fa-circle-question"></i> Economics</a>
+      </div>
+
+      <!-- Nav Actions -->
+      <div class="nav-actions">
+        <div class="persona-switcher-box">
+          <div class="persona-toggle-group">
+            <button id="studentPersonaBtn" class="persona-btn active" title="Switch to Student View">
+              <i class="fa-solid fa-user-graduate"></i> Priya (Student)
+            </button>
+            <button id="businessPersonaBtn" class="persona-btn" title="Switch to Business View">
+              <i class="fa-solid fa-store"></i> Bakery
+            </button>
+          </div>
+        </div>
+
+        <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Dark/Light Mode">
+          <i class="fa-solid fa-moon"></i>
+        </button>
+
+        <a href="student-dashboard.html" class="btn btn-outline-sm" style="text-decoration:none;">
+          <i class="fa-solid fa-wallet"></i> <span id="navWalletBalance">Wallet: ₹450</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Page Header Banner -->
+  <div class="page-header-banner">
+    <div class="container">
+      <span class="badge badge-primary" style="margin-bottom: 8px;">Business Model & Transparency</span>
+      <h1>How SkillBridge AI Works</h1>
+      <p>A zero-friction, compliant marketplace bridging college talent and local businesses.</p>
+    </div>
+  </div>
+
+  <main class="container">
+    <!-- 4 Steps Visual Flow -->
+    <div class="section-card">
+      <div class="info-header text-center">
+        <span class="badge badge-primary">The Micro-Gig Lifecycle</span>
+        <h2>4 Steps from Job Post to Verified Payout</h2>
+        <p>Built for fast execution, guaranteed escrow safety, and student portfolio building.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-badge">1</div>
+          <div class="step-icon"><i class="fa-solid fa-store"></i></div>
+          <h4>Business Posts Gig</h4>
+          <p>A bakery or gym posts a ₹500–₹1,500 task with simulated escrow funded upfront.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">2</div>
+          <div class="step-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+          <h4>AI Smart Match</h4>
+          <p>Heuristic matching algorithm ranks students by skill tags, availability, and college status.</p>
+        </div>
+
+        <div class="step-card">
+          <div class="step-badge">3</div>
+          <div class="step-icon"><i class="fa-solid fa-file-arrow-up"></i></div>
+          <h4>Student Delivers Work</h4>
+          <p>Draft submitted within 48 hours. Client inspects work, requests tweaks, or approves with 1 click.</p>
+        </div>
+
+        <div class="step-card highlight-step">
+          <div class="step-badge">4</div>
+          <div class="step-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
+          <h4>10% Revenue Split</h4>
+          <p>Student gets ₹450 (90%) directly. Platform captures ₹50 (10%) with automated GST invoice.</p>
+        </div>
+      </div>
+
+      <!-- Live Revenue Simulator Tool -->
+      <div class="simulator-box">
+        <div class="sim-header">
+          <h4><i class="fa-solid fa-calculator"></i> Interactive Platform Revenue Calculator</h4>
+          <span>Drag the slider to test unit economics across different project sizes</span>
+        </div>
+        <div class="sim-content">
+          <div class="sim-input-group">
+            <label for="calcProjectBudget">Project Budget (₹):</label>
+            <input type="range" id="calcProjectBudget" min="300" max="5000" step="100" value="500">
+            <span class="sim-val" id="calcBudgetValue">₹500</span>
+          </div>
+          <div class="sim-breakdown">
+            <div class="sim-split-item student-split">
+              <span class="sim-label">Student Earnings (90%)</span>
+              <span class="sim-amount" id="calcStudentCut">₹450</span>
+            </div>
+            <div class="sim-split-divider">+</div>
+            <div class="sim-split-item platform-split">
+              <span class="sim-label">SkillBridge Fee (10%)</span>
+              <span class="sim-amount" id="calcPlatformCut">₹50</span>
+            </div>
+            <div class="sim-split-divider">=</div>
+            <div class="sim-split-item total-split">
+              <span class="sim-label">Total Escrow</span>
+              <span class="sim-amount" id="calcTotalEscrow">₹500</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Regulatory & Legal Architecture Cards -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin: 40px 0;">
+      <div class="section-card" style="margin-bottom:0;">
+        <i class="fa-solid fa-scale-balanced text-primary" style="font-size: 1.8rem; margin-bottom: 12px;"></i>
+        <h4>Standard Micro-Contracts (IP Rights)</h4>
+        <p class="text-muted" style="font-size: 0.88rem; line-height: 1.6;">
+          Under Indian Intellectual Property Law, creators naturally own their work unless assigned in writing. 
+          SkillBridge AI enforces a mandatory 1-click IP transfer clause in every application, ensuring business clients own 100% of commercial usage rights upon milestone payout.
+        </p>
+      </div>
+
+      <div class="section-card" style="margin-bottom:0;">
+        <i class="fa-solid fa-file-invoice-dollar text-success" style="font-size: 1.8rem; margin-bottom: 12px;"></i>
+        <h4>TDS & GST Compliance (Indian Tax Norms)</h4>
+        <p class="text-muted" style="font-size: 0.88rem; line-height: 1.6;">
+          Micro-freelance gigs below ₹30,000 are TDS-exempt under Section 194J/194C thresholds. 
+          For platform commission, SkillBridge AI generates GSTIN-compliant tax invoices charging 18% GST on the 10% platform fee, allowing registered local shops to claim input tax credits.
+        </p>
+      </div>
+
+      <div class="section-card" style="margin-bottom:0;">
+        <i class="fa-solid fa-shield-heart text-warning" style="font-size: 1.8rem; margin-bottom: 12px;"></i>
+        <h4>College Verification Safeguards</h4>
+        <p class="text-muted" style="font-size: 0.88rem; line-height: 1.6;">
+          To prevent marketplace abuse and ensure students only compete with peers, SkillBridge validates student enrollment using AI OCR on university ID cards and fee receipts.
+        </p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Floating VAJRA AI Copilot Widget -->
+  <div class="vajra-launcher" id="vajraToggleBtn" title="Open VAJRA AI Assistant">
+    <div class="vajra-pulse"></div>
+    <div class="vajra-btn-content">
+      <i class="fa-solid fa-bolt-lightning"></i>
+      <span>Ask VAJRA AI</span>
+    </div>
+  </div>
+
+  <!-- VAJRA Chat Drawer -->
+  <div class="vajra-chat-drawer" id="vajraDrawer">
+    <div class="vajra-drawer-header">
+      <div class="vajra-header-info">
+        <div class="vajra-avatar"><i class="fa-solid fa-bolt"></i></div>
+        <div>
+          <h4>VAJRA AI Copilot</h4>
+          <span class="vajra-status" id="vajraStatusPill">
+            <span class="dot online"></span> SLM Active (Economics Guide)
+          </span>
+        </div>
+      </div>
+      <button class="vajra-close-btn" id="closeVajraDrawerBtn">&times;</button>
+    </div>
+
+    <div class="vajra-messages" id="vajraMessages">
+      <div class="vajra-msg vajra-bot">
+        <div class="vajra-msg-bubble">
+          <strong>Namaste! ⚡</strong><br>
+          Curious about our 10% take-rate, escrow mechanics, or legal micro-contracts? Ask me anything!
+        </div>
+      </div>
+    </div>
+
+    <div class="vajra-quick-chips" id="vajraQuickChips">
+      <button class="vajra-chip" data-prompt="How should I price a 1-page landing page website?">💰 Fair Pricing</button>
+      <button class="vajra-chip" data-prompt="Help me write a winning proposal for the bakery gig">⚡ Proposal Generator</button>
+      <button class="vajra-chip" data-prompt="Draft a job post for a 30-sec reel editor">📝 Job Post Template</button>
+    </div>
+
+    <form class="vajra-input-form" id="vajraForm">
+      <input type="text" id="vajraInput" placeholder="Ask VAJRA about economics, escrow, legal..." autocomplete="off">
+      <button type="submit" id="vajraSendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+    </form>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <div class="logo-icon small"><i class="fa-solid fa-bolt-lightning"></i></div>
+        <span><strong>SkillBridge AI</strong> — Developed for Pitchathon & Hackathon Demonstrations.</span>
+      </div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="jobs.html">Browse Gigs</a>
+        <a href="student-dashboard.html">Student Hub</a>
+        <a href="post-job.html">Post a Gig</a>
+        <a href="how-it-works.html">Economics</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

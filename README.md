@@ -5,49 +5,54 @@
 
 ---
 
-## ⚡ Introducing VAJRA AI — The Freelance Copilot
+## 🌟 Multi-Page Application Architecture
 
-SkillBridge AI features **VAJRA** (`vajra = thunderbolt ⚡`), a dedicated AI/SLM Assistant designed for students and small business merchants:
+SkillBridge AI features a full-fledged **multi-page portal architecture** with unified state persistence, seamless navigation, and dark mode support:
 
-* **For Students:**
-  * ⚡ **Proposal Drafting:** Generates customized, high-converting pitches for open micro-gigs.
-  * 🎯 **Skill Roadmaps:** Tells students which digital skills to learn next (e.g. Canva $\rightarrow$ Figma $\rightarrow$ Video Reels) to maximize earnings.
-  * 💰 **Pricing Guidance:** Recommends fair micro-budgets for flyers, reels, and websites.
-  * 🚀 **1-Click Proposal Insertion:** Click *"Insert into Proposal Box"* inside chat to automatically populate the application form!
-* **For Businesses:**
-  * 📝 **Job Posting Copilot:** Automatically drafts crisp job descriptions with clear deliverables and budgets.
-* **Dual Engine Architecture:**
-  * If local **Ollama** is running with models like `qwen2.5-coder:7b-instruct`, VAJRA queries your local SLM/LLM.
-  * If offline or hosted on GitHub Pages, VAJRA runs on its built-in client-side domain engine with zero latency!
+1. **[index.html](file:///C:/Users/LENOVO/Desktop/startup/index.html) — Home / Front Page:**
+   * High-converting SaaS landing page with hero banner, live student earnings ticker, top matched gig preview, and quick portals.
+2. **[jobs.html](file:///C:/Users/LENOVO/Desktop/startup/jobs.html) — Job Finding & Discovery Page:**
+   * Search bar with live keyword filtering, category tabs (Design, Web, Video, Content, Social Media), smart AI match ranking, and 1-click application modal.
+3. **[student-dashboard.html](file:///C:/Users/LENOVO/Desktop/startup/student-dashboard.html) — Student Career Hub:**
+   * Priya Sharma's college-verified profile, skill tag manager, availability preferences, applications milestone tracker, and simulated UPI withdrawal ledger.
+4. **[post-job.html](file:///C:/Users/LENOVO/Desktop/startup/post-job.html) — Business Merchant Hub:**
+   * Sweet Delights Bakery portal to post new micro-gigs, inspect student drafts, release escrow payouts, and generate GST-ready tax invoices.
+5. **[how-it-works.html](file:///C:/Users/LENOVO/Desktop/startup/how-it-works.html) — Economics & Legal Guide:**
+   * Interactive 10% platform revenue calculator slider, legal micro-contract explanation (automatic IP copyright assignment), and tax compliance (TDS & 18% GST).
 
 ---
 
-## ⚡ Dual-Mode Architecture (Best of Both Worlds)
+## 🌙 Dark / Light Mode Support
 
-SkillBridge AI is designed with an intelligent **Dual-Mode System**:
-1. **With Python Backend (Full Stack Mode):**
-   * Powered by **Python (Flask)** with a local **SQLite** database (`skillbridge.db`).
-   * Provides REST API endpoints (`/api/projects`, `/api/applications`, `/api/escrow/release`, `/api/vajra/chat`) with server-side AI matching and database persistence.
-2. **Without Backend (Static / GitHub Pages Mode):**
-   * When hosted on GitHub Pages or run without Python, the frontend automatically detects that the server is offline and falls back to **browser `localStorage`**.
-   * **Zero errors, 100% functionality**, whether online, offline, or hosted statically.
+* Includes a persistent **Theme Switcher** in the navigation bar (`🌙 / ☀️`).
+* Respects system preferences and saves the user choice in `localStorage`.
+* Custom CSS variables for deep contrast, smooth transitions, and glowing dark-mode accents.
+
+---
+
+## ⚡ VAJRA AI — The Freelance Copilot
+
+Present across **every page** via the floating lightning widget (`⚡ Ask VAJRA AI`):
+* **Student Proposals:** Automatically writes tailored pitches with 1-click insertion into project applications.
+* **Skill Recommendations:** Advises which skills to learn to upgrade earnings from ₹500 to ₹2,500.
+* **Pricing & Job Scoping:** Helps merchants price micro-gigs fairly.
+* **Dual-Engine:** Uses local **Ollama** (`qwen2.5-coder:7b-instruct`) when running, or instant built-in domain reasoning engine when offline.
 
 ---
 
 ## 🚀 How to Run
 
 ### Method 1: Full-Stack Mode (Python + Flask + SQLite)
-1. Double-click [run_server.bat](file:///C:/Users/LENOVO/Desktop/startup/run_server.bat), or run in your terminal:
+1. Double-click [run_server.bat](file:///C:/Users/LENOVO/Desktop/startup/run_server.bat) or run:
    ```powershell
    python server.py
    ```
-2. Open your browser at:
-   **[http://127.0.0.1:5000](http://127.0.0.1:5000)**
-3. The top announcement bar will show: `● Python API (SQLite Active)`.
+2. Open **[http://127.0.0.1:5000](http://127.0.0.1:5000)** in your browser.
+3. Routes available: `/`, `/jobs`, `/student-dashboard`, `/post-job`, `/how-it-works`.
 
 ### Method 2: Instant Static Mode (Zero Setup)
-1. Simply double-click [index.html](file:///C:/Users/LENOVO/Desktop/startup/index.html) in your file explorer.
-2. Works offline immediately with `localStorage` persistence!
+1. Double-click [index.html](file:///C:/Users/LENOVO/Desktop/startup/index.html) in your file explorer.
+2. Navigate seamlessly between pages with `localStorage` state persistence.
 
 ---
 
@@ -66,29 +71,10 @@ SkillBridge AI is designed with an intelligent **Dual-Mode System**:
 
 ---
 
-## 🏆 3-Minute Winning Pitch Script (For Judges)
-
-* **0:00 – 0:35 | The Problem:**
-  > *"Every year, millions of Indian college students learn Canva, video editing, and web design, but they face a brutal Catch-22: Upwork and Fiverr won't hire them because they don't have reviews, but they can't get reviews without gigs. Meanwhile, our local neighborhood businesses—like sweet shops, gyms, and tuition centers—need Instagram posters and simple websites, but cannot afford 20,000-rupee agency retainers."*
-
-* **0:35 – 1:30 | The Solution (Show Persona Switcher & AI Matching):**
-  > *"Enter **SkillBridge AI**. We match verified college students with small businesses for micro-gigs between ₹500 and ₹2,000. Right now, we are viewing as Priya, a 2nd-year BCA student. Our AI Matching Engine immediately scans her skills against local demand, giving her an instantaneous 96% Match on an Instagram design project for a local artisan bakery."*
-
-* **1:30 – 2:00 | Meet VAJRA AI Assistant:**
-  > *"Students often struggle with writing professional proposals. Notice our floating AI copilot, **VAJRA**. Priya asks: 'Help me write a proposal for the bakery gig'. VAJRA instantly crafts a tailored, professional pitch highlighting her Canva and Figma skills, and with 1 click, inserts it right into the application!"*
-
-* **2:00 – 2:30 | The Micro-Contract & Safe Escrow (Show Apply & Release):**
-  > *"When Priya applies, she signs a built-in micro-contract assigning commercial IP rights to the client. Switching to the bakery owner's view: Sweet Delights Bakery inspects the submitted draft, clicks **Approve & Release**, and the simulated escrow distributes the funds: ₹450 goes straight to Priya's wallet, while SkillBridge captures a clean 10% fee (₹50)."*
-
-* **2:30 – 3:00 | The Business Model & Defensibility:**
-  > *"Our platform take-rate is a transparent 10%, generating a GST-compliant invoice instantly. Students stay on our platform because every completed project earns them a verified College Experience Certificate and public portfolio proof that directly helps them land full-time jobs during campus placements."*
-
----
-
 ## 🌐 100% Free Hosting Deployment
 
 * **GitHub Pages:**
-  1. Push this folder to `https://github.com/Aravkataria/NAVDRISHTI`.
+  1. Push code to `https://github.com/Aravkataria/NAVDRISHTI`.
   2. Go to **Settings** > **Pages** > Select `main` branch > Click **Save**.
   3. Live URL: `https://aravkataria.github.io/NAVDRISHTI/`
 * **Netlify Drop:** Drag and drop this folder directly into [app.netlify.com/drop](https://app.netlify.com/drop).
@@ -97,12 +83,16 @@ SkillBridge AI is designed with an intelligent **Dual-Mode System**:
 
 ## 📁 Repository Structure
 ```
-├── server.py        # Python Flask backend with SQLite & VAJRA SLM chat endpoint
-├── run_server.bat   # 1-Click Windows launcher for the Python server
-├── requirements.txt # Python dependencies (Flask)
-├── index.html       # Single-page application layout, modals & VAJRA chat drawer
-├── styles.css       # Custom SaaS design system, animations & responsive styling
-├── app.js           # Dual-mode engine & VAJRA assistant conversational handler
-├── README.md        # Documentation, pitch script, and architecture guide
-└── .gitignore       # Standard git ignore file
+├── index.html              # Home / Front Page
+├── jobs.html               # Job Finding & Discovery Page
+├── student-dashboard.html  # Student Career & Portfolio Hub
+├── post-job.html           # Merchant Hub & Post a Gig
+├── how-it-works.html       # Unit Economics & Legal Escrow Guide
+├── server.py               # Python Flask backend with multi-page routing & SQLite
+├── run_server.bat          # 1-Click Windows launcher for Python server
+├── requirements.txt        # Python dependencies
+├── styles.css              # Dark/Light SaaS design system & responsive styling
+├── app.js                  # Multi-page state manager & VAJRA AI copilot engine
+├── README.md               # Documentation and pitch guide
+└── .gitignore              # Standard git ignore file
 ```
