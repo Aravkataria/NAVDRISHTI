@@ -1,19 +1,21 @@
 """
 SkillBridge AI — Lightweight Python Flask + SQLite Backend API
-Provides REST API endpoints, SQLite persistence, and Python heuristic matching.
-Can also serve the frontend directly at http://127.0.0.1:5000
+Includes REST API endpoints, SQLite persistence, and VAJRA SLM/LLM Chatbot Copilot.
 """
 
 import json
 import os
 import sqlite3
+import urllib.request
+import urllib.error
 from flask import Flask, jsonify, request, send_from_directory
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 
 DB_PATH = os.path.join(os.path.dirname(__file__), 'skillbridge.db')
+OLLAMA_API_URL = "http://127.0.0.1:11434"
 
-# CORS Header Injection (No extra pip library needed)
+# CORS Header Injection
 @app.after_request
 def add_cors_headers(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
@@ -31,7 +33,6 @@ def init_db():
     conn = get_db()
     cursor = conn.cursor()
 
-    # 1. Projects Table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS projects (
             id TEXT PRIMARY KEY,
@@ -52,7 +53,6 @@ def init_db():
         )
     ''')
 
-    # 2. Applications Table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS applications (
             id TEXT PRIMARY KEY,
@@ -68,7 +68,6 @@ def init_db():
         )
     ''')
 
-    # 3. Student Profile Table
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS student (
             id INTEGER PRIMARY KEY,
@@ -83,7 +82,6 @@ def init_db():
         )
     ''')
 
-    # Seed initial data if table is empty
     cursor.execute('SELECT COUNT(*) FROM projects')
     if cursor.fetchone()[0] == 0:
         seed_data(cursor)
@@ -92,7 +90,6 @@ def init_db():
     conn.close()
 
 def seed_data(cursor):
-    # Seed Student
     cursor.execute('''
         INSERT OR REPLACE INTO student (id, name, college, roll_no, degree, skills, wallet_balance, rating, is_id_verified)
         VALUES (1, 'Priya Sharma', 'St. Xavier''s College, Mumbai', '2024-BCA-084', '2nd Year BCA',
@@ -100,7 +97,6 @@ def seed_data(cursor):
                 450, 4.9, 1)
     ''')
 
-    # Seed Projects
     initial_projects = [
         ("proj-101", "Design 3 Festive Instagram Carousel Posters for Sourdough Sale", "Sweet Delights Artisan Bakery",
          "Bakery / Cafe", "Graphic Design", json.dumps(["Graphic Design", "Canva", "Social Media", "Figma"]),
@@ -141,13 +137,12 @@ def seed_data(cursor):
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', p)
 
-    # Seed Application
     cursor.execute('''
         INSERT INTO applications (id, project_id, project_title, client, budget, student_payout, platform_fee, status, applied_date, can_review)
         VALUES ('app-1', 'proj-101', 'Design 3 Festive Instagram Carousel Posters for Sourdough Sale', 'Sweet Delights Artisan Bakery', 500, 450, 50, 'Submitted & In Review', 'Today', 1)
     ''')
 
-# Python AI Matching Function
+# Python AI Matching
 def python_match_score(project_skills, student_skills, budget):
     matched = [s for s in project_skills if any(s.lower() in st.lower() or st.lower() in s.lower() for st in student_skills)]
     ratio = len(matched) / max(len(project_skills), 1)
@@ -157,15 +152,135 @@ def python_match_score(project_skills, student_skills, budget):
     total = int(round(skill_score + budget_score + availability_score))
     return min(max(total, 45), 98), matched
 
+# --- VAJRA SLM / LLM ASSISTANT LOGIC ---
+def is_ollama_online():
+    try:
+        req = urllib.request.Request(f"{OLLAMA_API_URL}/api/tags", headers={"User-Agent": "SkillBridge"})
+        with urllib.request.urlopen(req, timeout=1.0) as res:
+            return res.status == 200
+    except Exception:
+        return False
+
+def query_ollama(prompt, model="qwen2.5-coder:7b-instruct"):
+    try:
+        payload = json.dumps({
+            "model": model,
+            "prompt": prompt,
+            "stream": False,
+            "system": "You are VAJRA, an intelligent SLM assistant embedded in SkillBridge AI. You help Indian college students write winning proposals, learn high-paying digital skills, and help local businesses scope micro-projects."
+        }).encode("utf-8")
+
+        req = urllib.request.Request(
+            f"{OLLAMA_API_URL}/api/generate",
+            data=payload,
+            headers={"Content-Type": "application/json"}
+        )
+        with urllib.request.urlopen(req, timeout=10.0) as res:
+            data = json.loads(res.read().decode("utf-8"))
+            return data.get("response", "").strip()
+    except Exception as e:
+        return None
+
+def vajra_domain_fallback(prompt, persona="student"):
+    p_lower = prompt.lower()
+
+    if "proposal" in p_lower or "pitch" in p_lower or "apply" in p_lower or "bakery" in p_lower:
+        return (
+            "⚡ **VAJRA Proposal Draft:**\n\n"
+            "\"Namaste! I saw your requirement for the Instagram carousel posters. I am a 2nd-year BCA student at St. Xavier's with active experience in Canva and Figma. "
+            "I will create 3 high-converting 1080x1350 slides using warm bakery colors and readable font pairings for mobile screens.\n\n"
+            "✅ Delivery: Within 24-48 hours\n"
+            "✅ Free Revisions: 1 included\n"
+            "✅ Full Commercial IP Rights transferred upon milestone approval.\"\n\n"
+            "*Tip: Click 'Insert into Proposal' to use this draft!*"
+        )
+
+    if "price" in p_lower or "budget" in p_lower or "charge" in p_lower or "website" in p_lower:
+        return (
+            "⚡ **VAJRA Pricing Guidance for Micro-Gigs:**\n\n"
+            "• **Basic 1-Page Landing Page:** ₹1,200 – ₹1,800 (HTML/CSS + Contact Form)\n"
+            "• **Instagram Poster / Carousel (3 slides):** ₹500 – ₹800\n"
+            "• **30-sec Short/Reel Edit:** ₹800 – ₹1,200 (Cut + Music + Captions)\n"
+            "• **Diwali / Event Flyer:** ₹400 – ₹600\n\n"
+            "💡 *Why this works:* Local shops cannot pay ₹15,000 agency rates, but ₹500–₹1,500 is an easy yes for them and builds your portfolio!"
+        )
+
+    if "skill" in p_lower or "learn" in p_lower or "earn" in p_lower:
+        return (
+            "⚡ **VAJRA Student Skill Roadmap (2026-2027):**\n\n"
+            "1. **From Canva ➔ Figma:** Local businesses pay 2x for Figma UI designs and social media design systems.\n"
+            "2. **CapCut / Premiere Pro:** Short-form video reels are the #1 highest demanded micro-gig in Mumbai & Delhi.\n"
+            "3. **Tailwind CSS + React/Vite:** Upgrades your landing page earnings from ₹1,500 to ₹4,000 per site.\n\n"
+            "🎯 *Adding Figma and CapCut to your profile will boost your AI Match score to 98%!*"
+        )
+
+    if "post" in p_lower or "job" in p_lower or "hire" in p_lower or "business" in p_lower:
+        return (
+            "⚡ **VAJRA Job Posting Template (For Businesses):**\n\n"
+            "**Title:** Short-form Reel Editor for Fitness Studio\n"
+            "**Category:** Video Editing\n"
+            "**Budget:** ₹1,000 (Secured in SkillBridge Escrow)\n"
+            "**Deliverables:** 1x 30-second vertical reel, background music sync, subtitles, and logo intro.\n"
+            "**Deadline:** 2 Days\n\n"
+            "Post this on SkillBridge and verified student editors will be matched within 5 minutes!"
+        )
+
+    # General default response
+    return (
+        f"⚡ **VAJRA Copilot is active!**\n\n"
+        f"I am analyzing your context ({persona.capitalize()} Mode). Here is what I can do for you:\n\n"
+        f"• **Write high-converting proposals** for active micro-gigs\n"
+        f"• **Recommend high-paying digital skills** to boost student match scores\n"
+        f"• **Suggest fair micro-budgets** for small business digital tasks\n"
+        f"• **Draft clean project descriptions** for ₹500–₹2,000 gigs\n\n"
+        f"Ask me anything, or tap one of the quick prompts below!"
+    )
+
 # --- REST API ROUTES ---
 
 @app.route('/api/health', methods=['GET'])
 def health():
+    ollama_ready = is_ollama_online()
     return jsonify({
         "status": "healthy",
         "backend": "Python Flask + SQLite",
         "database": "skillbridge.db",
-        "version": "1.0.0"
+        "vajraAssistant": {
+            "name": "VAJRA SLM Copilot",
+            "ollamaConnected": ollama_ready,
+            "engine": "qwen2.5-coder:7b-instruct" if ollama_ready else "VAJRA Heuristic SLM"
+        },
+        "version": "1.1.0"
+    })
+
+@app.route('/api/vajra/chat', methods=['POST'])
+def vajra_chat():
+    data = request.json or {}
+    message = data.get('message', '').strip()
+    persona = data.get('persona', 'student')
+
+    if not message:
+        return jsonify({"error": "Message is required"}), 400
+
+    reply = None
+    engine_used = "VAJRA Domain SLM"
+
+    # Attempt query to local Ollama if running
+    if is_ollama_online():
+        prompt = f"User role: {persona}. User query: {message}"
+        res = query_ollama(prompt)
+        if res:
+            reply = res
+            engine_used = "qwen2.5-coder:7b-instruct (Ollama Local)"
+
+    # Fallback to rich domain intelligence
+    if not reply:
+        reply = vajra_domain_fallback(message, persona)
+
+    return jsonify({
+        "reply": reply,
+        "engine": engine_used,
+        "assistant": "VAJRA AI"
     })
 
 @app.route('/api/student', methods=['GET'])
@@ -185,8 +300,6 @@ def get_student():
 def get_projects():
     conn = get_db()
     rows = conn.execute('SELECT * FROM projects').fetchall()
-    
-    # Also fetch student skills to compute server-side AI match scores
     st_row = conn.execute('SELECT skills FROM student WHERE id = 1').fetchone()
     conn.close()
 
@@ -201,7 +314,6 @@ def get_projects():
         p['submissionNotes'] = p['submission_notes']
         p['submissionImage'] = p['submission_image']
         
-        # Calculate Python heuristic match score
         score, matched = python_match_score(p['skills'], student_skills, p['budget'])
         p['matchData'] = {
             "score": score,
@@ -299,11 +411,8 @@ def release_escrow():
     payout = int(round(budget * 0.9))
     fee = budget - payout
 
-    # Update project status
     conn.execute('UPDATE projects SET status = "completed" WHERE id = ?', (proj_id,))
-    # Update application status
     conn.execute('UPDATE applications SET status = "Completed & Paid", can_review = 0 WHERE project_id = ?', (proj_id,))
-    # Credit student wallet
     conn.execute('UPDATE student SET wallet_balance = wallet_balance + ? WHERE id = 1', (payout,))
 
     conn.commit()
@@ -329,6 +438,7 @@ if __name__ == '__main__':
     init_db()
     print("=" * 60)
     print("🚀 SkillBridge AI Backend running on http://127.0.0.1:5000")
+    print("⚡ VAJRA SLM Assistant API: http://127.0.0.1:5000/api/vajra/chat")
     print("💾 SQLite Database: skillbridge.db")
     print("=" * 60)
     app.run(host='127.0.0.1', port=5000, debug=True)

@@ -856,6 +856,141 @@ function initEventListeners() {
       showToast(`Skill '${newSkill}' added! Match scores recalculated.`, "success");
     }
   });
+
+  // VAJRA AI Assistant Drawer Listeners
+  initVajraAssistant();
+}
+
+// VAJRA AI Copilot Implementation
+function initVajraAssistant() {
+  const launcher = document.getElementById("vajraToggleBtn");
+  const drawer = document.getElementById("vajraDrawer");
+  const closeBtn = document.getElementById("closeVajraDrawerBtn");
+  const form = document.getElementById("vajraForm");
+  const input = document.getElementById("vajraInput");
+  const messagesContainer = document.getElementById("vajraMessages");
+  const chipsContainer = document.getElementById("vajraQuickChips");
+
+  launcher.addEventListener("click", () => {
+    drawer.classList.toggle("active-drawer");
+    if (drawer.classList.contains("active-drawer")) {
+      input.focus();
+    }
+  });
+
+  closeBtn.addEventListener("click", () => {
+    drawer.classList.remove("active-drawer");
+  });
+
+  // Quick Chips
+  chipsContainer.querySelectorAll(".vajra-chip").forEach(chip => {
+    chip.addEventListener("click", () => {
+      const promptText = chip.getAttribute("data-prompt");
+      input.value = promptText;
+      form.dispatchEvent(new Event("submit"));
+    });
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const query = input.value.trim();
+    if (!query) return;
+
+    // Append User Message
+    appendVajraMessage(query, "vajra-user");
+    input.value = "";
+
+    // Append Typing Indicator
+    const typingId = "vajra-typing-" + Date.now();
+    const typingElem = document.createElement("div");
+    typingElem.id = typingId;
+    typingElem.className = "vajra-msg vajra-bot";
+    typingElem.innerHTML = `<div class="vajra-msg-bubble vajra-typing"><span></span><span></span><span></span></div>`;
+    messagesContainer.appendChild(typingElem);
+    messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+    let botReply = "";
+    if (state.useBackend) {
+      try {
+        const res = await fetch(`${API_BASE}/vajra/chat`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: query, persona: state.currentPersona })
+        });
+        if (res.ok) {
+          const data = await res.json();
+          botReply = data.reply;
+        }
+      } catch (err) {
+        console.warn("Backend VAJRA chat failed, using local engine", err);
+      }
+    }
+
+    if (!botReply) {
+      botReply = localVajraFallback(query, state.currentPersona);
+    }
+
+    // Remove typing
+    const el = document.getElementById(typingId);
+    if (el) el.remove();
+
+    // Append Bot Message
+    appendVajraMessage(botReply, "vajra-bot");
+  });
+}
+
+function appendVajraMessage(text, type) {
+  const container = document.getElementById("vajraMessages");
+  const msgWrapper = document.createElement("div");
+  msgWrapper.className = `vajra-msg ${type}`;
+
+  const bubble = document.createElement("div");
+  bubble.className = "vajra-msg-bubble";
+
+  // Simple Markdown formatting
+  let formatted = text
+    .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>")
+    .replace(/\*(.*?)\*/g, "<em>$1</em>")
+    .replace(/\n/g, "<br>");
+
+  bubble.innerHTML = formatted;
+
+  // If response contains a proposal, add an action button to copy into Apply modal
+  if (type === "vajra-bot" && (text.includes("Proposal Draft") || text.includes("Namaste! I saw your requirement"))) {
+    const actionBtn = document.createElement("button");
+    actionBtn.className = "vajra-bot-action-btn";
+    actionBtn.innerHTML = `<i class="fa-solid fa-file-pen"></i> Insert into Proposal Box`;
+    actionBtn.addEventListener("click", () => {
+      openApplyModal("proj-101");
+      const coverText = "Hi! I saw your requirement for the Instagram carousel posters. I am a 2nd-year BCA student with active experience in Canva and Figma. I can deliver 3 high-converting 1080x1350 slides within 24-48 hours with 1 free revision.";
+      document.getElementById("applyCoverLetter").value = coverText;
+      document.getElementById("vajraDrawer").classList.remove("active-drawer");
+      showToast("VAJRA proposal inserted into application!", "success");
+    });
+    bubble.appendChild(document.createElement("br"));
+    bubble.appendChild(actionBtn);
+  }
+
+  msgWrapper.appendChild(bubble);
+  container.appendChild(msgWrapper);
+  container.scrollTop = container.scrollHeight;
+}
+
+function localVajraFallback(prompt, persona) {
+  const p = prompt.toLowerCase();
+  if (p.includes("proposal") || p.includes("pitch") || p.includes("bakery") || p.includes("apply")) {
+    return "⚡ **VAJRA Proposal Draft:**\n\n\"Namaste! I saw your requirement for the Instagram carousel posters. I am a 2nd-year BCA student at St. Xavier's with active experience in Canva and Figma. I will create 3 high-converting 1080x1350 slides using warm bakery colors and readable font pairings for mobile screens.\n\n✅ Delivery: Within 24-48 hours\n✅ Free Revisions: 1 included\n✅ Full Commercial IP Rights transferred upon milestone approval.\"\n\n*Click below to insert this into the proposal form!*";
+  }
+  if (p.includes("price") || p.includes("budget") || p.includes("website") || p.includes("charge")) {
+    return "⚡ **VAJRA Pricing Guidance for Micro-Gigs:**\n\n• **Basic 1-Page Landing Page:** ₹1,200 – ₹1,800\n• **Instagram Carousel (3 slides):** ₹500 – ₹800\n• **30-sec Reel Video Edit:** ₹800 – ₹1,200\n• **Diwali / Event Flyer:** ₹400 – ₹600\n\n💡 *Tip: ₹500–₹1,500 is the sweet spot for neighborhood shops and gives students fast portfolio proofs!*";
+  }
+  if (p.includes("skill") || p.includes("learn") || p.includes("earn")) {
+    return "⚡ **VAJRA High-Value Skill Roadmap:**\n\n1. **Figma (from Canva):** Boosts average design gig from ₹500 to ₹1,200.\n2. **CapCut / Reels:** High demand for local gym and restaurant short videos.\n3. **HTML/Tailwind:** Landing pages pay ₹1,500–₹2,500.\n\nAdding these tags to your profile will bump your match score to 98%!";
+  }
+  if (p.includes("job") || p.includes("post") || p.includes("hire") || p.includes("business")) {
+    return "⚡ **VAJRA Job Post Template (For Businesses):**\n\n**Title:** Instagram Reel Editor for Fitness Studio\n**Category:** Video Editing\n**Budget:** ₹1,000 (Escrow Protected)\n**Deliverable:** 1x 30s vertical reel with upbeat music and captions.\n**Deadline:** 2 Days\n\nClick 'Post New Micro-Gig' to publish this in 1 click!";
+  }
+  return `⚡ **VAJRA Copilot is active!**\n\nI can help you:\n• Draft winning student proposals\n• Recommend high-paying digital skills\n• Help businesses write gig specifications\n• Calculate fair micro-budgets (₹500–₹2,000)\n\nTry tapping one of the quick chips below!`;
 }
 
 // Startup

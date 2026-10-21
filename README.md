@@ -5,12 +5,29 @@
 
 ---
 
+## ⚡ Introducing VAJRA AI — The Freelance Copilot
+
+SkillBridge AI features **VAJRA** (`vajra = thunderbolt ⚡`), a dedicated AI/SLM Assistant designed for students and small business merchants:
+
+* **For Students:**
+  * ⚡ **Proposal Drafting:** Generates customized, high-converting pitches for open micro-gigs.
+  * 🎯 **Skill Roadmaps:** Tells students which digital skills to learn next (e.g. Canva $\rightarrow$ Figma $\rightarrow$ Video Reels) to maximize earnings.
+  * 💰 **Pricing Guidance:** Recommends fair micro-budgets for flyers, reels, and websites.
+  * 🚀 **1-Click Proposal Insertion:** Click *"Insert into Proposal Box"* inside chat to automatically populate the application form!
+* **For Businesses:**
+  * 📝 **Job Posting Copilot:** Automatically drafts crisp job descriptions with clear deliverables and budgets.
+* **Dual Engine Architecture:**
+  * If local **Ollama** is running with models like `qwen2.5-coder:7b-instruct`, VAJRA queries your local SLM/LLM.
+  * If offline or hosted on GitHub Pages, VAJRA runs on its built-in client-side domain engine with zero latency!
+
+---
+
 ## ⚡ Dual-Mode Architecture (Best of Both Worlds)
 
 SkillBridge AI is designed with an intelligent **Dual-Mode System**:
 1. **With Python Backend (Full Stack Mode):**
    * Powered by **Python (Flask)** with a local **SQLite** database (`skillbridge.db`).
-   * Provides REST API endpoints (`/api/projects`, `/api/applications`, `/api/escrow/release`) with server-side AI matching and database persistence.
+   * Provides REST API endpoints (`/api/projects`, `/api/applications`, `/api/escrow/release`, `/api/vajra/chat`) with server-side AI matching and database persistence.
 2. **Without Backend (Static / GitHub Pages Mode):**
    * When hosted on GitHub Pages or run without Python, the frontend automatically detects that the server is offline and falls back to **browser `localStorage`**.
    * **Zero errors, 100% functionality**, whether online, offline, or hosted statically.
@@ -39,6 +56,7 @@ SkillBridge AI is designed with an intelligent **Dual-Mode System**:
 | Method | Endpoint | Description |
 | :--- | :--- | :--- |
 | `GET` | `/api/health` | Health check & database connection status |
+| `POST`| `/api/vajra/chat` | VAJRA SLM Copilot conversational reasoning endpoint |
 | `GET` | `/api/student` | Fetch verified student profile & active skill tags |
 | `GET` | `/api/projects` | Fetch all active micro-gigs with server-calculated AI match % |
 | `POST` | `/api/projects` | Post a new micro-gig and deposit simulated escrow into SQLite |
@@ -56,10 +74,13 @@ SkillBridge AI is designed with an intelligent **Dual-Mode System**:
 * **0:35 – 1:30 | The Solution (Show Persona Switcher & AI Matching):**
   > *"Enter **SkillBridge AI**. We match verified college students with small businesses for micro-gigs between ₹500 and ₹2,000. Right now, we are viewing as Priya, a 2nd-year BCA student. Our AI Matching Engine immediately scans her skills against local demand, giving her an instantaneous 96% Match on an Instagram design project for a local artisan bakery."*
 
-* **1:30 – 2:15 | The Micro-Contract & Safe Escrow (Show Apply & Release):**
-  > *"When Priya applies, she signs a built-in micro-contract assigning commercial IP rights to the client. Now, let's switch to the bakery owner's view. Sweet Delights Bakery sees Priya's submitted draft. They inspect the work, click **Approve & Release**, and the simulated escrow distributes the funds: ₹450 goes straight to Priya's wallet, while SkillBridge captures a clean 10% fee (₹50)."*
+* **1:30 – 2:00 | Meet VAJRA AI Assistant:**
+  > *"Students often struggle with writing professional proposals. Notice our floating AI copilot, **VAJRA**. Priya asks: 'Help me write a proposal for the bakery gig'. VAJRA instantly crafts a tailored, professional pitch highlighting her Canva and Figma skills, and with 1 click, inserts it right into the application!"*
 
-* **2:15 – 3:00 | The Business Model & Defensibility:**
+* **2:00 – 2:30 | The Micro-Contract & Safe Escrow (Show Apply & Release):**
+  > *"When Priya applies, she signs a built-in micro-contract assigning commercial IP rights to the client. Switching to the bakery owner's view: Sweet Delights Bakery inspects the submitted draft, clicks **Approve & Release**, and the simulated escrow distributes the funds: ₹450 goes straight to Priya's wallet, while SkillBridge captures a clean 10% fee (₹50)."*
+
+* **2:30 – 3:00 | The Business Model & Defensibility:**
   > *"Our platform take-rate is a transparent 10%, generating a GST-compliant invoice instantly. Students stay on our platform because every completed project earns them a verified College Experience Certificate and public portfolio proof that directly helps them land full-time jobs during campus placements."*
 
 ---
@@ -76,12 +97,12 @@ SkillBridge AI is designed with an intelligent **Dual-Mode System**:
 
 ## 📁 Repository Structure
 ```
-├── server.py        # Python Flask backend with REST API & SQLite database
+├── server.py        # Python Flask backend with SQLite & VAJRA SLM chat endpoint
 ├── run_server.bat   # 1-Click Windows launcher for the Python server
 ├── requirements.txt # Python dependencies (Flask)
-├── index.html       # Main semantic single-page application structure & modals
+├── index.html       # Single-page application layout, modals & VAJRA chat drawer
 ├── styles.css       # Custom SaaS design system, animations & responsive styling
-├── app.js           # Dual-mode engine (Flask API consumer + LocalStorage fallback)
+├── app.js           # Dual-mode engine & VAJRA assistant conversational handler
 ├── README.md        # Documentation, pitch script, and architecture guide
 └── .gitignore       # Standard git ignore file
 ```

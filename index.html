@@ -637,6 +637,57 @@
     </div>
   </div>
 
+  <!-- Floating VAJRA AI Copilot Widget -->
+  <div class="vajra-launcher" id="vajraToggleBtn" title="Open VAJRA AI Assistant">
+    <div class="vajra-pulse"></div>
+    <div class="vajra-btn-content">
+      <i class="fa-solid fa-bolt-lightning"></i>
+      <span>Ask VAJRA AI</span>
+    </div>
+  </div>
+
+  <!-- VAJRA Chat Drawer -->
+  <div class="vajra-chat-drawer" id="vajraDrawer">
+    <div class="vajra-drawer-header">
+      <div class="vajra-header-info">
+        <div class="vajra-avatar">
+          <i class="fa-solid fa-bolt"></i>
+        </div>
+        <div>
+          <h4>VAJRA AI Copilot</h4>
+          <span class="vajra-status" id="vajraStatusPill">
+            <span class="dot online"></span> SLM Active (Pitch & Scope Assistant)
+          </span>
+        </div>
+      </div>
+      <button class="vajra-close-btn" id="closeVajraDrawerBtn">&times;</button>
+    </div>
+
+    <!-- Chat Messages Container -->
+    <div class="vajra-messages" id="vajraMessages">
+      <div class="vajra-msg vajra-bot">
+        <div class="vajra-msg-bubble">
+          <strong>Namaste! I am VAJRA ⚡</strong><br>
+          Your AI Copilot for student micro-freelancing. How can I help you today?
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Prompt Chips -->
+    <div class="vajra-quick-chips" id="vajraQuickChips">
+      <button class="vajra-chip" data-prompt="Help me write a winning proposal for the bakery gig">⚡ Write Bakery Proposal</button>
+      <button class="vajra-chip" data-prompt="How should I price a 1-page landing page website?">💰 Price a 1-Page Website</button>
+      <button class="vajra-chip" data-prompt="What skills should I learn to earn more?">🚀 High-Paying Skills</button>
+      <button class="vajra-chip" data-prompt="Draft a job post for a 30-sec reel editor">📝 Draft Job Post</button>
+    </div>
+
+    <!-- Chat Input Box -->
+    <form class="vajra-input-form" id="vajraForm">
+      <input type="text" id="vajraInput" placeholder="Ask VAJRA anything (e.g. 'Write a proposal...')" autocomplete="off">
+      <button type="submit" id="vajraSendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+    </form>
+  </div>
+
   <!-- Toast Notification Container -->
   <div id="toastContainer" class="toast-container"></div>
 
