@@ -62,13 +62,49 @@
           <i class="fa-solid fa-moon"></i>
         </button>
 
-        <button id="verifyIdNavBtn" class="btn btn-outline-sm">
-          <i class="fa-solid fa-id-card-clip"></i> <span id="verificationStatusPill">ID: Verified ✓</span>
-        </button>
+        <!-- Far-Right Profile Button (Normal App Style) -->
+        <div class="profile-menu-container">
+          <button id="navProfileBtn" class="nav-profile-btn" aria-label="User Account Profile" title="Account & Profile">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Profile" class="nav-profile-avatar" id="navProfileAvatar">
+            <span class="nav-profile-dot"></span>
+          </button>
 
-        <span class="btn btn-primary-sm">
-          <i class="fa-solid fa-wallet"></i> <span id="navWalletBalance">Wallet: ₹450</span>
-        </span>
+          <div class="profile-dropdown-card" id="profileDropdown">
+            <div class="dropdown-header">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Profile" class="dropdown-avatar" id="dropdownAvatar">
+              <div class="dropdown-user-meta">
+                <strong id="dropdownUserName">Student Freelancer</strong>
+                <span class="dropdown-subtext" id="dropdownUserRole">College Verified Partner</span>
+              </div>
+            </div>
+
+            <div class="dropdown-stat-row">
+              <div class="stat-cell">
+                <span class="stat-label">Wallet</span>
+                <strong class="stat-val text-success" id="dropdownWalletBalance">₹450</strong>
+              </div>
+              <div class="stat-cell">
+                <span class="stat-label">College ID</span>
+                <span class="badge badge-success" id="dropdownIdStatus">Verified ✓</span>
+              </div>
+            </div>
+
+            <div class="dropdown-links-list">
+              <a href="student-dashboard.html" class="dropdown-item" id="dropdownProfileLink">
+                <i class="fa-solid fa-user-graduate"></i> View Student Hub
+              </a>
+              <a href="jobs.html" class="dropdown-item">
+                <i class="fa-solid fa-compass"></i> Find Open Gigs
+              </a>
+              <button class="dropdown-item-btn" id="dropdownVerifyIdTrigger">
+                <i class="fa-solid fa-id-card"></i> College ID Verification
+              </button>
+              <a href="post-job.html" class="dropdown-item">
+                <i class="fa-solid fa-store"></i> Company Portal
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </nav>
@@ -93,7 +129,9 @@
         <div class="profile-details">
           <div class="profile-title-row">
             <h2 id="studentName">Student Freelancer</h2>
-            <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> Verified College Student</span>
+            <button id="verifyIdCardBtn" class="badge badge-success" style="cursor: pointer; border: none; font-family: inherit;" title="Inspect college enrollment status">
+              <i class="fa-solid fa-circle-check"></i> Verified College Student
+            </button>
             <span class="badge badge-primary">2nd Year BCA</span>
           </div>
           <p class="profile-college"><i class="fa-solid fa-building-columns"></i> State University • Roll: #2024-BCA-084</p>

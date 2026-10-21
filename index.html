@@ -45,7 +45,7 @@
         <a href="pages/how-it-works.html" class="nav-link"><i class="fa-solid fa-circle-question"></i> Economics</a>
       </div>
 
-      <!-- Nav Actions (Persona, Dark Mode, Wallet) -->
+      <!-- Nav Actions (Persona, Dark Mode, Profile) -->
       <div class="nav-actions">
         <!-- Persona Switcher -->
         <div class="persona-switcher-box">
@@ -64,9 +64,49 @@
           <i class="fa-solid fa-moon"></i>
         </button>
 
-        <a href="pages/student-dashboard.html" class="btn btn-primary-sm" style="text-decoration:none;">
-          <i class="fa-solid fa-wallet"></i> <span id="navWalletBalance">Wallet: ₹450</span>
-        </a>
+        <!-- Far-Right Profile Button (Normal App Style) -->
+        <div class="profile-menu-container">
+          <button id="navProfileBtn" class="nav-profile-btn" aria-label="User Account Profile" title="Account & Profile">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Profile" class="nav-profile-avatar" id="navProfileAvatar">
+            <span class="nav-profile-dot"></span>
+          </button>
+
+          <div class="profile-dropdown-card" id="profileDropdown">
+            <div class="dropdown-header">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Profile" class="dropdown-avatar" id="dropdownAvatar">
+              <div class="dropdown-user-meta">
+                <strong id="dropdownUserName">Student Freelancer</strong>
+                <span class="dropdown-subtext" id="dropdownUserRole">College Verified Partner</span>
+              </div>
+            </div>
+
+            <div class="dropdown-stat-row">
+              <div class="stat-cell">
+                <span class="stat-label">Wallet</span>
+                <strong class="stat-val text-success" id="dropdownWalletBalance">₹450</strong>
+              </div>
+              <div class="stat-cell">
+                <span class="stat-label">College ID</span>
+                <span class="badge badge-success" id="dropdownIdStatus">Verified ✓</span>
+              </div>
+            </div>
+
+            <div class="dropdown-links-list">
+              <a href="pages/student-dashboard.html" class="dropdown-item" id="dropdownProfileLink">
+                <i class="fa-solid fa-user-graduate"></i> View Student Hub
+              </a>
+              <a href="pages/jobs.html" class="dropdown-item">
+                <i class="fa-solid fa-compass"></i> Find Open Gigs
+              </a>
+              <a href="pages/student-dashboard.html#verify" class="dropdown-item">
+                <i class="fa-solid fa-id-card"></i> College ID Verification
+              </a>
+              <a href="pages/post-job.html" class="dropdown-item">
+                <i class="fa-solid fa-store"></i> Company Portal
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </nav>

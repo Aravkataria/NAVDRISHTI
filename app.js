@@ -329,13 +329,22 @@ function refreshActivePage() {
   if (document.getElementById("businessProjectsContainer")) renderBusinessDashboard();
 }
 
-// Shared Navigation Info (Wallet & ID pill)
+// Shared Navigation Info (Wallet & ID pill & Profile Dropdown)
 function renderSharedNav() {
+  const isStudent = state.activePersona === "student";
+
+  // Standalone wallet balance if present
   const wallet = document.getElementById("navWalletBalance");
   if (wallet) {
     wallet.textContent = `Wallet: ₹${state.student.walletBalance}`;
   }
+  // Dropdown wallet balance
+  const dropdownWallet = document.getElementById("dropdownWalletBalance");
+  if (dropdownWallet) {
+    dropdownWallet.textContent = `₹${state.student.walletBalance}`;
+  }
 
+  // ID Status
   const idStatus = document.getElementById("verificationStatusPill");
   if (idStatus) {
     if (state.student.isIdVerified) {
@@ -345,6 +354,35 @@ function renderSharedNav() {
       idStatus.innerHTML = `Verify ID`;
       idStatus.className = "text-warning";
     }
+  }
+  const dropdownIdStatus = document.getElementById("dropdownIdStatus");
+  if (dropdownIdStatus) {
+    if (state.student.isIdVerified) {
+      dropdownIdStatus.textContent = "Verified ✓";
+      dropdownIdStatus.className = "badge badge-success";
+    } else {
+      dropdownIdStatus.textContent = "Verify ID";
+      dropdownIdStatus.className = "badge badge-warning";
+    }
+  }
+
+  // Profile Avatar & User Details in Dropdown & Nav
+  const navAvatar = document.getElementById("navProfileAvatar");
+  const dropAvatar = document.getElementById("dropdownAvatar");
+  const dropName = document.getElementById("dropdownUserName");
+  const dropRole = document.getElementById("dropdownUserRole");
+
+  if (isStudent) {
+    if (navAvatar) navAvatar.src = state.student.avatar;
+    if (dropAvatar) dropAvatar.src = state.student.avatar;
+    if (dropName) dropName.textContent = state.student.name;
+    if (dropRole) dropRole.textContent = "College Verified Student";
+  } else {
+    const bizAvatar = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=100&auto=format&fit=crop&q=80";
+    if (navAvatar) navAvatar.src = bizAvatar;
+    if (dropAvatar) dropAvatar.src = bizAvatar;
+    if (dropName) dropName.textContent = "Company Client";
+    if (dropRole) dropRole.textContent = "Verified Business Partner";
   }
 }
 
@@ -725,11 +763,45 @@ function initSharedEventListeners() {
     });
   }
 
-  // ID Verification Modal Flow
-  const verifyNavBtn = document.getElementById("verifyIdNavBtn");
+  // Far-Right Profile Dropdown Toggle Logic
+  const navProfileBtn = document.getElementById("navProfileBtn");
+  const profileDropdown = document.getElementById("profileDropdown");
+
+  if (navProfileBtn && profileDropdown) {
+    navProfileBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      profileDropdown.classList.toggle("show");
+    });
+
+    document.addEventListener("click", (e) => {
+      if (!profileDropdown.contains(e.target) && !navProfileBtn.contains(e.target)) {
+        profileDropdown.classList.remove("show");
+      }
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") {
+        profileDropdown.classList.remove("show");
+      }
+    });
+  }
+
+  // ID Verification Modal Flow (from Profile Dropdown, Profile Card, or hash)
+  const verifyTriggers = [
+    document.getElementById("verifyIdNavBtn"),
+    document.getElementById("dropdownVerifyIdTrigger"),
+    document.getElementById("verifyIdCardBtn")
+  ].filter(Boolean);
+
   const verifyModal = document.getElementById("verifyIdModal");
-  if (verifyNavBtn && verifyModal) {
-    verifyNavBtn.addEventListener("click", () => verifyModal.classList.add("active-modal"));
+  if (verifyModal) {
+    verifyTriggers.forEach(btn => {
+      btn.addEventListener("click", () => {
+        if (profileDropdown) profileDropdown.classList.remove("show");
+        verifyModal.classList.add("active-modal");
+      });
+    });
+
     const closeVerifyBtn = document.getElementById("closeVerifyIdModalBtn");
     if (closeVerifyBtn) closeVerifyBtn.addEventListener("click", () => verifyModal.classList.remove("active-modal"));
 
@@ -756,6 +828,11 @@ function initSharedEventListeners() {
 
     const finishBtn = document.getElementById("finishVerificationBtn");
     if (finishBtn) finishBtn.addEventListener("click", () => verifyModal.classList.remove("active-modal"));
+
+    // If navigated with #verify hash, automatically open verify modal
+    if (window.location.hash === "#verify") {
+      verifyModal.classList.add("active-modal");
+    }
   }
 
   // Apply Form Submit
