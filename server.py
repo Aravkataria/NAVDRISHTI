@@ -238,6 +238,7 @@ def vajra_domain_fallback(prompt, persona="student"):
 
 # --- REST API ROUTES ---
 
+@app.route('/health', methods=['GET'])
 @app.route('/api/health', methods=['GET'])
 def health():
     ollama_ready = is_ollama_online()
