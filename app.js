@@ -3,14 +3,14 @@
  * Supports Multi-Page Architecture • Dark Mode • Dual-Mode Backend/LocalStorage • VAJRA AI Copilot
  */
 
-// Initial Seed Data
+// Initial Seed Data (General-purpose for any student and company)
 const DEFAULT_STUDENT = {
-  name: "Priya Sharma",
-  college: "St. Xavier's College, Mumbai",
-  rollNo: "2024-BCA-084",
-  degree: "2nd Year BCA",
+  name: "Student Freelancer",
+  college: "University Partner Campus",
+  rollNo: "2024-UNIV-084",
+  degree: "Digital Media & Tech Student",
   avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
-  bio: "Passionate graphic designer & frontend developer. Looking to build real commercial portfolio items for local cafes, startups, and bakeries.",
+  bio: "College freelancer skilled in graphic design, web development, and social media content creation. Open for paid digital micro-gigs.",
   skills: ["Graphic Design", "Canva", "HTML/CSS", "Instagram Reels", "Figma", "Social Media"],
   weeklyHours: 8,
   minBudget: 500,
@@ -24,19 +24,19 @@ const DEFAULT_STUDENT = {
 const DEFAULT_PROJECTS = [
   {
     id: "proj-101",
-    title: "Design 3 Festive Instagram Carousel Posters for Sourdough Sale",
-    client: "Sweet Delights Artisan Bakery",
-    clientType: "Bakery / Cafe",
+    title: "Design 3 Festive Social Media Carousel Posters",
+    client: "Local Business Partner",
+    clientType: "Retail & Services",
     category: "Graphic Design",
     skills: ["Graphic Design", "Canva", "Social Media", "Figma"],
     budget: 500,
     deadline: "2 Days",
     estHours: "4 Hours",
-    description: "We are running a 20% discount on sourdough loaves this weekend. Need 3 mouth-watering 1080x1350 Instagram carousel slides following our pastel warm brand tones.",
+    description: "We are launching a promotional offer this weekend. Need 3 engaging 1080x1350 carousel slides following modern brand guidelines for Instagram and WhatsApp.",
     escrowFunded: true,
     status: "in-progress",
     hasSubmission: true,
-    submissionNotes: "Here is the finalized Instagram poster set for the Weekend Sourdough Special. Created in high-resolution 1080x1350 with bakery branding guidelines applied!",
+    submissionNotes: "Here is the finalized promotional design set. Created in high-resolution with brand guidelines applied!",
     submissionImage: "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&auto=format&fit=crop&q=80"
   },
   {
@@ -105,8 +105,8 @@ const DEFAULT_APPLICATIONS = [
   {
     id: "app-1",
     projectId: "proj-101",
-    projectTitle: "Design 3 Festive Instagram Carousel Posters for Sourdough Sale",
-    client: "Sweet Delights Artisan Bakery",
+    projectTitle: "Design 3 Festive Social Media Carousel Posters",
+    client: "Local Business Partner",
     budget: 500,
     studentPayout: 450,
     platformFee: 50,
@@ -297,9 +297,9 @@ function initPersonaSwitcher() {
     state.currentPersona = "student";
     state.save();
     updateButtons();
-    showToast("Switched persona: Priya Sharma (Student 🎓)", "info");
+    showToast("Switched to Student Mode 🎓", "info");
     if (window.location.pathname.includes("post-job")) {
-      window.location.href = "student-dashboard.html";
+      window.location.href = window.location.pathname.includes("pages") ? "student-dashboard.html" : "pages/student-dashboard.html";
     } else {
       refreshActivePage();
     }
@@ -309,9 +309,9 @@ function initPersonaSwitcher() {
     state.currentPersona = "business";
     state.save();
     updateButtons();
-    showToast("Switched persona: Sweet Delights Bakery (Business 🏪)", "info");
+    showToast("Switched to Company Mode 🏢", "info");
     if (window.location.pathname.includes("student-dashboard")) {
-      window.location.href = "post-job.html";
+      window.location.href = window.location.pathname.includes("pages") ? "post-job.html" : "pages/post-job.html";
     } else {
       refreshActivePage();
     }
@@ -532,7 +532,7 @@ function renderBusinessDashboard() {
       ${project.hasSubmission ? `
         <div class="biz-applicant-card">
           <div class="applicant-profile">
-            <img src="${state.student.avatar}" alt="Priya">
+            <img src="${state.student.avatar}" alt="${state.student.name}">
             <div>
               <strong>${state.student.name}</strong> 
               <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> College Verified</span>
@@ -827,8 +827,8 @@ function initSharedEventListeners() {
       const newProj = {
         id: "proj-" + Date.now(),
         title,
-        client: "Sweet Delights Artisan Bakery",
-        clientType: "Bakery / Merchant",
+        client: "Company Client",
+        clientType: "Business / Employer",
         category,
         skills,
         budget,
@@ -1075,7 +1075,7 @@ function appendVajraMessage(text, type) {
     actionBtn.innerHTML = `<i class="fa-solid fa-file-pen"></i> Insert into Proposal Box`;
     actionBtn.addEventListener("click", () => {
       openApplyModal("proj-101");
-      const coverText = "Hi! I saw your requirement for the Instagram carousel posters. I am a 2nd-year BCA student with active experience in Canva and Figma. I can deliver 3 high-converting 1080x1350 slides within 24-48 hours with 1 free revision.";
+      const coverText = "Hi! I saw your requirement for the design project. I am a college student with active experience in graphic design and modern digital tools. I can deliver high-converting creative drafts within 24-48 hours with 1 free revision.";
       const inputEl = document.getElementById("applyCoverLetter");
       if (inputEl) inputEl.value = coverText;
       const drawer = document.getElementById("vajraDrawer");
@@ -1093,8 +1093,8 @@ function appendVajraMessage(text, type) {
 
 function localVajraFallback(prompt, persona) {
   const p = prompt.toLowerCase();
-  if (p.includes("proposal") || p.includes("pitch") || p.includes("bakery") || p.includes("apply")) {
-    return "⚡ **VAJRA Proposal Draft:**\n\n\"Namaste! I saw your requirement for the Instagram carousel posters. I am a 2nd-year BCA student at St. Xavier's with active experience in Canva and Figma. I will create 3 high-converting 1080x1350 slides using warm bakery colors and readable font pairings for mobile screens.\n\n✅ Delivery: Within 24-48 hours\n✅ Free Revisions: 1 included\n✅ Full Commercial IP Rights transferred upon milestone approval.\"\n\n*Click below to insert this into the proposal form!*";
+  if (p.includes("proposal") || p.includes("pitch") || p.includes("gig") || p.includes("apply")) {
+    return "⚡ **VAJRA Proposal Draft:**\n\n\"Namaste! I saw your requirement for the creative design project. I am a university student with practical experience in graphic design and digital media tools. I can create professional, high-converting deliverables customized to your brand guidelines.\n\n✅ Delivery: Within 24-48 hours\n✅ Free Revisions: 1 included\n✅ Full Commercial IP Rights transferred upon milestone approval.\"\n\n*Click below to insert this into the proposal form!*";
   }
   if (p.includes("price") || p.includes("budget") || p.includes("website") || p.includes("charge")) {
     return "⚡ **VAJRA Pricing Guidance for Micro-Gigs:**\n\n• **Basic 1-Page Landing Page:** ₹1,200 – ₹1,800\n• **Instagram Carousel (3 slides):** ₹500 – ₹800\n• **30-sec Reel Video Edit:** ₹800 – ₹1,200\n• **Diwali / Event Flyer:** ₹400 – ₹600\n\n💡 *Tip: ₹500–₹1,500 is the sweet spot for neighborhood shops and gives students fast portfolio proofs!*";

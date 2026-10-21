@@ -92,18 +92,18 @@ def init_db():
 def seed_data(cursor):
     cursor.execute('''
         INSERT OR REPLACE INTO student (id, name, college, roll_no, degree, skills, wallet_balance, rating, is_id_verified)
-        VALUES (1, 'Priya Sharma', 'St. Xavier''s College, Mumbai', '2024-BCA-084', '2nd Year BCA',
+        VALUES (1, 'Student Freelancer', 'State Technical University', '2024-BCA-084', '2nd Year BCA',
                 '["Graphic Design", "Canva", "HTML/CSS", "Instagram Reels", "Figma", "Social Media"]',
                 450, 4.9, 1)
     ''')
 
     initial_projects = [
-        ("proj-101", "Design 3 Festive Instagram Carousel Posters for Sourdough Sale", "Sweet Delights Artisan Bakery",
-         "Bakery / Cafe", "Graphic Design", json.dumps(["Graphic Design", "Canva", "Social Media", "Figma"]),
+        ("proj-101", "Design 3 Festive Social Media Carousel Posters", "Company Client",
+         "Local Business Partner", "Graphic Design", json.dumps(["Graphic Design", "Canva", "Social Media", "Figma"]),
          500, "2 Days", "4 Hours",
-         "We are running a 20% discount on sourdough loaves this weekend. Need 3 mouth-watering 1080x1350 Instagram carousel slides following our pastel warm brand tones.",
+         "We are launching a promotional campaign this weekend. Need 3 high-impact 1080x1350 carousel slides following our modern brand tones.",
          1, "in-progress", 1,
-         "Here is the finalized Instagram poster set for the Weekend Sourdough Special. Created in high-resolution 1080x1350 with bakery branding guidelines applied!",
+         "Here is the finalized deliverable set for the promotional campaign. Created in high-resolution 1080x1350 with company branding guidelines applied!",
          "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&auto=format&fit=crop&q=80"),
 
         ("proj-102", "Build Responsive 1-Page Landing Page for Local Tuition Center", "Apex Scholars Academy",
@@ -139,7 +139,7 @@ def seed_data(cursor):
 
     cursor.execute('''
         INSERT INTO applications (id, project_id, project_title, client, budget, student_payout, platform_fee, status, applied_date, can_review)
-        VALUES ('app-1', 'proj-101', 'Design 3 Festive Instagram Carousel Posters for Sourdough Sale', 'Sweet Delights Artisan Bakery', 500, 450, 50, 'Submitted & In Review', 'Today', 1)
+        VALUES ('app-1', 'proj-101', 'Design 3 Festive Social Media Carousel Posters', 'Company Client', 500, 450, 50, 'Submitted & In Review', 'Today', 1)
     ''')
 
 # Python AI Matching
@@ -187,8 +187,8 @@ def vajra_domain_fallback(prompt, persona="student"):
     if "proposal" in p_lower or "pitch" in p_lower or "apply" in p_lower or "bakery" in p_lower:
         return (
             "⚡ **VAJRA Proposal Draft:**\n\n"
-            "\"Namaste! I saw your requirement for the Instagram carousel posters. I am a 2nd-year BCA student at St. Xavier's with active experience in Canva and Figma. "
-            "I will create 3 high-converting 1080x1350 slides using warm bakery colors and readable font pairings for mobile screens.\n\n"
+            "\"Namaste! I saw your requirement for the design deliverables. I am a college student specializing in digital design and modern media with active experience in Canva and Figma. "
+            "I will create 3 high-converting 1080x1350 slides using modern brand colors and readable font pairings for mobile screens.\n\n"
             "✅ Delivery: Within 24-48 hours\n"
             "✅ Free Revisions: 1 included\n"
             "✅ Full Commercial IP Rights transferred upon milestone approval.\"\n\n"
