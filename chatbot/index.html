@@ -2,7 +2,7 @@
 <html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" type="image/jpeg" href="logo.jpeg">
   <title>ARGUS — Autonomous Micro-Gig Reasoning &amp; Scoping</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -234,10 +234,64 @@
       transform: scale(1.04);
     }
 
+    .chatbot-mobile-chips {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 8px 16px;
+      background: var(--s1-card);
+      border-top: 1px solid var(--s1-border);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      max-width: 1000px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    .chatbot-mobile-chips::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chat-chip {
+      flex-shrink: 0;
+      background: var(--s1-card-strong);
+      border: 1px solid var(--s1-border);
+      color: var(--s1-text-70);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+
+    .chat-chip:hover {
+      background: var(--s1-hover);
+      color: var(--spark);
+      border-color: rgba(245, 180, 0, 0.4);
+    }
+
+    @media (min-width: 2560px) {
+      .chatbot-sidebar { width: 440px; padding: 32px; }
+      .chat-stream, .chat-input-wrapper, .chatbot-mobile-chips { max-width: 1400px; }
+      .chat-bubble { font-size: 1.15rem; line-height: 1.6; }
+      .quick-prompt-btn { font-size: 14px; padding: 14px 16px; }
+    }
+
     @media (max-width: 820px) {
-      .chatbot-sidebar { display: none; }
-      .chat-stream { padding: 16px; }
-      .chat-input-bar { padding: 12px 16px 80px; }
+      .chatbot-workspace {
+        height: calc(100dvh - 56px);
+      }
+      .chatbot-sidebar {
+        display: none;
+      }
+      .chat-stream {
+        padding: 16px 14px 10px;
+      }
+      .chat-input-bar {
+        padding: 8px 14px calc(76px + env(safe-area-inset-bottom, 10px));
+      }
     }
   </style>
 </head>
@@ -360,6 +414,22 @@
             Your AI Copilot for student micro-freelancing. Ask me to write a winning proposal, advise on fair pricing, or explain commercial contracts. How can I help you today?
           </div>
         </div>
+      </div>
+
+      <!-- Quick Assistant Chips for Tablets & Mobile -->
+      <div class="chatbot-mobile-chips">
+        <button type="button" class="chat-chip" onclick="sendPrompt('Draft a high-converting pitch for a bakery festive poster gig')">
+          <i class="fa-solid fa-pen-nib text-spark"></i> Bakery Pitch
+        </button>
+        <button type="button" class="chat-chip" onclick="sendPrompt('How should I price a responsive 1-page landing page website?')">
+          <i class="fa-solid fa-tag text-spark"></i> 1-Page Price
+        </button>
+        <button type="button" class="chat-chip" onclick="sendPrompt('Write a pitch for a 30-sec gym workout reel editor gig')">
+          <i class="fa-solid fa-film text-spark"></i> Reel Pitch
+        </button>
+        <button type="button" class="chat-chip" onclick="sendPrompt('Explain the ARGUS 10% platform fee and IP transfer clause')">
+          <i class="fa-solid fa-scale-balanced text-spark"></i> 10% Fee &amp; IP
+        </button>
       </div>
 
       <!-- Input Bar -->
