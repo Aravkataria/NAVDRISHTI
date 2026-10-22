@@ -1,6 +1,6 @@
 /* ==========================================================
-   SkillBridge AI — VAJRA Design System (Full Fidelity)
-   Directly adapted from VAJRA: Evidence-driven reasoning & repair
+   ARGUS Design System (Full Fidelity)
+   Autonomous Campus-to-Business Micro-Freelancing & Escrow
    Fonts: Space Grotesk (Primary) + JetBrains Mono (Technical)
    Theme: Pitch Black #000, Spark Amber #f5b400, Glassmorphic Surfaces
    ========================================================== */
@@ -208,7 +208,20 @@ header.top, .navbar {
   text-decoration: none;
 }
 
-.brand-logo, .logo-icon {
+.brand-logo {
+  height: 36px;
+  width: auto;
+  max-width: 48px;
+  max-height: 38px;
+  object-fit: contain;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 8px;
+  filter: drop-shadow(0 0 6px rgba(245, 180, 0, 0.45));
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.logo-icon {
   height: 34px;
   width: 34px;
   object-fit: contain;
@@ -224,7 +237,16 @@ header.top, .navbar {
   transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
 }
 
-.brand:hover .brand-logo, .nav-brand:hover .logo-icon {
+.brand:hover .brand-logo {
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 12px rgba(245, 180, 0, 0.8));
+}
+
+[data-theme="light"] .brand-logo {
+  filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.25));
+}
+
+.brand:hover .logo-icon, .nav-brand:hover .logo-icon {
   transform: scale(1.06);
   box-shadow: 0 0 16px rgba(245, 180, 0, 0.4);
 }

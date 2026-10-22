@@ -1,6 +1,6 @@
 /**
- * SkillBridge AI — Unified Core Application Engine
- * Supports Multi-Page Architecture • Dark Mode • Dual-Mode Backend/LocalStorage • VAJRA AI Copilot
+ * ARGUS — Unified Core Application Engine
+ * Supports Multi-Page Architecture • Dark Mode • Dual-Mode Backend/LocalStorage • ARGUS AI Copilot
  */
 
 // Initial Seed Data (General-purpose for any student and company)
@@ -1195,19 +1195,21 @@ function appendVajraMessage(text, type) {
 function localVajraFallback(prompt, persona) {
   const p = prompt.toLowerCase();
   if (p.includes("proposal") || p.includes("pitch") || p.includes("gig") || p.includes("apply")) {
-    return "⚡ **VAJRA Proposal Draft:**\n\n\"Namaste! I saw your requirement for the creative design project. I am a university student with practical experience in graphic design and digital media tools. I can create professional, high-converting deliverables customized to your brand guidelines.\n\n✅ Delivery: Within 24-48 hours\n✅ Free Revisions: 1 included\n✅ Full Commercial IP Rights transferred upon milestone approval.\"\n\n*Click below to insert this into the proposal form!*";
+    return "⚡ **ARGUS Proposal Draft:**\n\n\"Namaste! I saw your requirement for the creative design project. I am a university student with practical experience in graphic design and digital media tools. I can create professional, high-converting deliverables customized to your brand guidelines.\n\n✅ Delivery: Within 24-48 hours\n✅ Free Revisions: 1 included\n✅ Full Commercial IP Rights transferred upon milestone approval.\"\n\n*Click below to insert this into the proposal form!*";
   }
   if (p.includes("price") || p.includes("budget") || p.includes("website") || p.includes("charge")) {
-    return "⚡ **VAJRA Pricing Guidance for Micro-Gigs:**\n\n• **Basic 1-Page Landing Page:** ₹1,200 – ₹1,800\n• **Instagram Carousel (3 slides):** ₹500 – ₹800\n• **30-sec Reel Video Edit:** ₹800 – ₹1,200\n• **Diwali / Event Flyer:** ₹400 – ₹600\n\n💡 *Tip: ₹500–₹1,500 is the sweet spot for neighborhood shops and gives students fast portfolio proofs!*";
+    return "⚡ **ARGUS Pricing Guidance for Micro-Gigs:**\n\n• **Basic 1-Page Landing Page:** ₹1,200 – ₹1,800\n• **Instagram Carousel (3 slides):** ₹500 – ₹800\n• **30-sec Reel Video Edit:** ₹800 – ₹1,200\n• **Diwali / Event Flyer:** ₹400 – ₹600\n\n💡 *Tip: ₹500–₹1,500 is the sweet spot for neighborhood shops and gives students fast portfolio proofs!*";
   }
   if (p.includes("skill") || p.includes("learn") || p.includes("earn")) {
-    return "⚡ **VAJRA High-Value Skill Roadmap:**\n\n1. **Figma (from Canva):** Boosts average design gig from ₹500 to ₹1,200.\n2. **CapCut / Reels:** High demand for local gym and restaurant short videos.\n3. **HTML/Tailwind:** Landing pages pay ₹1,500–₹2,500.\n\nAdding these tags to your profile will bump your match score to 98%!";
+    return "⚡ **ARGUS High-Value Skill Roadmap:**\n\n1. **Figma (from Canva):** Boosts average design gig from ₹500 to ₹1,200.\n2. **CapCut / Reels:** High demand for local gym and restaurant short videos.\n3. **HTML/Tailwind:** Landing pages pay ₹1,500–₹2,500.\n\nAdding these tags to your profile will bump your match score to 98%!";
   }
   if (p.includes("job") || p.includes("post") || p.includes("hire") || p.includes("business")) {
-    return "⚡ **VAJRA Job Post Template (For Businesses):**\n\n**Title:** Instagram Reel Editor for Fitness Studio\n**Category:** Video Editing\n**Budget:** ₹1,000 (Escrow Protected)\n**Deliverable:** 1x 30s vertical reel with upbeat music and captions.\n**Deadline:** 2 Days\n\nClick 'Post New Micro-Gig' to publish this in 1 click!";
+    return "⚡ **ARGUS Job Post Template (For Businesses):**\n\n**Title:** Instagram Reel Editor for Fitness Studio\n**Category:** Video Editing\n**Budget:** ₹1,000 (Escrow Protected)\n**Deliverable:** 1x 30s vertical reel with upbeat music and captions.\n**Deadline:** 2 Days\n\nClick 'Post New Micro-Gig' to publish this in 1 click!";
   }
-  return `⚡ **VAJRA Copilot is active!**\n\nI can help you:\n• Draft winning student proposals\n• Recommend high-paying digital skills\n• Help businesses write gig specifications\n• Calculate fair micro-budgets (₹500–₹2,000)\n\nTry tapping one of the quick chips below!`;
+  return `⚡ **ARGUS Copilot is active!**\n\nI can help you:\n• Draft winning student proposals\n• Recommend high-paying digital skills\n• Help businesses write gig specifications\n• Calculate fair micro-budgets (₹500–₹2,500)\n\nTry tapping one of the quick chips below!`;
 }
+
+window.localArgusFallback = localVajraFallback;
 
 // Startup
 document.addEventListener("DOMContentLoaded", async () => {

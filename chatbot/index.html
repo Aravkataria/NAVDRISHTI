@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>VAJRA AI Copilot — Autonomous Micro-Gig Reasoning &amp; Scoping</title>
+  <link rel="icon" type="image/jpeg" href="logo.jpeg">
+  <title>ARGUS — Autonomous Micro-Gig Reasoning &amp; Scoping</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="../styles.css">
+  <script src="../js/wasm-image-optimizer.js" defer></script>
   <style>
-    /* Full-viewport Chatbot Workspace Styles (Adapted from VAJRA Docs) */
+    /* Full-viewport Chatbot Workspace Styles (Adapted from ARGUS Minimalist System) */
     .chatbot-workspace {
       display: flex;
       height: calc(100vh - 56px);
@@ -241,13 +243,13 @@
 </head>
 <body>
 
-  <!-- Top Navigation (VAJRA S1 Sticky) -->
+  <!-- Top Navigation (ARGUS S1 Sticky) -->
   <header class="top" id="top">
     <div class="nav-inner">
       <div class="nav-left">
         <a class="brand" href="../index.html">
-          <div class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
-          <span>SkillBridge<span class="spark">AI</span></span>
+          <img src="logo.jpeg" alt="ARGUS Logo" class="brand-logo" data-wasm-optimize>
+          <span>ARGUS<span class="spark">AI</span></span>
         </a>
         <span class="slash">/</span>
         <nav class="nav-links">
@@ -256,7 +258,7 @@
           <a href="../student/">Student Hub</a>
           <a href="../post-job/">Post a Gig</a>
           <a href="../economics/">Economics</a>
-          <a href="../chatbot/" class="active" style="color:var(--spark);font-weight:700;">VAJRA AI ⚡</a>
+          <a href="../chatbot/" class="active" style="color:var(--spark);font-weight:700;">ARGUS AI ⚡</a>
         </nav>
       </div>
 
@@ -314,14 +316,14 @@
     </div>
   </header>
 
-  <!-- Full Viewport VAJRA Copilot Workspace -->
+  <!-- Full Viewport ARGUS Copilot Workspace -->
   <div class="chatbot-workspace">
     <!-- Left Intelligence Sidebar -->
     <aside class="chatbot-sidebar">
       <div class="sidebar-block">
-        <h4><i class="fa-solid fa-bolt text-spark"></i> VAJRA Copilot Engine</h4>
+        <h4><i class="fa-solid fa-bolt text-spark"></i> ARGUS Copilot Engine</h4>
         <p>Evidence-driven autonomous reasoning model designed to synthesize high-converting pitches and scope commercial micro-deliverables.</p>
-        <span class="model-chip"><i class="fa-solid fa-microchip"></i> SLM Active • 100% Deterministic</span>
+        <span class="model-chip"><i class="fa-solid fa-microchip"></i> AI Active • 100% Deterministic</span>
       </div>
 
       <div class="sidebar-block">
@@ -336,7 +338,7 @@
           <button class="quick-prompt-btn" onclick="sendPrompt('Write a pitch for a 30-sec gym workout reel editor gig')">
             <i class="fa-solid fa-film text-spark"></i> Pitch for Instagram Reel
           </button>
-          <button class="quick-prompt-btn" onclick="sendPrompt('Explain the SkillBridge 10% platform fee and IP transfer clause')">
+          <button class="quick-prompt-btn" onclick="sendPrompt('Explain the ARGUS 10% platform fee and IP transfer clause')">
             <i class="fa-solid fa-scale-balanced text-spark"></i> IP Clause &amp; 10% Fee
           </button>
         </div>
@@ -344,7 +346,7 @@
 
       <div class="sidebar-block">
         <h4><i class="fa-solid fa-shield-halved text-spark"></i> Verification Status</h4>
-        <p>All AI-generated proposals automatically incorporate the Standard SkillBridge Micro-Contract for full commercial IP transfer upon payment release.</p>
+        <p>All AI-generated proposals automatically incorporate the Standard ARGUS Micro-Contract for full commercial IP transfer upon payment release.</p>
       </div>
     </aside>
 
@@ -352,9 +354,9 @@
     <main class="chatbot-main">
       <div class="chat-stream" id="fullChatStream">
         <div class="chat-msg bot">
-          <div class="chat-author bot"><i class="fa-solid fa-bolt"></i> VAJRA AI Copilot</div>
+          <div class="chat-author bot"><i class="fa-solid fa-bolt"></i> ARGUS AI Copilot</div>
           <div class="chat-bubble">
-            <strong>Namaste! I am VAJRA ⚡</strong><br>
+            <strong>Namaste! I am ARGUS ⚡</strong><br>
             Your AI Copilot for student micro-freelancing. Ask me to write a winning proposal, advise on fair pricing, or explain commercial contracts. How can I help you today?
           </div>
         </div>
@@ -365,7 +367,7 @@
         <form id="fullChatForm" onsubmit="handleFullChatSubmit(event)">
           <div class="chat-input-wrapper">
             <i class="fa-solid fa-terminal text-spark"></i>
-            <input type="text" id="fullChatInput" placeholder="Ask VAJRA anything (e.g. 'Write a proposal for bakery Instagram poster...')" autocomplete="off" required>
+            <input type="text" id="fullChatInput" placeholder="Ask ARGUS anything (e.g. 'Write a proposal for bakery Instagram poster...')" autocomplete="off" required>
             <button type="submit" class="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
           </div>
         </form>
@@ -395,9 +397,9 @@
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
       <span>Economics</span>
     </a>
-    <a href="../chatbot/" class="dock-item is-active" title="VAJRA AI Copilot">
+    <a href="../chatbot/" class="dock-item is-active" title="ARGUS AI Copilot">
       <i class="fa-solid fa-bolt-lightning" style="color:var(--spark);"></i>
-      <span>VAJRA AI</span>
+      <span>ARGUS AI</span>
     </a>
   </nav>
 
@@ -431,7 +433,7 @@
       var typingMsg = document.createElement('div');
       typingMsg.className = 'chat-msg bot';
       typingMsg.id = 'full-typing';
-      typingMsg.innerHTML = '<div class="chat-author bot"><i class="fa-solid fa-bolt"></i> VAJRA AI</div><div class="chat-bubble"><i class="fa-solid fa-circle-notch fa-spin"></i> Reasoning...</div>';
+      typingMsg.innerHTML = '<div class="chat-author bot"><i class="fa-solid fa-bolt"></i> ARGUS AI</div><div class="chat-bubble"><i class="fa-solid fa-circle-notch fa-spin"></i> Reasoning...</div>';
       stream.appendChild(typingMsg);
       stream.scrollTop = stream.scrollHeight;
 
@@ -451,7 +453,7 @@
 
         var botMsg = document.createElement('div');
         botMsg.className = 'chat-msg bot';
-        botMsg.innerHTML = '<div class="chat-author bot"><i class="fa-solid fa-bolt"></i> VAJRA AI Copilot</div><div class="chat-bubble">' + formatted + '</div>';
+        botMsg.innerHTML = '<div class="chat-author bot"><i class="fa-solid fa-bolt"></i> ARGUS AI Copilot</div><div class="chat-bubble">' + formatted + '</div>';
         stream.appendChild(botMsg);
         stream.scrollTop = stream.scrollHeight;
       }, 400);

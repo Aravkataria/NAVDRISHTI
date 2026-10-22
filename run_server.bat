@@ -1,7 +1,7 @@
 @echo off
-title SkillBridge AI Backend Server
+title ARGUS Backend Server
 echo ========================================================
-echo  SkillBridge AI — Starting Flask + SQLite Backend Server
+echo  ARGUS — Starting Flask + SQLite Backend Server
 echo ========================================================
 echo.
 echo Server running at http://127.0.0.1:5000
