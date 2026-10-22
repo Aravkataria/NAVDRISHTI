@@ -129,7 +129,7 @@ class AppState {
     this.projects = this.load("sb_projects", DEFAULT_PROJECTS);
     this.applications = this.load("sb_applications", DEFAULT_APPLICATIONS);
     this.currentPersona = this.load("sb_persona", "student"); // 'student' or 'business'
-    this.theme = this.load("sb_theme", "light");
+    this.theme = this.load("sb_theme", "dark");
     this.activeCategory = "all";
     this.searchQuery = "";
     this.sortBy = "match-desc";
@@ -252,7 +252,7 @@ function calculateMatchScore(project, student) {
 
 // Dark Mode Controller
 function initTheme() {
-  const savedTheme = state.theme || (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+  const savedTheme = state.theme || "dark";
   applyTheme(savedTheme);
 
   const themeBtn = document.getElementById("themeToggleBtn");
