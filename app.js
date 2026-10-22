@@ -1060,20 +1060,44 @@ function initVajraAssistant() {
   const messagesContainer = document.getElementById("vajraMessages");
   const chipsContainer = document.getElementById("vajraQuickChips");
 
-  if (!launcher || !drawer || !form) return;
+  if (!launcher || !drawer) return;
 
-  launcher.addEventListener("click", () => {
-    drawer.classList.toggle("active-drawer");
-    if (drawer.classList.contains("active-drawer")) {
-      input.focus();
+  function toggleDrawer(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
     }
+    const isOpen = drawer.classList.contains("open") || drawer.classList.contains("active-drawer");
+    if (isOpen) {
+      drawer.classList.remove("open", "active-drawer");
+    } else {
+      drawer.classList.add("open", "active-drawer");
+      if (input) setTimeout(() => input.focus(), 150);
+    }
+  }
+
+  function closeDrawer() {
+    drawer.classList.remove("open", "active-drawer");
+  }
+
+  launcher.addEventListener("click", toggleDrawer);
+
+  document.querySelectorAll(".open-vajra-trigger").forEach(btn => {
+    btn.addEventListener("click", toggleDrawer);
   });
 
   if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      drawer.classList.remove("active-drawer");
-    });
+    closeBtn.addEventListener("click", closeDrawer);
   }
+
+  // Close when clicking outside drawer
+  document.addEventListener("click", (e) => {
+    if (drawer.classList.contains("open") || drawer.classList.contains("active-drawer")) {
+      if (!drawer.contains(e.target) && !launcher.contains(e.target) && !e.target.closest(".open-vajra-trigger")) {
+        closeDrawer();
+      }
+    }
+  });
 
   if (chipsContainer) {
     chipsContainer.querySelectorAll(".vajra-chip").forEach(chip => {

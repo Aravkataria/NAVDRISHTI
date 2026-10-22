@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Career &amp; Earnings Hub — SkillBridge AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="../styles.css">
+</head>
+<body>
+
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar">
+    <div class="container announcement-content">
+      <span><i class="fa-solid fa-graduation-cap text-spark"></i> <strong>Student Career Hub:</strong> College-exclusive micro-gigs build verified portfolio credits for campus placements.</span>
+      <div class="demo-reset">
+        <span id="backendStatusBadge" class="backend-badge"><i class="fa-solid fa-circle-notch fa-spin"></i> Checking Backend...</span>
+        <button id="resetDataBtn" title="Reset sample demo data"><i class="fa-solid fa-rotate-left"></i> Reset Demo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Navigation Bar (VAJRA S1 Sticky) -->
+  <header class="top" id="top">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a class="brand" href="../index.html">
+          <div class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+          <span>SkillBridge<span class="spark">AI</span></span>
+        </a>
+        <span class="slash">/</span>
+        <nav class="nav-links">
+          <a href="../index.html">Overview</a>
+          <a href="../jobs/">Marketplace</a>
+          <a href="../student/" class="active">Student Hub</a>
+          <a href="../post-job/">Post a Gig</a>
+          <a href="../economics/">Economics</a>
+          <a href="../chatbot/" style="color:var(--spark);font-weight:700;">VAJRA AI ⚡</a>
+        </nav>
+      </div>
+
+      <div class="nav-right">
+        <!-- Persona Switcher -->
+        <div class="persona-switcher-box">
+          <div class="persona-toggle-group">
+            <button id="studentPersonaBtn" class="persona-btn active" title="Switch to Student Perspective">
+              <i class="fa-solid fa-user-graduate"></i> Student
+            </button>
+            <button id="businessPersonaBtn" class="persona-btn" title="Switch to Company Perspective">
+              <i class="fa-solid fa-building"></i> Company
+            </button>
+          </div>
+        </div>
+
+        <button class="icon-btn" id="themeToggleBtn" aria-label="Toggle dark mode" title="Toggle Theme">
+          <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+          <svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
+        </button>
+
+        <!-- Far-Right Profile Button (Normal App Style) -->
+        <div class="profile-menu-container">
+          <button id="navProfileBtn" class="nav-profile-btn" aria-label="User Account Profile" title="Account & Profile">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Profile" class="nav-profile-avatar" id="navProfileAvatar">
+            <span class="nav-profile-dot"></span>
+          </button>
+          <div class="profile-dropdown-card" id="profileDropdown">
+            <div class="dropdown-header">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Profile" class="dropdown-avatar" id="dropdownAvatar">
+              <div class="dropdown-user-meta">
+                <strong id="dropdownUserName">Student Freelancer</strong>
+                <span class="dropdown-subtext" id="dropdownUserRole">College Verified Partner</span>
+              </div>
+            </div>
+            <div class="dropdown-stat-row">
+              <div class="stat-cell">
+                <span class="stat-label">Wallet</span>
+                <strong class="stat-val text-success" id="dropdownWalletBalance">₹450</strong>
+              </div>
+              <div class="stat-cell">
+                <span class="stat-label">College ID</span>
+                <span class="badge badge-success" id="dropdownIdStatus" style="position:static;display:inline-block;padding:2px 8px;border-radius:4px;">Verified ✓</span>
+              </div>
+            </div>
+            <div class="dropdown-links-list">
+              <a href="../student/" class="dropdown-item"><i class="fa-solid fa-user-graduate"></i> View Student Hub</a>
+              <a href="../jobs/" class="dropdown-item"><i class="fa-solid fa-compass"></i> Find Open Gigs</a>
+              <a href="../post-job/" class="dropdown-item"><i class="fa-solid fa-store"></i> Company Portal</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Page Header Banner -->
+  <div class="page-header-banner">
+    <div class="container">
+      <div class="eyebrow" style="text-align:left;margin-bottom:10px;">// verified campus talent terminal</div>
+      <h1 style="font-size:clamp(32px, 5vw, 44px);font-weight:700;letter-spacing:-0.03em;margin-bottom:8px;">
+        Student Career &amp; <span class="accent">Earnings Hub</span>
+      </h1>
+      <p style="color:var(--s1-text-60);font-size:16px;max-width:640px;">
+        Manage your active skills, track applications, withdraw simulated escrow earnings, and inspect college enrollment proofs.
+      </p>
+    </div>
+  </div>
+
+  <main class="container" style="padding-bottom: 120px;">
+    <!-- Student Profile Card -->
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="profile-avatar">
+          <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80" alt="Student Freelancer" id="studentAvatar">
+          <span class="online-indicator"></span>
+        </div>
+        <div class="profile-details">
+          <div class="profile-title-row">
+            <h2 id="studentName" style="font-size:1.45rem;font-weight:700;letter-spacing:-0.02em;">Student Freelancer</h2>
+            <button id="verifyIdCardBtn" class="badge badge-success" style="cursor: pointer; border: none; font-family: inherit;" title="Inspect college enrollment status">
+              <i class="fa-solid fa-circle-check"></i> Verified College Student
+            </button>
+            <span class="badge badge-primary">2nd Year BCA</span>
+          </div>
+          <p class="profile-college" style="font-family:'JetBrains Mono';font-size:12px;margin:4px 0;"><i class="fa-solid fa-building-columns text-spark"></i> University Partner Campus • Roll: #2024-BCA-084</p>
+          <p class="profile-bio" style="font-size:13.5px;color:var(--s1-text-60);margin-top:6px;">College freelancer skilled in graphic design, web landing pages, and social media video creation. Open for paid digital micro-gigs.</p>
+        </div>
+        <div class="profile-stats">
+          <div class="stat-pill">
+            <span class="stat-val">3</span>
+            <span class="stat-lbl">Gigs Done</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-val">⭐ 4.9</span>
+            <span class="stat-lbl">Rating</span>
+          </div>
+          <div class="stat-pill">
+            <span class="stat-val" id="studentEarningsDisplay">₹1,350</span>
+            <span class="stat-lbl">Earned</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="profile-attributes">
+        <div class="attr-group">
+          <span class="attr-title"><i class="fa-solid fa-code text-spark"></i> Active Skills:</span>
+          <div class="tags-container" id="studentSkillsList">
+            <!-- Populated by app.js -->
+          </div>
+          <button id="addSkillBtn" class="btn-chip-add"><i class="fa-solid fa-plus"></i> Add Skill</button>
+        </div>
+
+        <div class="attr-meta" style="font-family:'JetBrains Mono';font-size:12px;">
+          <span><i class="fa-regular fa-clock text-spark"></i> Availability: <strong>6-8 hrs/week</strong></span>
+          <span><i class="fa-solid fa-indian-rupee-sign text-spark"></i> Budget Range: <strong>₹500 – ₹2,500</strong></span>
+          <span><i class="fa-solid fa-bolt text-spark"></i> AI Match Mode: <strong class="text-success">Active</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Student Applications & Milestones Tracker -->
+    <div class="section-card">
+      <div class="feed-header">
+        <div>
+          <h3 class="section-title"><i class="fa-solid fa-list-check text-spark"></i> My Applications &amp; Milestones</h3>
+          <p class="section-subtitle">Real-time status of submitted proposals and client reviews.</p>
+        </div>
+        <a href="../jobs/" class="btn btn-outline-sm"><i class="fa-solid fa-plus"></i> Apply to More Gigs</a>
+      </div>
+
+      <div class="table-responsive">
+        <table class="custom-table" id="studentApplicationsTable">
+          <thead>
+            <tr>
+              <th>Project Title</th>
+              <th>Client / Business</th>
+              <th>Budget Split</th>
+              <th>Status</th>
+              <th>Action / Inspection</th>
+            </tr>
+          </thead>
+          <tbody id="studentApplicationsBody">
+            <!-- Dynamically populated by app.js -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Wallet & Payout Breakdown Card -->
+    <div class="section-card">
+      <h3 class="section-title"><i class="fa-solid fa-wallet text-success"></i> Wallet &amp; Milestone Payouts</h3>
+      <p class="section-subtitle">Zero hidden deductions. 100% of agreed budget paid out upon client inspection.</p>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; margin-top: 20px;">
+        <div class="stat-pill" style="text-align: left; padding: 18px; border-radius:12px; border:1px solid var(--s1-border-strong);">
+          <span class="text-muted" style="font-size: 0.8rem; text-transform:uppercase; font-family:'JetBrains Mono';">Available for UPI Withdrawal:</span>
+          <span style="font-size: 2rem; font-weight: 800; color: var(--ok); font-family: 'JetBrains Mono', monospace; display:block; margin: 6px 0;">₹450</span>
+          <button class="btn btn-outline-sm" onclick="showToast('Simulated: ₹450 transferred to registered student UPI ID', 'success')"><i class="fa-solid fa-paper-plane"></i> Withdraw to UPI</button>
+        </div>
+        <div class="stat-pill" style="text-align: left; padding: 18px; border-radius:12px; border:1px solid var(--s1-border-strong);">
+          <span class="text-muted" style="font-size: 0.8rem; text-transform:uppercase; font-family:'JetBrains Mono';">Total Career Earned:</span>
+          <span style="font-size: 2rem; font-weight: 800; color: var(--spark); font-family: 'JetBrains Mono', monospace; display:block; margin: 6px 0;">₹1,350</span>
+          <p class="text-muted" style="font-size: 0.78rem;">3 micro-gigs completed with 5-star reviews.</p>
+        </div>
+        <div class="stat-pill" style="text-align: left; padding: 18px; border-radius:12px; border:1px solid var(--s1-border-strong);">
+          <span class="text-muted" style="font-size: 0.8rem; text-transform:uppercase; font-family:'JetBrains Mono';">College Verified Certificate:</span>
+          <span style="font-size: 1.15rem; font-weight: 700; color: var(--s1-text); display: block; margin: 6px 0;">University 2026 Batch</span>
+          <button class="btn btn-outline-sm" onclick="showToast('Simulated: Verified Experience Certificate PDF generated!', 'info')"><i class="fa-solid fa-file-arrow-down"></i> Download Certificate</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Modals -->
+  <!-- 1. Review Submission Modal -->
+  <div class="modal-overlay" id="submissionReviewModal">
+    <div class="modal-box modal-lg">
+      <div class="modal-header">
+        <div>
+          <h3>Inspect Student Submission</h3>
+          <span class="badge badge-success" id="submissionProjectName">Project Title</span>
+        </div>
+        <button class="modal-close-btn" id="closeReviewModalBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="submission-preview-box">
+          <div class="preview-mock-graphic">
+            <img src="https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=800&auto=format&fit=crop&q=80" alt="Project Deliverable Preview" id="submissionMockImg">
+            <div class="preview-overlay">
+              <span class="tag">Submitted Draft 1.0</span>
+            </div>
+          </div>
+          <div class="submission-notes">
+            <h4>Student Notes:</h4>
+            <p id="submissionNotesText">"Here is the finalized deliverable set for the promotional campaign. Created in high-resolution with company branding guidelines applied!"</p>
+            <div class="submission-links">
+              <a href="#" class="btn btn-outline-sm" onclick="alert('Simulated: Download high-res PNG & PSD files.'); return false;"><i class="fa-solid fa-download"></i> Download Files (.ZIP)</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="escrow-release-card">
+          <h4><i class="fa-solid fa-coins text-warning"></i> Release Escrow &amp; Approve Work</h4>
+          <p>By approving, ₹450 will be transferred to the student's wallet and ₹50 to SkillBridge AI.</p>
+          <div class="release-btn-group">
+            <button class="btn btn-outline" id="requestRevisionBtn">
+              <i class="fa-solid fa-arrows-rotate"></i> Request 1 Free Revision
+            </button>
+            <button class="btn btn-success" id="confirmReleaseEscrowBtn">
+              <i class="fa-solid fa-check-double"></i> Approve &amp; Release ₹450
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Student ID Verification Modal -->
+  <div class="modal-overlay" id="verifyIdModal">
+    <div class="modal-box">
+      <div class="modal-header">
+        <div>
+          <h3><i class="fa-solid fa-id-card"></i> Student College Verification (AI OCR)</h3>
+          <p class="modal-subtitle">Ensures compliance with student-exclusive micro-work guidelines.</p>
+        </div>
+        <button class="modal-close-btn" id="closeVerifyIdModalBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="upload-id-box" id="dropZoneBox">
+          <i class="fa-solid fa-cloud-arrow-up upload-icon"></i>
+          <h4>Upload College ID Card / Semester Fee Slip</h4>
+          <p>Drag and drop image or PDF (JPG, PNG, PDF up to 5MB)</p>
+          <input type="file" id="idFileInput" accept="image/*,.pdf" style="display:none;">
+          <button type="button" class="btn btn-outline-sm" onclick="document.getElementById('idFileInput').click();">Browse Document</button>
+        </div>
+
+        <div class="ocr-status-box" id="ocrStatusBox" style="display: none;">
+          <div class="ocr-spinner"><i class="fa-solid fa-spinner fa-spin"></i> Running Student OCR &amp; Enrollment Validation...</div>
+        </div>
+
+        <div class="verified-card" id="verifiedCard" style="display: none;">
+          <div class="verified-header">
+            <i class="fa-solid fa-circle-check text-success verified-icon"></i>
+            <div>
+              <h4>Identity &amp; College Enrollment Confirmed!</h4>
+              <p class="text-muted">Extracted via AI OCR • State University</p>
+            </div>
+          </div>
+          <div class="verified-meta">
+            <div><span>Student:</span> <strong>Student Partner</strong></div>
+            <div><span>Roll No:</span> <strong>#2024-BCA-084</strong></div>
+            <div><span>Degree:</span> <strong>Bachelor of Computer Applications</strong></div>
+            <div><span>Status:</span> <span class="badge badge-success">Active 2026 Batch</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="finishVerificationBtn">Done &amp; Update Profile</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Floating VAJRA AI Copilot Widget -->
+  <div class="vajra-launcher" id="vajraToggleBtn" title="Open VAJRA AI Assistant">
+    <div class="vajra-pulse"></div>
+    <div class="vajra-btn-content">
+      <i class="fa-solid fa-bolt-lightning"></i>
+      <span>Ask VAJRA AI</span>
+    </div>
+  </div>
+
+  <!-- VAJRA Chat Drawer -->
+  <div class="vajra-chat-drawer" id="vajraDrawer">
+    <div class="vajra-drawer-header">
+      <div class="vajra-header-info">
+        <div class="vajra-avatar"><i class="fa-solid fa-bolt"></i></div>
+        <div>
+          <h4>VAJRA AI Copilot</h4>
+          <span class="vajra-status" id="vajraStatusPill">
+            <span class="dot online"></span> SLM Active (Career Copilot)
+          </span>
+        </div>
+      </div>
+      <button class="vajra-close-btn" id="closeVajraDrawerBtn">&times;</button>
+    </div>
+
+    <div class="vajra-messages" id="vajraMessages">
+      <div class="vajra-msg vajra-bot">
+        <div class="vajra-msg-bubble">
+          <strong>Namaste! ⚡</strong><br>
+          I am your career copilot. Want to know what skills to learn next, or need help with a proposal?
+        </div>
+      </div>
+    </div>
+
+    <div class="vajra-quick-chips" id="vajraQuickChips">
+      <button class="vajra-chip" data-prompt="What skills should I learn to earn more?">🚀 High-Paying Skills</button>
+      <button class="vajra-chip" data-prompt="How should I price a 1-page landing page website?">💰 Pricing Guide</button>
+      <button class="vajra-chip" data-prompt="Help me write a winning proposal for a business gig">⚡ Write Project Proposal</button>
+    </div>
+
+    <form class="vajra-input-form" id="vajraForm">
+      <input type="text" id="vajraInput" placeholder="Ask VAJRA about skills, proposals..." autocomplete="off">
+      <button type="submit" id="vajraSendBtn"><i class="fa-solid fa-paper-plane"></i></button>
+    </form>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="toast-container"></div>
+
+  <!-- Floating Navigation Dock (Multi-Page Navigation) -->
+  <nav class="dock" id="dock" aria-label="Section navigation">
+    <a href="../index.html" class="dock-item" title="Overview">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span>Overview</span>
+    </a>
+    <a href="../jobs/" class="dock-item" title="Marketplace">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3" stroke-linecap="round"/></svg>
+      <span>Gigs</span>
+    </a>
+    <a href="../student/" class="dock-item is-active" title="Student Hub">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round"/></svg>
+      <span>Student</span>
+    </a>
+    <a href="../post-job/" class="dock-item" title="Post a Gig">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+      <span>Post Gig</span>
+    </a>
+    <a href="../economics/" class="dock-item" title="Economics">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+      <span>Economics</span>
+    </a>
+    <a href="../chatbot/" class="dock-item" title="VAJRA AI Copilot">
+      <i class="fa-solid fa-bolt-lightning" style="color:var(--spark);"></i>
+      <span>VAJRA AI</span>
+    </a>
+  </nav>
+
+  <!-- Footer -->
+  <footer class="bottom app-footer">
+    <div class="foot-inner">
+      <div class="foot-top">
+        <div class="foot-brand">
+          <a href="../index.html" style="display:inline-flex;align-items:center;gap:10px;">
+            <div class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+            <span>SkillBridge<span class="spark">AI</span></span>
+          </a>
+          <p>Evidence-driven campus micro-freelancing and automated escrow platform.</p>
+        </div>
+        <div class="foot-cols">
+          <div class="foot-col">
+            <h4>Portals</h4>
+            <a href="../jobs/">Browse Gigs</a>
+            <a href="../student/">Student Hub</a>
+            <a href="../post-job/">Post a Gig</a>
+            <a href="../economics/">Economics</a>
+            <a href="../chatbot/">VAJRA AI Copilot</a>
+          </div>
+        </div>
+        <div class="foot-license">
+          <h4>Pitchathon Demo</h4>
+          <p>Built for Campus Entrepreneurship &amp; Hackathon Demonstrations. Licensed under Apache 2.0.</p>
+        </div>
+      </div>
+      <div class="foot-bottom">
+        <span>&copy; 2026 SkillBridge AI &bull; Evidence-driven campus ecosystem</span>
+        <a href="https://github.com/Aravkataria/NAVDRISHTI" target="_blank" rel="noopener">github.com/Aravkataria/NAVDRISHTI &nearr;</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../app.js"></script>
+</body>
+</html>

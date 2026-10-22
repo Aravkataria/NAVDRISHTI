@@ -432,24 +432,48 @@ def serve_index():
     return send_from_directory('.', 'index.html')
 
 @app.route('/jobs')
+@app.route('/jobs/')
+@app.route('/jobs/index.html')
 @app.route('/pages/jobs.html')
 def serve_jobs():
+    if os.path.exists(os.path.join(os.path.dirname(__file__), 'jobs', 'index.html')):
+        return send_from_directory('jobs', 'index.html')
     return send_from_directory('pages', 'jobs.html')
 
+@app.route('/student')
+@app.route('/student/')
+@app.route('/student/index.html')
 @app.route('/student-dashboard')
 @app.route('/pages/student-dashboard.html')
 def serve_student_dashboard():
+    if os.path.exists(os.path.join(os.path.dirname(__file__), 'student', 'index.html')):
+        return send_from_directory('student', 'index.html')
     return send_from_directory('pages', 'student-dashboard.html')
 
 @app.route('/post-job')
+@app.route('/post-job/')
+@app.route('/post-job/index.html')
 @app.route('/pages/post-job.html')
 def serve_post_job():
+    if os.path.exists(os.path.join(os.path.dirname(__file__), 'post-job', 'index.html')):
+        return send_from_directory('post-job', 'index.html')
     return send_from_directory('pages', 'post-job.html')
 
+@app.route('/economics')
+@app.route('/economics/')
+@app.route('/economics/index.html')
 @app.route('/how-it-works')
 @app.route('/pages/how-it-works.html')
 def serve_how_it_works():
+    if os.path.exists(os.path.join(os.path.dirname(__file__), 'economics', 'index.html')):
+        return send_from_directory('economics', 'index.html')
     return send_from_directory('pages', 'how-it-works.html')
+
+@app.route('/chatbot')
+@app.route('/chatbot/')
+@app.route('/chatbot/index.html')
+def serve_chatbot():
+    return send_from_directory('chatbot', 'index.html')
 
 @app.route('/<path:path>')
 def serve_static(path):

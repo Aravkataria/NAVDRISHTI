@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How It Works & Economics — SkillBridge AI</title>
+  <title>Unit Economics &amp; Escrow Model — SkillBridge AI</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <link rel="stylesheet" href="../styles.css">
 </head>
@@ -15,38 +15,35 @@
   <!-- Top Announcement Bar -->
   <div class="announcement-bar">
     <div class="container announcement-content">
-      <span><i class="fa-solid fa-calculator"></i> <strong>Transparent Unit Economics:</strong> 10% Flat Take-Rate • 90% Direct Student Payout • Instant GST Invoice.</span>
+      <span><i class="fa-solid fa-calculator text-spark"></i> <strong>Transparent Unit Economics:</strong> 10% Flat Take-Rate • 90% Direct Student Payout • Instant Automated GST Invoice.</span>
       <div class="demo-reset">
         <span id="backendStatusBadge" class="backend-badge"><i class="fa-solid fa-circle-notch fa-spin"></i> Checking Backend...</span>
-        <button id="resetDataBtn" title="Reset sample demo data"><i class="fa-solid fa-rotate-left"></i> Reset</button>
+        <button id="resetDataBtn" title="Reset sample demo data"><i class="fa-solid fa-rotate-left"></i> Reset Demo</button>
       </div>
     </div>
   </div>
 
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="container nav-container">
-      <a href="../index.html" class="nav-brand">
-        <div class="logo-icon">
-          <i class="fa-solid fa-bolt-lightning"></i>
-        </div>
-        <div class="logo-text">
-          <span class="brand-title">SkillBridge<span class="brand-ai">AI</span></span>
-          <span class="brand-subtitle">Student Micro-Gigs</span>
-        </div>
-      </a>
-
-      <!-- Multi-Page Navigation Links -->
-      <div class="nav-links">
-        <a href="../index.html" class="nav-link"><i class="fa-solid fa-house"></i> Home</a>
-        <a href="jobs.html" class="nav-link"><i class="fa-solid fa-compass"></i> Find Gigs</a>
-        <a href="student-dashboard.html" class="nav-link"><i class="fa-solid fa-user-graduate"></i> Student Hub</a>
-        <a href="post-job.html" class="nav-link"><i class="fa-solid fa-store"></i> Post a Gig</a>
-        <a href="how-it-works.html" class="nav-link active"><i class="fa-solid fa-circle-question"></i> Economics</a>
+  <!-- Navigation Bar (VAJRA S1 Sticky) -->
+  <header class="top" id="top">
+    <div class="nav-inner">
+      <div class="nav-left">
+        <a class="brand" href="../index.html">
+          <div class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+          <span>SkillBridge<span class="spark">AI</span></span>
+        </a>
+        <span class="slash">/</span>
+        <nav class="nav-links">
+          <a href="../index.html">Overview</a>
+          <a href="../jobs/">Marketplace</a>
+          <a href="../student/">Student Hub</a>
+          <a href="../post-job/">Post a Gig</a>
+          <a href="../economics/" class="active">Economics</a>
+          <a href="../chatbot/" style="color:var(--spark);font-weight:700;">VAJRA AI ⚡</a>
+        </nav>
       </div>
 
-      <!-- Nav Actions -->
-      <div class="nav-actions">
+      <div class="nav-right">
+        <!-- Persona Switcher -->
         <div class="persona-switcher-box">
           <div class="persona-toggle-group">
             <button id="studentPersonaBtn" class="persona-btn active" title="Switch to Student View">
@@ -58,17 +55,17 @@
           </div>
         </div>
 
-        <button id="themeToggleBtn" class="theme-toggle-btn" title="Toggle Dark/Light Mode">
-          <i class="fa-solid fa-moon"></i>
+        <button class="icon-btn" id="themeToggleBtn" aria-label="Toggle dark mode" title="Toggle Theme">
+          <svg class="moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>
+          <svg class="sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"></path></svg>
         </button>
 
-        <!-- Far-Right Profile Button (Normal App Style) -->
+        <!-- Far-Right Profile Button -->
         <div class="profile-menu-container">
           <button id="navProfileBtn" class="nav-profile-btn" aria-label="User Account Profile" title="Account & Profile">
             <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Profile" class="nav-profile-avatar" id="navProfileAvatar">
             <span class="nav-profile-dot"></span>
           </button>
-
           <div class="profile-dropdown-card" id="profileDropdown">
             <div class="dropdown-header">
               <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Profile" class="dropdown-avatar" id="dropdownAvatar">
@@ -77,7 +74,6 @@
                 <span class="dropdown-subtext" id="dropdownUserRole">College Verified Partner</span>
               </div>
             </div>
-
             <div class="dropdown-stat-row">
               <div class="stat-cell">
                 <span class="stat-label">Wallet</span>
@@ -85,104 +81,98 @@
               </div>
               <div class="stat-cell">
                 <span class="stat-label">College ID</span>
-                <span class="badge badge-success" id="dropdownIdStatus">Verified ✓</span>
+                <span class="badge badge-success" id="dropdownIdStatus" style="position:static;display:inline-block;padding:2px 8px;border-radius:4px;">Verified ✓</span>
               </div>
             </div>
-
             <div class="dropdown-links-list">
-              <a href="student-dashboard.html" class="dropdown-item" id="dropdownProfileLink">
-                <i class="fa-solid fa-user-graduate"></i> View Student Hub
-              </a>
-              <a href="jobs.html" class="dropdown-item">
-                <i class="fa-solid fa-compass"></i> Find Open Gigs
-              </a>
-              <a href="student-dashboard.html#verify" class="dropdown-item">
-                <i class="fa-solid fa-id-card"></i> College ID Verification
-              </a>
-              <a href="post-job.html" class="dropdown-item">
-                <i class="fa-solid fa-store"></i> Company Portal
-              </a>
+              <a href="../student/" class="dropdown-item"><i class="fa-solid fa-user-graduate"></i> View Student Hub</a>
+              <a href="../jobs/" class="dropdown-item"><i class="fa-solid fa-compass"></i> Find Open Gigs</a>
+              <a href="../post-job/" class="dropdown-item"><i class="fa-solid fa-store"></i> Company Portal</a>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </nav>
+  </header>
 
   <!-- Page Header Banner -->
   <div class="page-header-banner">
     <div class="container">
-      <span class="badge badge-primary" style="margin-bottom: 8px;">Business Model & Transparency</span>
-      <h1>How SkillBridge AI Works</h1>
-      <p>A zero-friction, compliant marketplace bridging college talent and local businesses.</p>
+      <div class="eyebrow" style="text-align:left;margin-bottom:10px;">// transparent platform unit economics</div>
+      <h1 style="font-size:clamp(32px, 5vw, 44px);font-weight:700;letter-spacing:-0.03em;margin-bottom:8px;">
+        10% Business Model &amp; <span class="accent">Legal Architecture</span>
+      </h1>
+      <p style="color:var(--s1-text-60);font-size:16px;max-width:640px;">
+        A zero-friction, regulatory-compliant marketplace bridging college talent and local businesses. 90% direct student take-home, 10% flat platform fee.
+      </p>
     </div>
   </div>
 
-  <main class="container">
+  <main class="container" style="padding-bottom: 120px;">
     <!-- 4 Steps Visual Flow -->
     <div class="section-card">
-      <div class="info-header text-center">
-        <span class="badge badge-primary">The Micro-Gig Lifecycle</span>
-        <h2>4 Steps from Job Post to Verified Payout</h2>
-        <p>Built for fast execution, guaranteed escrow safety, and student portfolio building.</p>
+      <div class="info-header text-center" style="margin-bottom:32px;">
+        <span class="badge badge-primary" style="margin-bottom:8px;font-family:'JetBrains Mono';">The Micro-Gig Lifecycle</span>
+        <h2 style="font-size:1.8rem;font-weight:700;letter-spacing:-0.02em;">4 Steps from Job Post to Verified Escrow Payout</h2>
+        <p style="color:var(--s1-text-60);font-size:14px;margin-top:6px;">Built for fast execution, guaranteed escrow safety, and verified student portfolio building.</p>
       </div>
 
       <div class="steps-grid">
         <div class="step-card">
           <div class="step-badge">1</div>
-          <div class="step-icon"><i class="fa-solid fa-store"></i></div>
-          <h4>Business Posts Gig</h4>
-          <p>A company or local business posts a ₹500–₹1,500 task with simulated escrow funded upfront.</p>
+          <div class="step-icon"><i class="fa-solid fa-store text-spark"></i></div>
+          <h4 style="font-size:15px;font-weight:700;margin:8px 0 4px;">Business Posts Gig</h4>
+          <p style="font-size:13px;color:var(--s1-text-60);">A company or local business posts a ₹500–₹2,500 task with simulated escrow funded upfront.</p>
         </div>
 
         <div class="step-card">
           <div class="step-badge">2</div>
-          <div class="step-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
-          <h4>AI Smart Match</h4>
-          <p>Heuristic matching algorithm ranks students by skill tags, availability, and college status.</p>
+          <div class="step-icon"><i class="fa-solid fa-wand-magic-sparkles text-spark"></i></div>
+          <h4 style="font-size:15px;font-weight:700;margin:8px 0 4px;">AI Smart Match</h4>
+          <p style="font-size:13px;color:var(--s1-text-60);">Matching heuristic algorithm ranks students by verified skill tags, availability, and college status.</p>
         </div>
 
         <div class="step-card">
           <div class="step-badge">3</div>
-          <div class="step-icon"><i class="fa-solid fa-file-arrow-up"></i></div>
-          <h4>Student Delivers Work</h4>
-          <p>Draft submitted within 48 hours. Client inspects work, requests tweaks, or approves with 1 click.</p>
+          <div class="step-icon"><i class="fa-solid fa-file-arrow-up text-spark"></i></div>
+          <h4 style="font-size:15px;font-weight:700;margin:8px 0 4px;">Student Delivers Work</h4>
+          <p style="font-size:13px;color:var(--s1-text-60);">Draft submitted within 24 to 48 hours. Client inspects work, requests tweaks, or approves with 1 click.</p>
         </div>
 
         <div class="step-card highlight-step">
           <div class="step-badge">4</div>
-          <div class="step-icon"><i class="fa-solid fa-hand-holding-dollar"></i></div>
-          <h4>10% Revenue Split</h4>
-          <p>Student gets ₹450 (90%) directly. Platform captures ₹50 (10%) with automated GST invoice.</p>
+          <div class="step-icon"><i class="fa-solid fa-hand-holding-dollar text-ok"></i></div>
+          <h4 style="font-size:15px;font-weight:700;margin:8px 0 4px;">10% Revenue Split</h4>
+          <p style="font-size:13px;color:var(--s1-text-60);">Student gets ₹450 (90%) directly. Platform captures ₹50 (10%) with automated GST invoice.</p>
         </div>
       </div>
 
       <!-- Live Revenue Simulator Tool -->
-      <div class="simulator-box">
+      <div class="simulator-box" style="margin-top:36px;">
         <div class="sim-header">
-          <h4><i class="fa-solid fa-calculator"></i> Interactive Platform Revenue Calculator</h4>
-          <span>Drag the slider to test unit economics across different project sizes</span>
+          <h4 style="font-size:15px;font-weight:700;"><i class="fa-solid fa-calculator text-spark"></i> Interactive Platform Revenue Simulator</h4>
+          <span style="font-family:'JetBrains Mono';font-size:11.5px;color:var(--s1-text-60);">Drag the slider to test unit economics across different project sizes</span>
         </div>
         <div class="sim-content">
           <div class="sim-input-group">
-            <label for="calcProjectBudget">Project Budget (₹):</label>
+            <label for="calcProjectBudget" style="font-weight:600;font-size:13px;">Project Budget (₹):</label>
             <input type="range" id="calcProjectBudget" min="300" max="5000" step="100" value="500">
-            <span class="sim-val" id="calcBudgetValue">₹500</span>
+            <span class="sim-val" id="calcBudgetValue" style="font-family:'JetBrains Mono';font-size:18px;font-weight:700;color:var(--spark);">₹500</span>
           </div>
           <div class="sim-breakdown">
             <div class="sim-split-item student-split">
               <span class="sim-label">Student Earnings (90%)</span>
-              <span class="sim-amount" id="calcStudentCut">₹450</span>
+              <span class="sim-amount" id="calcStudentCut" style="font-family:'JetBrains Mono';font-weight:700;">₹450</span>
             </div>
             <div class="sim-split-divider">+</div>
             <div class="sim-split-item platform-split">
               <span class="sim-label">SkillBridge Fee (10%)</span>
-              <span class="sim-amount" id="calcPlatformCut">₹50</span>
+              <span class="sim-amount" id="calcPlatformCut" style="font-family:'JetBrains Mono';font-weight:700;">₹50</span>
             </div>
             <div class="sim-split-divider">=</div>
             <div class="sim-split-item total-split">
               <span class="sim-label">Total Escrow</span>
-              <span class="sim-amount" id="calcTotalEscrow">₹500</span>
+              <span class="sim-amount" id="calcTotalEscrow" style="font-family:'JetBrains Mono';font-weight:700;">₹500</span>
             </div>
           </div>
         </div>
@@ -192,8 +182,8 @@
     <!-- Regulatory & Legal Architecture Cards -->
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px; margin: 40px 0;">
       <div class="section-card" style="margin-bottom:0;">
-        <i class="fa-solid fa-scale-balanced text-primary" style="font-size: 1.8rem; margin-bottom: 12px;"></i>
-        <h4>Standard Micro-Contracts (IP Rights)</h4>
+        <i class="fa-solid fa-scale-balanced text-spark" style="font-size: 1.8rem; margin-bottom: 12px;"></i>
+        <h4 style="font-size:16px;font-weight:700;margin-bottom:8px;">Standard Micro-Contracts (IP Rights)</h4>
         <p class="text-muted" style="font-size: 0.88rem; line-height: 1.6;">
           Under Indian Intellectual Property Law, creators naturally own their work unless assigned in writing. 
           SkillBridge AI enforces a mandatory 1-click IP transfer clause in every application, ensuring business clients own 100% of commercial usage rights upon milestone payout.
@@ -201,19 +191,18 @@
       </div>
 
       <div class="section-card" style="margin-bottom:0;">
-        <i class="fa-solid fa-file-invoice-dollar text-success" style="font-size: 1.8rem; margin-bottom: 12px;"></i>
-        <h4>TDS & GST Compliance (Indian Tax Norms)</h4>
+        <i class="fa-solid fa-file-invoice-dollar text-ok" style="font-size: 1.8rem; margin-bottom: 12px;"></i>
+        <h4 style="font-size:16px;font-weight:700;margin-bottom:8px;">GST &amp; Tax Compliance</h4>
         <p class="text-muted" style="font-size: 0.88rem; line-height: 1.6;">
-          Micro-freelance gigs below ₹30,000 are TDS-exempt under Section 194J/194C thresholds. 
-          For platform commission, SkillBridge AI generates GSTIN-compliant tax invoices charging 18% GST on the 10% platform fee, allowing registered local shops to claim input tax credits.
+          The 10% platform commission includes 18% GST on facilitation fees. Corporate clients receive automated GST tax invoices with valid HSN/SAC codes for accounting write-offs.
         </p>
       </div>
 
       <div class="section-card" style="margin-bottom:0;">
-        <i class="fa-solid fa-shield-heart text-warning" style="font-size: 1.8rem; margin-bottom: 12px;"></i>
-        <h4>College Verification Safeguards</h4>
+        <i class="fa-solid fa-id-card-clip text-info" style="font-size: 1.8rem; margin-bottom: 12px;"></i>
+        <h4 style="font-size:16px;font-weight:700;margin-bottom:8px;">DigiLocker &amp; OCR College Proof</h4>
         <p class="text-muted" style="font-size: 0.88rem; line-height: 1.6;">
-          To prevent marketplace abuse and ensure students only compete with peers, SkillBridge validates student enrollment using AI OCR on university ID cards and fee receipts.
+          Students upload university enrollment cards or fee receipts. Automated OCR validates active college status, safeguarding student-exclusive work opportunities against external agency spam.
         </p>
       </div>
     </div>
@@ -236,7 +225,7 @@
         <div>
           <h4>VAJRA AI Copilot</h4>
           <span class="vajra-status" id="vajraStatusPill">
-            <span class="dot online"></span> SLM Active (Economics Guide)
+            <span class="dot online"></span> SLM Active (Economics Assistant)
           </span>
         </div>
       </div>
@@ -247,15 +236,15 @@
       <div class="vajra-msg vajra-bot">
         <div class="vajra-msg-bubble">
           <strong>Namaste! ⚡</strong><br>
-          Curious about our 10% take-rate, escrow mechanics, or legal micro-contracts? Ask me anything!
+          Have questions regarding our 10% unit economics, simulated escrow, or legal IP transfer framework? Ask me anything!
         </div>
       </div>
     </div>
 
     <div class="vajra-quick-chips" id="vajraQuickChips">
-      <button class="vajra-chip" data-prompt="How should I price a 1-page landing page website?">💰 Fair Pricing</button>
-      <button class="vajra-chip" data-prompt="Help me write a winning proposal for a business gig">⚡ Proposal Generator</button>
-      <button class="vajra-chip" data-prompt="Draft a job post for a 30-sec reel editor">📝 Job Post Template</button>
+      <button class="vajra-chip" data-prompt="How does the 10% platform fee work?">💰 10% Platform Fee</button>
+      <button class="vajra-chip" data-prompt="Explain SkillBridge simulated escrow protection">🔒 Escrow Protection</button>
+      <button class="vajra-chip" data-prompt="What is the commercial IP transfer clause?">📜 IP Rights Transfer</button>
     </div>
 
     <form class="vajra-input-form" id="vajraForm">
@@ -267,43 +256,63 @@
   <!-- Toast Notification Container -->
   <div id="toastContainer" class="toast-container"></div>
 
-  <!-- Floating Navigation Dock (VAJRA Style) -->
-  <nav class="dock" id="floatingDock">
-    <a href="../index.html" class="dock-item" title="Home">
-      <i class="fa-solid fa-house"></i>
-      <span>Home</span>
+  <!-- Floating Navigation Dock (Multi-Page Navigation) -->
+  <nav class="dock" id="dock" aria-label="Section navigation">
+    <a href="../index.html" class="dock-item" title="Overview">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <span>Overview</span>
     </a>
-    <a href="jobs.html" class="dock-item" title="Find Gigs">
-      <i class="fa-solid fa-compass"></i>
-      <span>Find Gigs</span>
+    <a href="../jobs/" class="dock-item" title="Marketplace">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3" stroke-linecap="round"/></svg>
+      <span>Gigs</span>
     </a>
-    <a href="student-dashboard.html" class="dock-item" title="Student Hub">
-      <i class="fa-solid fa-user-graduate"></i>
-      <span>Student Hub</span>
+    <a href="../student/" class="dock-item" title="Student Hub">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round"/></svg>
+      <span>Student</span>
     </a>
-    <a href="post-job.html" class="dock-item" title="Post a Gig">
-      <i class="fa-solid fa-store"></i>
-      <span>Post a Gig</span>
+    <a href="../post-job/" class="dock-item" title="Post a Gig">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2 4 14h7l-1 8 9-12h-7l1-8Z"/></svg>
+      <span>Post Gig</span>
     </a>
-    <a href="how-it-works.html" class="dock-item is-active" title="Economics">
-      <i class="fa-solid fa-circle-question"></i>
+    <a href="../economics/" class="dock-item is-active" title="Economics">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
       <span>Economics</span>
+    </a>
+    <a href="../chatbot/" class="dock-item" title="VAJRA AI Copilot">
+      <i class="fa-solid fa-bolt-lightning" style="color:var(--spark);"></i>
+      <span>VAJRA AI</span>
     </a>
   </nav>
 
   <!-- Footer -->
-  <footer class="app-footer">
-    <div class="container footer-content">
-      <div class="footer-left">
-        <div class="logo-icon small"><i class="fa-solid fa-bolt-lightning"></i></div>
-        <span><strong>SkillBridge AI</strong> — Developed for Pitchathon & Hackathon Demonstrations.</span>
+  <footer class="bottom app-footer">
+    <div class="foot-inner">
+      <div class="foot-top">
+        <div class="foot-brand">
+          <a href="../index.html" style="display:inline-flex;align-items:center;gap:10px;">
+            <div class="logo-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+            <span>SkillBridge<span class="spark">AI</span></span>
+          </a>
+          <p>Evidence-driven campus micro-freelancing and automated escrow platform.</p>
+        </div>
+        <div class="foot-cols">
+          <div class="foot-col">
+            <h4>Portals</h4>
+            <a href="../jobs/">Browse Gigs</a>
+            <a href="../student/">Student Hub</a>
+            <a href="../post-job/">Post a Gig</a>
+            <a href="../economics/">Economics</a>
+            <a href="../chatbot/">VAJRA AI Copilot</a>
+          </div>
+        </div>
+        <div class="foot-license">
+          <h4>Pitchathon Demo</h4>
+          <p>Built for Campus Entrepreneurship &amp; Hackathon Demonstrations. Licensed under Apache 2.0.</p>
+        </div>
       </div>
-      <div class="footer-links">
-        <a href="../index.html">Home</a>
-        <a href="jobs.html">Browse Gigs</a>
-        <a href="student-dashboard.html">Student Hub</a>
-        <a href="post-job.html">Post a Gig</a>
-        <a href="how-it-works.html">Economics</a>
+      <div class="foot-bottom">
+        <span>&copy; 2026 SkillBridge AI &bull; Evidence-driven campus ecosystem</span>
+        <a href="https://github.com/Aravkataria/NAVDRISHTI" target="_blank" rel="noopener">github.com/Aravkataria/NAVDRISHTI &nearr;</a>
       </div>
     </div>
   </footer>
