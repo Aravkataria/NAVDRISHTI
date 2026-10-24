@@ -747,6 +747,19 @@ function setupRevenueCalculator() {
 
 // Shared Listeners
 function initSharedEventListeners() {
+  // Sticky Navbar Scroll Elevation & Tracking
+  const headerEl = document.querySelector("header.top, .navbar");
+  if (headerEl) {
+    const handleScroll = () => {
+      if (window.scrollY > 8) {
+        headerEl.classList.add("is-scrolled");
+      } else {
+        headerEl.classList.remove("is-scrolled");
+      }
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+  }
   initTheme();
   initPersonaSwitcher();
   initVajraAssistant();
