@@ -3329,3 +3329,60 @@ img, video, canvas, svg {
     right: 12px;
   }
 }
+
+
+/* Profile Pill Button in Navbar (Styled like Launch Web App in reference) */
+.nav-profile-pill {
+  background: var(--s1-text);
+  color: var(--s1-bg);
+  font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  letter-spacing: -0.01em;
+  line-height: 1;
+  text-decoration: none;
+}
+
+.nav-profile-pill:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+.nav-profile-pill .avatar-tiny {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  display: block;
+}
+
+[data-theme="light"] .nav-profile-pill .avatar-tiny {
+  border-color: rgba(255, 255, 255, 0.35);
+}
+
+[data-theme="light"] .nav-profile-pill {
+  background: #000000;
+  color: #ffffff;
+}
+
+/* Ensure announcement bar is hidden for the ultra-clean hero layout */
+.announcement-bar {
+  display: none !important;
+}
+
+/* Ensure solid high-contrast hero typography */
+h1.hero-h .accent {
+  background: none;
+  -webkit-background-clip: initial;
+  background-clip: initial;
+  color: var(--s2-text);
+}
