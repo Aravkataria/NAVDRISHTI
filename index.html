@@ -190,25 +190,89 @@
           </div>
         </div>
 
-        <div class="scroll-hint">Scroll to explore live gigs ↓</div>
+        <div class="scroll-hint">Scroll to explore NAVDRISHTI platform ecosystem &darr;</div>
       </div>
     </section>
 
     <!-- Downloads / Live Micro-Gigs Panel (S1) -->
     <section class="downloads" id="gigs">
       <div class="dl-head">
-        <h2>Explore <span class="accent">Micro-Gigs</span></h2>
-        <p>Active paid tasks posted by verified companies and neighborhood businesses. Apply instantly with 90% student take-home.</p>
-        <div style="margin-top: 16px;">
-          <a class="btn-get" href="jobs/" style="display:inline-flex;align-items:center;gap:6px;font-weight:700;">
-            Browse All Gigs Marketplace &rarr;
-          </a>
+        <h2>NAVDRISHTI <span class="accent">Ecosystem</span></h2>
+        <p>Evidence-driven campus micro-freelancing & smart escrow architecture. Select any dedicated application workspace below:</p>
+      </div>
+
+      <!-- Application Directory Cards directing to different NAVDRISHTI pages -->
+      <div class="dl-outer">
+        <div class="dl-grid">
+
+          <div class="dl-card">
+            <span class="badge" style="background:#5fbf7a;color:#000;">Live Gigs</span>
+            <h3>Marketplace</h3>
+            <div class="sub">Browse active student micro-gigs & submit proposals</div>
+            <div class="file">NAVDRISHTI/jobs/</div>
+            <ul class="dl-feats">
+              <li>5+ Active micro-tasks with live budgets</li>
+              <li>₹500 – ₹2,500 milestone escrow funded</li>
+              <li>1-Click proposal submission & file upload</li>
+            </ul>
+            <a class="dl-btn" href="jobs/">Launch Marketplace &rarr;</a>
+          </div>
+
+          <div class="dl-card hi">
+            <span class="badge">Student Hub</span>
+            <h3>Student Career Hub</h3>
+            <div class="sub">College freelancer earnings & portfolio workspace</div>
+            <div class="file">NAVDRISHTI/student/</div>
+            <ul class="dl-feats">
+              <li>Track wallet earnings & payout logs</li>
+              <li>College ID verification badge</li>
+              <li>Commercial proof-of-work portfolio</li>
+            </ul>
+            <a class="dl-btn" href="student/">Open Student Hub &rarr;</a>
+          </div>
+
+          <div class="dl-card">
+            <span class="badge" style="background:#38bdf8;color:#000;">Merchant</span>
+            <h3>Post a Micro-Gig</h3>
+            <div class="sub">Hire verified college talent for discrete digital tasks</div>
+            <div class="file">NAVDRISHTI/post-job/</div>
+            <ul class="dl-feats">
+              <li>Zero upfront agency retainers</li>
+              <li>60-second micro-project publishing</li>
+              <li>Milestone escrow security with UPI deposit</li>
+            </ul>
+            <a class="dl-btn" href="post-job/">Post a Micro-Gig &rarr;</a>
+          </div>
+
+          <div class="dl-card">
+            <span class="badge" style="background:#a855f7;color:#fff;">10% Model</span>
+            <h3>Unit Economics</h3>
+            <div class="sub">Transparent 10% fee & legal escrow framework</div>
+            <div class="file">NAVDRISHTI/economics/</div>
+            <ul class="dl-feats">
+              <li>Interactive revenue slider (10% fee / 90% payout)</li>
+              <li>Self-executing milestone escrow release</li>
+              <li>Automated digital IP copyright assignment</li>
+            </ul>
+            <a class="dl-btn" href="economics/">Explore Economics &rarr;</a>
+          </div>
+
         </div>
       </div>
 
-      <!-- Dynamic Projects Feed Container -->
-      <div class="projects-grid" id="projectsContainer">
-        <!-- Dynamically populated by app.js -->
+      <!-- SkillBridge AI Copilot Dedicated Action Card -->
+      <div class="core-band" style="margin-top: 24px;">
+        <div style="flex: 1;">
+          <h4 style="font-size: 15px; font-weight: 700; color: var(--s1-text); margin-bottom: 4px; display: flex; align-items: center; gap: 8px;">
+            <i class="fa-solid fa-bolt text-spark"></i> SkillBridge AI Copilot Workspace
+          </h4>
+          <p style="font-size: 13px; color: var(--s1-text-60); margin: 0;">Dedicated reasoning assistant to draft high-converting student proposals, calculate fair micro-budgets, and scope merchant deliverables.</p>
+        </div>
+        <div class="core-links">
+          <a class="core-link" href="chatbot/" style="background: var(--spark); color: #000000; font-weight: 700; border-color: var(--spark);">
+            Launch AI Workspace &rarr;
+          </a>
+        </div>
       </div>
 
       <!-- Integrated Minimalist Terminal Protocol Block -->
@@ -505,61 +569,6 @@
       <span>SkillBridge AI</span>
     </a>
   </nav>
-
-  <!-- Apply Modal (For Dynamic Gigs) -->
-  <div class="modal-overlay" id="applyModal">
-    <div class="modal-box">
-      <div class="modal-header">
-        <div>
-          <h3 id="modalProjectTitle">Apply for Project</h3>
-          <span class="badge badge-primary" id="modalProjectClient">Client</span>
-        </div>
-        <button class="modal-close-btn" id="closeApplyModalBtn">&times;</button>
-      </div>
-      <div class="modal-body">
-        <div class="modal-project-summary">
-          <div class="summary-item">
-            <span>Budget:</span>
-            <strong id="modalProjectBudget">₹500</strong>
-          </div>
-          <div class="summary-item">
-            <span>Student Take-Home (90%):</span>
-            <strong class="text-success" id="modalStudentTakeHome">₹450</strong>
-          </div>
-          <div class="summary-item">
-            <span>Escrow Status:</span>
-            <span class="badge badge-success"><i class="fa-solid fa-lock"></i> 100% Escrow Funded</span>
-          </div>
-        </div>
-
-        <form id="applyProjectForm">
-          <div class="form-group">
-            <label for="applyCoverLetter">Quick Pitch / Strategy for this Task:</label>
-            <textarea id="applyCoverLetter" rows="3" class="form-control" required placeholder="Hi! I have made several Instagram carousel posters for college events using Canva and Figma. I can deliver 3 variations within 24 hours."></textarea>
-          </div>
-          <div class="form-group">
-            <label for="applyPortfolioLink">Portfolio / Sample Work Link (Drive/Behance/GitHub):</label>
-            <input type="url" id="applyPortfolioLink" class="form-control" placeholder="https://behance.net/student-portfolio" value="https://behance.net/student-portfolio">
-          </div>
-
-          <div class="legal-box">
-            <label class="checkbox-container">
-              <input type="checkbox" id="legalCheckbox" checked required>
-              <span class="checkmark"></span>
-              <span class="legal-text">
-                <strong>Standard SkillBridge Micro-Contract:</strong> All commercial IP & copyright rights transfer entirely to the business client upon milestone approval and payment release.
-              </span>
-            </label>
-          </div>
-
-          <div class="modal-footer">
-            <button type="button" class="btn btn-outline" id="cancelApplyBtn">Cancel</button>
-            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-paper-plane"></i> Submit Application</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 
   <!-- Floating SkillBridge AI Copilot Widget -->
   <div class="vajra-launcher" id="vajraToggleBtn" title="Open SkillBridge AI Assistant">
