@@ -3409,3 +3409,26 @@ h1.hero-h .accent {
   background-clip: initial;
   color: var(--s2-text);
 }
+
+
+/* Responsive Profile Pill Adaptations */
+@media (max-width: 480px) {
+  .nav-profile-pill {
+    padding: 6px 10px;
+    font-size: 12px;
+    gap: 6px;
+  }
+  .nav-profile-pill .avatar-tiny {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+@media (max-width: 380px) {
+  .nav-profile-pill {
+    padding: 5px 8px;
+  }
+  .nav-profile-pill span {
+    display: none;
+  }
+}
