@@ -1,6 +1,6 @@
 """
-ARGUS — Lightweight Python Flask + SQLite Backend API
-Includes REST API endpoints, SQLite persistence, and ARGUS AI Chatbot Copilot.
+SkillBridge — Lightweight Python Flask + SQLite Backend API
+Includes REST API endpoints, SQLite persistence, and SkillBridge AI Chatbot Copilot.
 """
 
 import json
@@ -12,7 +12,7 @@ from flask import Flask, jsonify, request, send_from_directory
 
 app = Flask(__name__, static_folder='.', static_url_path='')
 
-DB_PATH = os.path.join(os.path.dirname(__file__), 'argus.db')
+DB_PATH = os.path.join(os.path.dirname(__file__), 'skillbridge.db')
 OLLAMA_API_URL = "http://127.0.0.1:11434"
 
 # CORS Header Injection
@@ -155,7 +155,7 @@ def python_match_score(project_skills, student_skills, budget):
 # --- VAJRA SLM / LLM ASSISTANT LOGIC ---
 def is_ollama_online():
     try:
-        req = urllib.request.Request(f"{OLLAMA_API_URL}/api/tags", headers={"User-Agent": "ARGUS"})
+        req = urllib.request.Request(f"{OLLAMA_API_URL}/api/tags", headers={"User-Agent": "SkillBridge"})
         with urllib.request.urlopen(req, timeout=1.0) as res:
             return res.status == 200
     except Exception:
@@ -167,7 +167,7 @@ def query_ollama(prompt, model="qwen2.5-coder:7b-instruct"):
             "model": model,
             "prompt": prompt,
             "stream": False,
-            "system": "You are ARGUS, an intelligent AI assistant embedded in ARGUS. You help college students write winning proposals, learn high-paying digital skills, and help local businesses scope micro-projects."
+            "system": "You are SkillBridge AI, an intelligent AI assistant embedded in SkillBridge. You help college students write winning proposals, learn high-paying digital skills, and help local businesses scope micro-projects."
         }).encode("utf-8")
 
         req = urllib.request.Request(
@@ -186,7 +186,7 @@ def vajra_domain_fallback(prompt, persona="student"):
 
     if "proposal" in p_lower or "pitch" in p_lower or "apply" in p_lower or "bakery" in p_lower:
         return (
-            "⚡ **ARGUS Proposal Draft:**\n\n"
+            "⚡ **SkillBridge Proposal Draft:**\n\n"
             "\"Namaste! I saw your requirement for the design deliverables. I am a college student specializing in digital design and modern media with active experience in Canva and Figma. "
             "I will create 3 high-converting 1080x1350 slides using modern brand colors and readable font pairings for mobile screens.\n\n"
             "✅ Delivery: Within 24-48 hours\n"
@@ -197,7 +197,7 @@ def vajra_domain_fallback(prompt, persona="student"):
 
     if "price" in p_lower or "budget" in p_lower or "charge" in p_lower or "website" in p_lower:
         return (
-            "⚡ **ARGUS Pricing Guidance for Micro-Gigs:**\n\n"
+            "⚡ **SkillBridge Pricing Guidance for Micro-Gigs:**\n\n"
             "• **Basic 1-Page Landing Page:** ₹1,200 – ₹1,800 (HTML/CSS + Contact Form)\n"
             "• **Instagram Poster / Carousel (3 slides):** ₹500 – ₹800\n"
             "• **30-sec Short/Reel Edit:** ₹800 – ₹1,200 (Cut + Music + Captions)\n"
@@ -207,7 +207,7 @@ def vajra_domain_fallback(prompt, persona="student"):
 
     if "skill" in p_lower or "learn" in p_lower or "earn" in p_lower:
         return (
-            "⚡ **ARGUS Student Skill Roadmap (2026-2027):**\n\n"
+            "⚡ **SkillBridge Student Skill Roadmap (2026-2027):**\n\n"
             "1. **From Canva ➔ Figma:** Local businesses pay 2x for Figma UI designs and social media design systems.\n"
             "2. **CapCut / Premiere Pro:** Short-form video reels are the #1 highest demanded micro-gig in Mumbai & Delhi.\n"
             "3. **Tailwind CSS + React/Vite:** Upgrades your landing page earnings from ₹1,500 to ₹4,000 per site.\n\n"
@@ -216,18 +216,18 @@ def vajra_domain_fallback(prompt, persona="student"):
 
     if "post" in p_lower or "job" in p_lower or "hire" in p_lower or "business" in p_lower:
         return (
-            "⚡ **ARGUS Job Posting Template (For Businesses):**\n\n"
+            "⚡ **SkillBridge Job Posting Template (For Businesses):**\n\n"
             "**Title:** Short-form Reel Editor for Fitness Studio\n"
             "**Category:** Video Editing\n"
-            "**Budget:** ₹1,000 (Secured in ARGUS Escrow)\n"
+            "**Budget:** ₹1,000 (Secured in SkillBridge Escrow)\n"
             "**Deliverables:** 1x 30-second vertical reel, background music sync, subtitles, and logo intro.\n"
             "**Deadline:** 2 Days\n\n"
-            "Post this on ARGUS and verified student editors will be matched within 5 minutes!"
+            "Post this on SkillBridge and verified student editors will be matched within 5 minutes!"
         )
 
     # General default response
     return (
-        f"⚡ **ARGUS Copilot is active!**\n\n"
+        f"⚡ **SkillBridge Copilot is active!**\n\n"
         f"I am analyzing your context ({persona.capitalize()} Mode). Here is what I can do for you:\n\n"
         f"• **Write high-converting proposals** for active micro-gigs\n"
         f"• **Recommend high-paying digital skills** to boost student match scores\n"
@@ -245,11 +245,11 @@ def health():
     return jsonify({
         "status": "healthy",
         "backend": "Python Flask + SQLite",
-        "database": "argus.db",
+        "database": "skillbridge.db",
         "vajraAssistant": {
-            "name": "ARGUS AI Copilot",
+            "name": "SkillBridge AI Copilot",
             "ollamaConnected": ollama_ready,
-            "engine": "qwen2.5-coder:7b-instruct" if ollama_ready else "ARGUS Heuristic Engine"
+            "engine": "qwen2.5-coder:7b-instruct" if ollama_ready else "SkillBridge Heuristic Engine"
         },
         "version": "1.1.0"
     })
@@ -482,8 +482,8 @@ def serve_static(path):
 if __name__ == '__main__':
     init_db()
     print("=" * 60)
-    print("🚀 ARGUS Backend running on http://127.0.0.1:5000")
-    print("⚡ ARGUS AI Assistant API: http://127.0.0.1:5000/api/vajra/chat")
-    print("💾 SQLite Database: argus.db")
+    print("🚀 SkillBridge Backend running on http://127.0.0.1:5000")
+    print("⚡ SkillBridge AI Assistant API: http://127.0.0.1:5000/api/vajra/chat")
+    print("💾 SQLite Database: skillbridge.db")
     print("=" * 60)
     app.run(host='127.0.0.1', port=5000, debug=True)

@@ -1,5 +1,5 @@
 /**
- * ARGUS Client-Side WASM & Canvas Image Optimization Engine
+ * SkillBridge Client-Side WASM & Canvas Image Optimization Engine
  * Hardware-accelerated image compression, non-blocking downsampling,
  * and format transcoding for logos, deliverables, and student ID cards.
  */
@@ -7,7 +7,7 @@
 (function (global) {
   'use strict';
 
-  class ArgusImageOptimizer {
+  class SkillBridgeImageOptimizer {
     constructor(config = {}) {
       this.maxWidth = config.maxWidth || 1920;
       this.maxHeight = config.maxHeight || 1080;
@@ -44,7 +44,7 @@
           const resp = await fetch(source);
           fileBlob = await resp.blob();
         } catch (err) {
-          console.warn('[ARGUS-Optimizer] Failed to fetch image URL for compression:', err);
+          console.warn('[SkillBridge-Optimizer] Failed to fetch image URL for compression:', err);
           return { dataUrl: source, savingsPercent: 0 };
         }
       }
@@ -127,7 +127,7 @@
       const savingsPercent = originalSize > 0 ? ((savingsBytes / originalSize) * 100).toFixed(1) : 0;
 
       const ext = format === 'image/webp' ? '.webp' : (format === 'image/png' ? '.png' : '.jpg');
-      const baseName = fileBlob.name ? fileBlob.name.replace(/\.[^/.]+$/, "") : "argus_optimized";
+      const baseName = fileBlob.name ? fileBlob.name.replace(/\.[^/.]+$/, "") : "skillbridge_optimized";
       const optimizedFileName = `${baseName}${ext}`;
 
       const optimizedFile = new File([blob || fileBlob], optimizedFileName, {
@@ -155,7 +155,7 @@
     }
 
     /**
-     * Automatically scan the document and optimize all ARGUS logos & marked images
+     * Automatically scan the document and optimize all SkillBridge logos & marked images
      */
     async autoOptimizeDOM() {
       const targets = document.querySelectorAll('img.brand-logo, img[data-wasm-optimize]');
@@ -179,10 +179,10 @@
             img.dataset.wasmOptimized = 'true';
             img.dataset.originalSize = `${(result.originalSize / 1024).toFixed(1)}KB`;
             img.dataset.optimizedSize = `${(result.compressedSize / 1024).toFixed(1)}KB`;
-            console.log(`[ARGUS-Optimizer] Optimized ${originalSrc} (${(result.originalSize / 1024).toFixed(1)}KB -> ${(result.compressedSize / 1024).toFixed(1)}KB WebP, -${result.savingsPercent}%)`);
+            console.log(`[SkillBridge-Optimizer] Optimized ${originalSrc} (${(result.originalSize / 1024).toFixed(1)}KB -> ${(result.compressedSize / 1024).toFixed(1)}KB WebP, -${result.savingsPercent}%)`);
           }
         } catch (e) {
-          console.warn('[ARGUS-Optimizer] Skip optimization on', originalSrc, e);
+          console.warn('[SkillBridge-Optimizer] Skip optimization on', originalSrc, e);
         }
       }
     }
@@ -200,10 +200,10 @@
     }
   }
 
-  const optimizerInstance = new ArgusImageOptimizer();
-  global.ArgusImageOptimizer = optimizerInstance;
+  const optimizerInstance = new SkillBridgeImageOptimizer();
+  global.SkillBridgeImageOptimizer = optimizerInstance;
+  global.SkillBridgeImageOptimizerClass = SkillBridgeImageOptimizer;
   global.VajraImageOptimizer = optimizerInstance;
-  global.ArgusImageOptimizerClass = ArgusImageOptimizer;
 
   // Auto-optimize logos once DOM is ready
   if (typeof document !== 'undefined') {
@@ -215,6 +215,6 @@
   }
 
   if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { ArgusImageOptimizer: optimizerInstance };
+    module.exports = { SkillBridgeImageOptimizer: optimizerInstance };
   }
 })(typeof window !== 'undefined' ? window : this);

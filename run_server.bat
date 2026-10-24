@@ -1,7 +1,7 @@
 @echo off
-title ARGUS Backend Server
+title SkillBridge Backend Server
 echo ========================================================
-echo  ARGUS — Starting Flask + SQLite Backend Server
+echo  SkillBridge — Starting Flask + SQLite Backend Server
 echo ========================================================
 echo.
 echo Server running at http://127.0.0.1:5000

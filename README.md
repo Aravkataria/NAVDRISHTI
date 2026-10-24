@@ -1,4 +1,4 @@
-# ARGUS — Evidence-Driven Campus Micro-Freelancing & Escrow Hub
+# SkillBridge — Evidence-Driven Campus Micro-Freelancing & Escrow Hub
 
 > **Where College Digital Talent Meets Small Business Budgets.**  
 > A micro-freelancing platform designed for college students to build commercial portfolios while local small businesses (bakeries, salons, gyms, tutors, startups) get affordable digital services (₹500–₹2,500) backed by instant smart escrow and automated milestone verification.
@@ -11,10 +11,10 @@
 startup/
 │
 ├── index.html                   # 🏠 Main Front / Overview Page
-├── logo.jpeg                    # 🛡️ Official ARGUS Brand Identity Logo
+├── logo.jpeg                    # 🛡️ Official SkillBridge Brand Identity Logo
 ├── styles.css                   # 🎨 Design System (Minimalist Dark & Light Theme)
-├── app.js                       # ⚡ Unified Router, State Manager & ARGUS AI
-├── server.py                    # 🐍 Python Flask Backend API & SQLite Database (argus.db)
+├── app.js                       # ⚡ Unified Router, State Manager & SkillBridge AI
+├── server.py                    # 🐍 Python Flask Backend API & SQLite Database (skillbridge.db)
 ├── run_server.bat               # 🚀 1-Click Server Launcher
 ├── requirements.txt             # 📦 Python Dependencies (Flask)
 ├── README.md                    # 📖 Project Overview & Quick Start Guide
@@ -34,7 +34,7 @@ startup/
 ├── economics/                   # 📊 Unit Economics & Escrow Guide (/economics/)
 │   ├── index.html
 │   └── logo.jpeg
-├── chatbot/                     # ⚡ Full-Screen ARGUS AI Copilot (/chatbot/)
+├── chatbot/                     # ⚡ Full-Screen SkillBridge AI Copilot (/chatbot/)
 │   ├── index.html
 │   └── logo.jpeg
 │
@@ -64,14 +64,14 @@ startup/
    * Portal to post micro-gigs, inspect student drafts, release escrow payouts, and generate GST-ready tax receipts.
 5. **[economics/index.html](file:///C:/Users/LENOVO/Desktop/startup/economics/index.html) — Economics & Escrow Guide:**
    * Interactive 10% platform revenue calculator slider, legal micro-contract explanation (automatic IP copyright assignment), and tax compliance.
-6. **[chatbot/index.html](file:///C:/Users/LENOVO/Desktop/startup/chatbot/index.html) — ARGUS AI Copilot:**
+6. **[chatbot/index.html](file:///C:/Users/LENOVO/Desktop/startup/chatbot/index.html) — SkillBridge AI Copilot:**
    * Dedicated full-screen AI workspace for drafting winning proposals, pricing guidance, and job scoping.
 
 ---
 
 ## ⚡ Client-Side WASM Image Optimization
 
-ARGUS includes a non-blocking WebAssembly/Canvas image optimizer engine (`js/wasm-image-optimizer.js`):
+SkillBridge includes a non-blocking WebAssembly/Canvas image optimizer engine (`js/wasm-image-optimizer.js`):
 * **Hardware-Accelerated Downsampling:** Automatically converts and compresses `logo.jpeg` and user deliverable uploads into high-efficiency WebP format in memory.
 * **Non-Destructive Zero-Latency Swapping:** Automatically scans all `img.brand-logo` and `img[data-wasm-optimize]` elements at load time.
 * **Data Savings Calculation:** Reports precise payload reductions in browser console.
@@ -86,9 +86,9 @@ ARGUS includes a non-blocking WebAssembly/Canvas image optimizer engine (`js/was
 
 ---
 
-## ⚡ ARGUS AI Copilot
+## ⚡ SkillBridge AI Copilot
 
-Present across **every page** via the floating drawer (`⚡ Ask ARGUS AI`) and standalone workspace at `/chatbot/`:
+Present across **every page** via the floating drawer (`⚡ Ask SkillBridge AI`) and standalone workspace at `/chatbot/`:
 * **Student Proposals:** Automatically writes tailored pitches with 1-click insertion into project applications.
 * **Skill Recommendations:** Advises which skills to learn to upgrade earnings from ₹500 to ₹2,500.
 * **Pricing & Job Scoping:** Helps merchants price micro-gigs fairly.

@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <link rel="icon" type="image/jpeg" href="logo.jpeg">
-  <title>ARGUS — Autonomous Micro-Gig Reasoning &amp; Scoping</title>
+  <title>SkillBridge — Autonomous Micro-Gig Reasoning &amp; Scoping</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="../styles.css">
   <script src="../js/wasm-image-optimizer.js" defer></script>
   <style>
-    /* Full-viewport Chatbot Workspace Styles (Adapted from ARGUS Minimalist System) */
+    /* Full-viewport Chatbot Workspace Styles (Adapted from SkillBridge Design System) */
     .chatbot-workspace {
       display: flex;
       height: calc(100vh - 56px);
@@ -297,13 +297,13 @@
 </head>
 <body>
 
-  <!-- Top Navigation (ARGUS S1 Sticky) -->
+  <!-- Top Navigation (SkillBridge S1 Sticky) -->
   <header class="top" id="top">
     <div class="nav-inner">
       <div class="nav-left">
         <a class="brand" href="../index.html">
-          <img src="logo.jpeg" alt="ARGUS Logo" class="brand-logo" data-wasm-optimize>
-          <span>ARGUS<span class="spark">AI</span></span>
+          <img src="logo.jpeg" alt="SkillBridge Logo" class="brand-logo" data-wasm-optimize>
+          <span>SkillBridge<span class="spark">AI</span></span>
         </a>
         <span class="slash">/</span>
         <nav class="nav-links">
@@ -312,7 +312,7 @@
           <a href="../student/">Student Hub</a>
           <a href="../post-job/">Post a Gig</a>
           <a href="../economics/">Economics</a>
-          <a href="../chatbot/" class="active" style="color:var(--spark);font-weight:700;">ARGUS AI ⚡</a>
+          <a href="../chatbot/" class="active" style="color:var(--spark);font-weight:700;">SkillBridge AI ⚡</a>
         </nav>
       </div>
 
@@ -370,12 +370,12 @@
     </div>
   </header>
 
-  <!-- Full Viewport ARGUS Copilot Workspace -->
+  <!-- Full Viewport SkillBridge Copilot Workspace -->
   <div class="chatbot-workspace">
     <!-- Left Intelligence Sidebar -->
     <aside class="chatbot-sidebar">
       <div class="sidebar-block">
-        <h4><i class="fa-solid fa-bolt text-spark"></i> ARGUS Copilot Engine</h4>
+        <h4><i class="fa-solid fa-bolt text-spark"></i> SkillBridge Copilot Engine</h4>
         <p>Evidence-driven autonomous reasoning model designed to synthesize high-converting pitches and scope commercial micro-deliverables.</p>
         <span class="model-chip"><i class="fa-solid fa-microchip"></i> AI Active • 100% Deterministic</span>
       </div>
@@ -392,7 +392,7 @@
           <button class="quick-prompt-btn" onclick="sendPrompt('Write a pitch for a 30-sec gym workout reel editor gig')">
             <i class="fa-solid fa-film text-spark"></i> Pitch for Instagram Reel
           </button>
-          <button class="quick-prompt-btn" onclick="sendPrompt('Explain the ARGUS 10% platform fee and IP transfer clause')">
+          <button class="quick-prompt-btn" onclick="sendPrompt('Explain the SkillBridge 10% platform fee and IP transfer clause')">
             <i class="fa-solid fa-scale-balanced text-spark"></i> IP Clause &amp; 10% Fee
           </button>
         </div>
@@ -400,7 +400,7 @@
 
       <div class="sidebar-block">
         <h4><i class="fa-solid fa-shield-halved text-spark"></i> Verification Status</h4>
-        <p>All AI-generated proposals automatically incorporate the Standard ARGUS Micro-Contract for full commercial IP transfer upon payment release.</p>
+        <p>All AI-generated proposals automatically incorporate the Standard SkillBridge Micro-Contract for full commercial IP transfer upon payment release.</p>
       </div>
     </aside>
 
@@ -408,9 +408,9 @@
     <main class="chatbot-main">
       <div class="chat-stream" id="fullChatStream">
         <div class="chat-msg bot">
-          <div class="chat-author bot"><i class="fa-solid fa-bolt"></i> ARGUS AI Copilot</div>
+          <div class="chat-author bot"><i class="fa-solid fa-bolt"></i> SkillBridge AI Copilot</div>
           <div class="chat-bubble">
-            <strong>Namaste! I am ARGUS ⚡</strong><br>
+            <strong>Namaste! I am SkillBridge AI ⚡</strong><br>
             Your AI Copilot for student micro-freelancing. Ask me to write a winning proposal, advise on fair pricing, or explain commercial contracts. How can I help you today?
           </div>
         </div>
@@ -427,7 +427,7 @@
         <button type="button" class="chat-chip" onclick="sendPrompt('Write a pitch for a 30-sec gym workout reel editor gig')">
           <i class="fa-solid fa-film text-spark"></i> Reel Pitch
         </button>
-        <button type="button" class="chat-chip" onclick="sendPrompt('Explain the ARGUS 10% platform fee and IP transfer clause')">
+        <button type="button" class="chat-chip" onclick="sendPrompt('Explain the SkillBridge 10% platform fee and IP transfer clause')">
           <i class="fa-solid fa-scale-balanced text-spark"></i> 10% Fee &amp; IP
         </button>
       </div>
@@ -437,7 +437,7 @@
         <form id="fullChatForm" onsubmit="handleFullChatSubmit(event)">
           <div class="chat-input-wrapper">
             <i class="fa-solid fa-terminal text-spark"></i>
-            <input type="text" id="fullChatInput" placeholder="Ask ARGUS anything (e.g. 'Write a proposal for bakery Instagram poster...')" autocomplete="off" required>
+            <input type="text" id="fullChatInput" placeholder="Ask SkillBridge AI anything (e.g. 'Write a proposal for bakery Instagram poster...')" autocomplete="off" required>
             <button type="submit" class="chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
           </div>
         </form>
@@ -467,9 +467,9 @@
       <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
       <span>Economics</span>
     </a>
-    <a href="../chatbot/" class="dock-item is-active" title="ARGUS AI Copilot">
+    <a href="../chatbot/" class="dock-item is-active" title="SkillBridge AI Copilot">
       <i class="fa-solid fa-bolt-lightning" style="color:var(--spark);"></i>
-      <span>ARGUS AI</span>
+      <span>SkillBridge AI</span>
     </a>
   </nav>
 
@@ -503,7 +503,7 @@
       var typingMsg = document.createElement('div');
       typingMsg.className = 'chat-msg bot';
       typingMsg.id = 'full-typing';
-      typingMsg.innerHTML = '<div class="chat-author bot"><i class="fa-solid fa-bolt"></i> ARGUS AI</div><div class="chat-bubble"><i class="fa-solid fa-circle-notch fa-spin"></i> Reasoning...</div>';
+      typingMsg.innerHTML = '<div class="chat-author bot"><i class="fa-solid fa-bolt"></i> SkillBridge AI</div><div class="chat-bubble"><i class="fa-solid fa-circle-notch fa-spin"></i> Reasoning...</div>';
       stream.appendChild(typingMsg);
       stream.scrollTop = stream.scrollHeight;
 
@@ -523,7 +523,7 @@
 
         var botMsg = document.createElement('div');
         botMsg.className = 'chat-msg bot';
-        botMsg.innerHTML = '<div class="chat-author bot"><i class="fa-solid fa-bolt"></i> ARGUS AI Copilot</div><div class="chat-bubble">' + formatted + '</div>';
+        botMsg.innerHTML = '<div class="chat-author bot"><i class="fa-solid fa-bolt"></i> SkillBridge AI Copilot</div><div class="chat-bubble">' + formatted + '</div>';
         stream.appendChild(botMsg);
         stream.scrollTop = stream.scrollHeight;
       }, 400);
