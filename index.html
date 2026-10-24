@@ -275,39 +275,6 @@
         </div>
       </div>
 
-      <!-- Integrated Minimalist Terminal Protocol Block -->
-      <div class="term-install-box">
-        <div class="term-install-head">
-          <div class="term-tabs">
-            <button class="term-tab active" onclick="switchTerm('api', this)">API / cURL</button>
-            <button class="term-tab" onclick="switchTerm('node', this)">Node SDK</button>
-            <button class="term-tab" onclick="switchTerm('py', this)">Python CLI</button>
-          </div>
-          <span class="term-tag">1-line escrow protocol</span>
-        </div>
-        <div class="term-install-body">
-          <div class="term-cmd-line">
-            <span class="term-prompt">$</span>
-            <span class="term-code" id="term-cmd">curl -s https://vajra-7aue.onrender.com/api/projects | jq</span>
-          </div>
-          <button class="term-copy-btn" onclick="copyTermCmd(this)" aria-label="Copy terminal command">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
-            <span>Copy</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Core Protocol Links -->
-      <div class="core-band">
-        <p>Need the direct economics breakdown? <b>SkillBridge</b> operates on a transparent 10% platform fee with zero upfront retainers.</p>
-        <div class="core-links">
-          <a class="core-link" href="student/">Student Career Hub &rarr;</a>
-          <a class="core-link" href="post-job/">Company Portal &rarr;</a>
-          <a class="core-link" href="economics/">10% Revenue Calculator &rarr;</a>
-          <a class="core-link" href="chatbot/" style="color:var(--spark);font-weight:700;">SkillBridge Copilot ⚡</a>
-        </div>
-      </div>
-
       <!-- Economics & Market Comparison Matrix -->
       <div class="specs-box">
         <div class="specs-head">
@@ -677,32 +644,6 @@
       var wasOpen = item.classList.contains('open');
       document.querySelectorAll('.faq-item').forEach(function(el) { el.classList.remove('open'); });
       if (!wasOpen) item.classList.add('open');
-    }
-
-    // Terminal Commands
-    var termCommands = {
-      api: 'curl -s https://vajra-7aue.onrender.com/api/projects | jq',
-      node: 'npx skillbridge-sdk create-gig --budget 1500 --escrow locked',
-      py: 'pip install skillbridge && python -m skillbridge.escrow --verify'
-    };
-
-    function switchTerm(tool, btn) {
-      document.querySelectorAll('.term-tab').forEach(function(el) { el.classList.remove('active'); });
-      btn.classList.add('active');
-      var codeEl = document.getElementById('term-cmd');
-      if (codeEl && termCommands[tool]) {
-        codeEl.innerText = termCommands[tool];
-      }
-    }
-
-    function copyTermCmd(btn) {
-      var text = document.getElementById('term-cmd').innerText;
-      navigator.clipboard.writeText(text).then(function() {
-        var span = btn.querySelector('span');
-        var old = span.innerText;
-        span.innerText = 'Copied!';
-        setTimeout(function() { span.innerText = old; }, 2000);
-      });
     }
 
     // Domain Selector Switcher
