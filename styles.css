@@ -2574,6 +2574,93 @@ footer.bottom, footer.app-footer {
   font-weight: 700;
 }
 
+/* Revenue Simulator Upgrades */
+.sim-rate-pills {
+  display: inline-flex;
+  gap: 4px;
+  background: var(--s1-card-strong);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid var(--s1-border);
+}
+
+.sim-rate-btn {
+  background: transparent;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 7px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--s1-text-60);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: inherit;
+}
+
+.sim-rate-btn:hover {
+  color: var(--s1-text);
+}
+
+.sim-rate-btn.is-active {
+  background: var(--spark);
+  color: #0b0c10;
+  font-weight: 700;
+  box-shadow: 0 2px 6px rgba(238, 249, 43, 0.25);
+}
+
+.preset-chip {
+  background: var(--s1-card-strong);
+  border: 1px solid var(--s1-border);
+  color: var(--s1-text);
+  padding: 5px 11px;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.preset-chip:hover {
+  border-color: var(--spark);
+  color: var(--spark);
+}
+
+.preset-chip.is-active {
+  border-color: var(--spark);
+  background: rgba(238, 249, 43, 0.12);
+  color: var(--spark);
+  font-weight: 700;
+}
+
+.sim-custom-input:focus {
+  outline: none;
+  border-color: var(--spark) !important;
+  box-shadow: 0 0 0 2px rgba(238, 249, 43, 0.2);
+}
+
+.sim-comparison-banner {
+  margin-top: 20px;
+  padding: 14px 18px;
+  background: rgba(238, 249, 43, 0.06);
+  border: 1px solid rgba(238, 249, 43, 0.22);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+@media (max-width: 680px) {
+  .sim-split-divider {
+    display: none;
+  }
+  .sim-breakdown {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
 /* Modals */
 .modal-overlay {
   position: fixed;
