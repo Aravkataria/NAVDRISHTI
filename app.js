@@ -723,7 +723,8 @@ function showToast(message, type = "info") {
 // Interactive Revenue Calculator (Economics - Flat 10% Model)
 function setupRevenueCalculator() {
   const slider = document.getElementById("calcProjectBudget");
-  if (!slider) return;
+  const numberInput = document.getElementById("calcProjectBudgetInput");
+  if (!slider && !numberInput) return;
 
   const budgetVal = document.getElementById("calcBudgetValue");
   const studentCut = document.getElementById("calcStudentCut");
@@ -742,8 +743,23 @@ function setupRevenueCalculator() {
     });
   }
 
-  function update() {
-    const amt = parseFloat(slider.value) || 500;
+  function update(source) {
+    let amt = 500;
+    if (source === "slider" && slider) {
+      amt = parseFloat(slider.value) || 0;
+      if (numberInput) {
+        numberInput.value = Number.isInteger(amt) ? amt : amt.toFixed(2);
+      }
+    } else if (source === "input" && numberInput) {
+      amt = parseFloat(numberInput.value);
+      if (isNaN(amt) || amt < 0) amt = 0;
+      if (slider) {
+        slider.value = Math.min(Math.max(Math.round(amt), 100), 10000);
+      }
+    } else {
+      amt = parseFloat(numberInput ? numberInput.value : (slider ? slider.value : 500));
+    }
+
     const pFee = Math.round(amt * 0.10 * 100) / 100;
     const sPay = Math.round((amt - pFee) * 100) / 100;
 
@@ -762,17 +778,32 @@ function setupRevenueCalculator() {
     });
   }
 
-  slider.addEventListener("input", update);
+  if (slider) {
+    slider.addEventListener("input", () => update("slider"));
+  }
+
+  if (numberInput) {
+    numberInput.addEventListener("input", () => update("input"));
+    numberInput.addEventListener("change", () => {
+      let val = parseFloat(numberInput.value);
+      if (isNaN(val) || val < 1) val = 500;
+      numberInput.value = Number.isInteger(val) ? val : val.toFixed(2);
+      update("input");
+    });
+  }
 
   presetChips.forEach(chip => {
     chip.addEventListener("click", () => {
-      slider.value = parseFloat(chip.dataset.amount);
-      update();
+      const val = parseFloat(chip.dataset.amount);
+      if (slider) slider.value = Math.min(Math.max(Math.round(val), 100), 10000);
+      if (numberInput) numberInput.value = val;
+      update("preset");
     });
   });
 
-  slider.value = 500;
-  update();
+  if (slider) slider.value = 500;
+  if (numberInput) numberInput.value = 500;
+  update("init");
 }
 
 // Shared Listeners

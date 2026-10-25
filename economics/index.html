@@ -170,15 +170,24 @@
 
         <div class="sim-content">
           <div class="sim-input-group" style="margin:0 0 16px 0;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-              <label for="calcProjectBudget" style="font-weight:600;font-size:13px;margin:0;">
-                Project Budget:
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:10px;">
+              <label for="calcProjectBudgetInput" style="font-weight:600;font-size:13px;margin:0;display:flex;align-items:center;gap:6px;">
+                <i class="fa-solid fa-coins text-spark"></i> Project Budget:
               </label>
-              <span class="sim-val" id="calcBudgetValue" style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--spark);margin:0;">
-                ₹500
-              </span>
+              <!-- Direct Editable Amount Input (Syncs with slider) -->
+              <div class="budget-input-wrapper" title="Click to type any custom amount">
+                <span style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--spark);">₹</span>
+                <input type="number" id="calcProjectBudgetInput" min="1" max="100000" step="any" value="500" placeholder="500" aria-label="Enter custom project budget amount">
+                <span style="font-size:11px;color:var(--s1-text-40);font-family:'JetBrains Mono',monospace;" title="Type custom budget">✏️</span>
+              </div>
             </div>
-            <input type="range" id="calcProjectBudget" min="100" max="5000" step="50" value="500">
+            <!-- Range Slider -->
+            <input type="range" id="calcProjectBudget" min="100" max="10000" step="25" value="500" style="width:100%;accent-color:var(--spark);cursor:pointer;">
+            <div style="display:flex;justify-content:space-between;font-size:11px;font-family:'JetBrains Mono',monospace;color:var(--s1-text-40);margin-top:6px;">
+              <span>Min: ₹100</span>
+              <span style="color:var(--s1-text-60);">💡 Drag slider or click amount above to type any custom value</span>
+              <span>Max: ₹10,000+</span>
+            </div>
           </div>
 
           <!-- Quick Preset Chips -->

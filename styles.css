@@ -2638,6 +2638,47 @@ footer.bottom, footer.app-footer {
   box-shadow: 0 0 0 2px rgba(238, 249, 43, 0.2);
 }
 
+.budget-input-wrapper {
+  display: inline-flex;
+  align-items: center;
+  background: var(--s1-card-strong);
+  border: 1px solid var(--s1-border-strong);
+  border-radius: 10px;
+  padding: 4px 12px;
+  gap: 4px;
+  transition: all 0.2s ease;
+}
+
+.budget-input-wrapper:hover {
+  border-color: var(--spark);
+}
+
+.budget-input-wrapper:focus-within {
+  border-color: var(--spark);
+  box-shadow: 0 0 0 2px rgba(238, 249, 43, 0.22);
+}
+
+.budget-input-wrapper input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--spark);
+  width: 110px;
+}
+
+.budget-input-wrapper input::-webkit-outer-spin-button,
+.budget-input-wrapper input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.budget-input-wrapper input[type=number] {
+  -moz-appearance: textfield;
+}
+
 .sim-comparison-banner {
   margin-top: 20px;
   padding: 14px 18px;
