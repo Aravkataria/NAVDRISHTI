@@ -720,7 +720,7 @@ function showToast(message, type = "info") {
   }, 3500);
 }
 
-// Interactive Revenue Calculator (Economics & Unit Economics Simulator)
+// Interactive Revenue Calculator (Economics - Flat 10% Model)
 function setupRevenueCalculator() {
   const slider = document.getElementById("calcProjectBudget");
   if (!slider) return;
@@ -729,18 +729,7 @@ function setupRevenueCalculator() {
   const studentCut = document.getElementById("calcStudentCut");
   const platformCut = document.getElementById("calcPlatformCut");
   const totalEscrow = document.getElementById("calcTotalEscrow");
-  const studentLabel = document.getElementById("calcStudentLabel");
-  const platformLabel = document.getElementById("calcPlatformLabel");
-  const rateBtns = document.querySelectorAll(".sim-rate-btn");
-  const customRateRow = document.getElementById("simCustomRateRow");
-  const customRateInput = document.getElementById("calcCustomRatePercent");
   const presetChips = document.querySelectorAll(".preset-chip");
-  const compBudgetText = document.getElementById("compBudgetText");
-  const compSbPay = document.getElementById("compSbPay");
-  const compTradPay = document.getElementById("compTradPay");
-  const compSavingsBadge = document.getElementById("compSavingsBadge");
-
-  let currentRateMode = "0.10";
 
   function formatCurrency(val) {
     const rounded = Math.round(val * 100) / 100;
@@ -753,18 +742,9 @@ function setupRevenueCalculator() {
     });
   }
 
-  function getActiveRate() {
-    if (currentRateMode === "custom") {
-      const p = parseFloat(customRateInput ? customRateInput.value : "15");
-      return Math.max(0, Math.min(100, isNaN(p) ? 15 : p)) / 100;
-    }
-    return parseFloat(currentRateMode) || 0.10;
-  }
-
   function update() {
-    let amt = parseFloat(slider.value) || 500;
-    const rate = getActiveRate();
-    const pFee = Math.round(amt * rate * 100) / 100;
+    const amt = parseFloat(slider.value) || 500;
+    const pFee = Math.round(amt * 0.10 * 100) / 100;
     const sPay = Math.round((amt - pFee) * 100) / 100;
 
     if (budgetVal) budgetVal.textContent = formatCurrency(amt);
@@ -772,35 +752,6 @@ function setupRevenueCalculator() {
     if (platformCut) platformCut.textContent = formatCurrency(pFee);
     if (totalEscrow) totalEscrow.textContent = formatCurrency(amt);
 
-    const ratePctText = (rate * 100).toFixed(1) + "%";
-    const studentPctText = ((1 - rate) * 100).toFixed(1) + "%";
-    if (platformLabel) platformLabel.textContent = `Platform Escrow Fee (${ratePctText})`;
-    if (studentLabel) studentLabel.textContent = `Student Take-Home (${studentPctText})`;
-
-    // Comparison against standard 20% platform cut
-    const sbFee = Math.round(amt * 0.10 * 100) / 100;
-    const sbPay = Math.round((amt - sbFee) * 100) / 100;
-    const tradFee = Math.round(amt * 0.20 * 100) / 100;
-    const tradPay = Math.round((amt - tradFee) * 100) / 100;
-    const diff = Math.round((sbPay - tradPay) * 100) / 100;
-    const pctAdv = tradPay > 0 ? ((diff / tradPay) * 100).toFixed(1) : "0.0";
-
-    if (compBudgetText) compBudgetText.textContent = formatCurrency(amt);
-    if (compSbPay) compSbPay.textContent = formatCurrency(sbPay);
-    if (compTradPay) compTradPay.textContent = formatCurrency(tradPay);
-    if (compSavingsBadge) {
-      if (diff >= 0) {
-        compSavingsBadge.textContent = `+${formatCurrency(diff)} Extra to Student (+${pctAdv}%)`;
-        compSavingsBadge.style.color = "var(--ok)";
-        compSavingsBadge.style.background = "rgba(46, 213, 115, 0.15)";
-      } else {
-        compSavingsBadge.textContent = `${formatCurrency(diff)} Under Traditional`;
-        compSavingsBadge.style.color = "var(--s1-text-60)";
-        compSavingsBadge.style.background = "rgba(255, 255, 255, 0.08)";
-      }
-    }
-
-    // Preset chips highlight sync
     presetChips.forEach(chip => {
       const chipAmt = parseFloat(chip.dataset.amount);
       if (Math.abs(chipAmt - amt) < 0.001) {
@@ -813,36 +764,13 @@ function setupRevenueCalculator() {
 
   slider.addEventListener("input", update);
 
-  rateBtns.forEach(btn => {
-    btn.addEventListener("click", () => {
-      rateBtns.forEach(b => b.classList.remove("is-active"));
-      btn.classList.add("is-active");
-      currentRateMode = btn.dataset.rate || "0.10";
-
-      if (customRateRow) {
-        if (currentRateMode === "custom") {
-          customRateRow.style.display = "flex";
-        } else {
-          customRateRow.style.display = "none";
-        }
-      }
-      update();
-    });
-  });
-
-  if (customRateInput) {
-    customRateInput.addEventListener("input", update);
-  }
-
   presetChips.forEach(chip => {
     chip.addEventListener("click", () => {
-      const targetVal = parseFloat(chip.dataset.amount);
-      slider.value = targetVal;
+      slider.value = parseFloat(chip.dataset.amount);
       update();
     });
   });
 
-  // Initial calculation run with default ₹500
   slider.value = 500;
   update();
 }
