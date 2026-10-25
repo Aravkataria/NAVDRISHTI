@@ -157,7 +157,7 @@
               <i class="fa-solid fa-calculator text-spark"></i> Dynamic Unit Economics &amp; Escrow Simulator
             </h4>
             <span style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--s1-text-60);">
-              Real-time escrow breakdown with sub-rupee decimal precision &amp; competitive fee comparison
+              Interactive platform revenue split &amp; competitive fee comparison
             </span>
           </div>
           <!-- Platform Take-Rate Switcher -->
@@ -175,30 +175,16 @@
         </div>
 
         <div class="sim-content">
-          <!-- Dual Input Controls: Slider + Direct Custom Decimal Input -->
-          <div style="display:grid;grid-template-columns:1fr auto;gap:16px;align-items:end;margin-bottom:16px;">
-            <div class="sim-input-group" style="margin:0;">
-              <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-                <label for="calcProjectBudget" style="font-weight:600;font-size:13px;margin:0;">
-                  Gig Budget Amount:
-                </label>
-                <span class="sim-val" id="calcBudgetValue" style="font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--spark);margin:0;">
-                  ₹562.45
-                </span>
-              </div>
-              <input type="range" id="calcProjectBudget" min="100" max="10000" step="5" value="562">
-            </div>
-
-            <!-- Custom Exact Decimal Input -->
-            <div style="min-width:180px;">
-              <label for="calcCustomBudget" style="font-weight:600;font-size:12px;display:block;margin-bottom:6px;color:var(--s1-text-60);">
-                Exact / Decimal Amount (₹):
+          <div class="sim-input-group" style="margin:0 0 16px 0;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+              <label for="calcProjectBudget" style="font-weight:600;font-size:13px;margin:0;">
+                Gig Budget Amount:
               </label>
-              <div style="position:relative;display:flex;align-items:center;">
-                <span style="position:absolute;left:12px;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--spark);">₹</span>
-                <input type="number" id="calcCustomBudget" step="0.01" min="1" max="100000" value="562.45" class="sim-custom-input" placeholder="e.g. 562.45" style="width:100%;padding:9px 12px 9px 28px;background:var(--s1-card-strong);border:1px solid var(--s1-border-strong);border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:700;color:var(--s1-text);">
-              </div>
+              <span class="sim-val" id="calcBudgetValue" style="font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:700;color:var(--spark);margin:0;">
+                ₹500
+              </span>
             </div>
+            <input type="range" id="calcProjectBudget" min="100" max="5000" step="50" value="500">
           </div>
 
           <!-- Custom Rate Input Row (Shown when Custom % is active) -->
@@ -211,8 +197,7 @@
           <!-- Quick Preset Chips -->
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:20px;">
             <span style="font-size:12px;font-weight:600;color:var(--s1-text-40);text-transform:uppercase;letter-spacing:0.5px;">Quick Presets:</span>
-            <button type="button" class="preset-chip" data-amount="500">₹500 <span style="opacity:0.7;">(Intro Gig)</span></button>
-            <button type="button" class="preset-chip is-active" data-amount="562.45">₹562.45 <span style="opacity:0.7;">(Custom Decimal)</span></button>
+            <button type="button" class="preset-chip is-active" data-amount="500">₹500 <span style="opacity:0.7;">(Intro Gig)</span></button>
             <button type="button" class="preset-chip" data-amount="1000">₹1,000 <span style="opacity:0.7;">(Standard)</span></button>
             <button type="button" class="preset-chip" data-amount="1500">₹1,500 <span style="opacity:0.7;">(Pro Task)</span></button>
             <button type="button" class="preset-chip" data-amount="2500">₹2,500 <span style="opacity:0.7;">(Full Project)</span></button>
@@ -222,19 +207,19 @@
           <div class="sim-breakdown">
             <div class="sim-split-item student-split" style="position:relative;overflow:hidden;">
               <span class="sim-label" id="calcStudentLabel">Student Take-Home (90.0%)</span>
-              <span class="sim-amount" id="calcStudentCut" style="font-family:'JetBrains Mono';font-weight:700;color:var(--ok);">₹506.20</span>
+              <span class="sim-amount" id="calcStudentCut" style="font-family:'JetBrains Mono';font-weight:700;color:var(--ok);">₹450</span>
               <div style="font-size:11px;color:var(--ok);margin-top:4px;font-weight:600;"><i class="fa-solid fa-circle-check"></i> Instant Milestone Payout</div>
             </div>
             <div class="sim-split-divider">+</div>
             <div class="sim-split-item platform-split">
               <span class="sim-label" id="calcPlatformLabel">Platform Escrow Fee (10.0%)</span>
-              <span class="sim-amount" id="calcPlatformCut" style="font-family:'JetBrains Mono';font-weight:700;color:var(--spark);">₹56.25</span>
+              <span class="sim-amount" id="calcPlatformCut" style="font-family:'JetBrains Mono';font-weight:700;color:var(--spark);">₹50</span>
               <div style="font-size:11px;color:var(--s1-text-40);margin-top:4px;">Includes 18% GST invoice</div>
             </div>
             <div class="sim-split-divider">=</div>
             <div class="sim-split-item total-split">
               <span class="sim-label">Total Escrow Budget</span>
-              <span class="sim-amount" id="calcTotalEscrow" style="font-family:'JetBrains Mono';font-weight:700;">₹562.45</span>
+              <span class="sim-amount" id="calcTotalEscrow" style="font-family:'JetBrains Mono';font-weight:700;">₹500</span>
               <div style="font-size:11px;color:var(--s1-text-60);margin-top:4px;">100% Client Funded</div>
             </div>
           </div>
@@ -247,16 +232,16 @@
               </div>
               <div>
                 <div style="font-size:13px;font-weight:700;">
-                  Competitive Advantage on <span id="compBudgetText">₹562.45</span> Budget
+                  Competitive Advantage on <span id="compBudgetText">₹500</span> Budget
                 </div>
                 <div style="font-size:12px;color:var(--s1-text-60);">
-                  SkillBridge (10% Fee): Student receives <strong id="compSbPay" style="color:var(--ok);">₹506.20</strong> &bull; 
-                  Traditional Platforms (20% Fee): Student receives <strong id="compTradPay" style="color:var(--s1-text-60);">₹449.96</strong>
+                  SkillBridge (10% Fee): Student receives <strong id="compSbPay" style="color:var(--ok);">₹450</strong> &bull; 
+                  Traditional Platforms (20% Fee): Student receives <strong id="compTradPay" style="color:var(--s1-text-60);">₹400</strong>
                 </div>
               </div>
             </div>
             <div class="sim-savings-badge" id="compSavingsBadge" style="background:rgba(46,213,115,0.15);color:var(--ok);padding:6px 14px;border-radius:20px;font-family:'JetBrains Mono',monospace;font-size:12.5px;font-weight:700;border:1px solid rgba(46,213,115,0.3);">
-              +₹56.24 Extra to Student (+12.5%)
+              +₹50 Extra to Student (+12.5%)
             </div>
           </div>
         </div>
@@ -291,96 +276,7 @@
       </div>
     </div>
 
-    <!-- Investor Unit Economics & Pitch Competition Metrics -->
-    <div class="section-card" style="margin-top:40px;border-color:rgba(238,249,43,0.25);">
-      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px;border-bottom:1px solid var(--s1-border);padding-bottom:12px;">
-        <div>
-          <span class="badge" style="background:rgba(238,249,43,0.15);color:var(--spark);border:1px solid rgba(238,249,43,0.3);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;padding:3px 10px;border-radius:12px;margin-bottom:6px;display:inline-block;">
-            Startup Pitch Deck &bull; Market &amp; Unit Economics
-          </span>
-          <h3 style="font-size:1.25rem;font-weight:800;margin:4px 0 0;">Market Sizing, Unit Economics &amp; 3-Year Projections</h3>
-        </div>
-        <div style="font-size:12px;font-family:'JetBrains Mono',monospace;color:var(--s1-text-60);">
-          Category: Campus Gig-Economy &bull; Stage: Seed / MVP
-        </div>
-      </div>
-
-      <!-- TAM / SAM / SOM Grid -->
-      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:14px;margin-bottom:24px;">
-        <div style="background:var(--s1-card-strong);border:1px solid var(--s1-border);border-radius:12px;padding:16px;">
-          <div style="font-size:11px;font-weight:700;color:var(--spark);text-transform:uppercase;letter-spacing:0.5px;">TAM (Total Addressable)</div>
-          <div style="font-size:1.6rem;font-weight:800;font-family:'JetBrains Mono',monospace;margin:6px 0 2px;">₹35,000 Cr</div>
-          <div style="font-size:12px;color:var(--s1-text-60);line-height:1.4;">
-            ~$4.2B Indian freelance, creator, and college student informal gig economy by 2028.
-          </div>
-        </div>
-        <div style="background:var(--s1-card-strong);border:1px solid var(--s1-border);border-radius:12px;padding:16px;">
-          <div style="font-size:11px;font-weight:700;color:var(--ok);text-transform:uppercase;letter-spacing:0.5px;">SAM (Serviceable Addressable)</div>
-          <div style="font-size:1.6rem;font-weight:800;font-family:'JetBrains Mono',monospace;margin:6px 0 2px;">₹6,800 Cr</div>
-          <div style="font-size:12px;color:var(--s1-text-60);line-height:1.4;">
-            ~$820M Tier-1 &amp; Tier-2 higher education institutions and SME micro-task outsourcing.
-          </div>
-        </div>
-        <div style="background:var(--s1-card-strong);border:1px solid var(--s1-border);border-radius:12px;padding:16px;">
-          <div style="font-size:11px;font-weight:700;color:var(--info);text-transform:uppercase;letter-spacing:0.5px;">SOM (Target Market Y1-3)</div>
-          <div style="font-size:1.6rem;font-weight:800;font-family:'JetBrains Mono',monospace;margin:6px 0 2px;">₹375 Cr</div>
-          <div style="font-size:12px;color:var(--s1-text-60);line-height:1.4;">
-            ~$45M initial capture across engineering, design, and commerce campuses in India.
-          </div>
-        </div>
-        <div style="background:var(--s1-card-strong);border:1px solid var(--s1-border);border-radius:12px;padding:16px;">
-          <div style="font-size:11px;font-weight:700;color:#f39c12;text-transform:uppercase;letter-spacing:0.5px;">LTV / CAC Efficiency</div>
-          <div style="font-size:1.6rem;font-weight:800;font-family:'JetBrains Mono',monospace;margin:6px 0 2px;">17.1x Ratio</div>
-          <div style="font-size:12px;color:var(--s1-text-60);line-height:1.4;">
-            CAC: ₹145 per verified student &bull; Annual LTV: ₹2,480 across repeat micro-gigs.
-          </div>
-        </div>
-      </div>
-
-      <!-- 3-Year Scaled Projections Table -->
-      <h4 style="font-size:14px;font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px;">
-        <i class="fa-solid fa-chart-line text-spark"></i> 3-Year Execution &amp; Monetization Roadmap
-      </h4>
-      <div style="overflow-x:auto;">
-        <table style="width:100%;border-collapse:collapse;font-size:13px;text-align:left;">
-          <thead>
-            <tr style="border-bottom:1px solid var(--s1-border-strong);background:var(--s1-card-strong);">
-              <th style="padding:10px 12px;font-weight:700;">Metric</th>
-              <th style="padding:10px 12px;font-weight:700;">Year 1 (Campus Pilots)</th>
-              <th style="padding:10px 12px;font-weight:700;">Year 2 (State Expansion)</th>
-              <th style="padding:10px 12px;font-weight:700;">Year 3 (Pan-India Scale)</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom:1px solid var(--s1-border);">
-              <td style="padding:10px 12px;font-weight:600;">Verified Student Talent Pool</td>
-              <td style="padding:10px 12px;font-family:'JetBrains Mono',monospace;">5,000 students</td>
-              <td style="padding:10px 12px;font-family:'JetBrains Mono',monospace;">35,000 students</td>
-              <td style="padding:10px 12px;font-family:'JetBrains Mono',monospace;">150,000 students</td>
-            </tr>
-            <tr style="border-bottom:1px solid var(--s1-border);">
-              <td style="padding:10px 12px;font-weight:600;">Gross Merchandise Value (GMV)</td>
-              <td style="padding:10px 12px;font-family:'JetBrains Mono',monospace;color:var(--ok);">₹2.50 Cr ($300K)</td>
-              <td style="padding:10px 12px;font-family:'JetBrains Mono',monospace;color:var(--ok);">₹18.0 Cr ($2.16M)</td>
-              <td style="padding:10px 12px;font-family:'JetBrains Mono',monospace;color:var(--ok);">₹90.0 Cr ($10.8M)</td>
-            </tr>
-            <tr style="border-bottom:1px solid var(--s1-border);">
-              <td style="padding:10px 12px;font-weight:600;">Net Revenue (10% Take-Rate)</td>
-              <td style="padding:10px 12px;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--spark);">₹25 Lakhs</td>
-              <td style="padding:10px 12px;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--spark);">₹1.80 Cr</td>
-              <td style="padding:10px 12px;font-family:'JetBrains Mono',monospace;font-weight:700;color:var(--spark);">₹9.00 Cr</td>
-            </tr>
-            <tr>
-              <td style="padding:10px 12px;font-weight:600;">Moat &amp; Network Effects</td>
-              <td style="padding:10px 12px;font-size:12px;color:var(--s1-text-60);">College Clubs &amp; OCR Verification</td>
-              <td style="padding:10px 12px;font-size:12px;color:var(--s1-text-60);">SME API + Automated Escrow</td>
-              <td style="padding:10px 12px;font-size:12px;color:var(--s1-text-60);">Skill Identity &amp; Enterprise Hiring Pipeline</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </main>
+    </main>
 
   <!-- Floating SkillBridge AI Copilot Widget -->
   <div class="vajra-launcher" id="vajraToggleBtn" title="Open SkillBridge AI Assistant">

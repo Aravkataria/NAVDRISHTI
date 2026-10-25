@@ -723,8 +723,7 @@ function showToast(message, type = "info") {
 // Interactive Revenue Calculator (Economics & Unit Economics Simulator)
 function setupRevenueCalculator() {
   const slider = document.getElementById("calcProjectBudget");
-  const customInput = document.getElementById("calcCustomBudget");
-  if (!slider && !customInput) return;
+  if (!slider) return;
 
   const budgetVal = document.getElementById("calcBudgetValue");
   const studentCut = document.getElementById("calcStudentCut");
@@ -762,24 +761,8 @@ function setupRevenueCalculator() {
     return parseFloat(currentRateMode) || 0.10;
   }
 
-  function update(source) {
-    let amt = 562.45;
-    if (source === "slider" && slider) {
-      amt = parseFloat(slider.value) || 0;
-      if (customInput) customInput.value = amt;
-    } else if (source === "input" && customInput) {
-      amt = parseFloat(customInput.value);
-      if (isNaN(amt) || amt < 0) amt = 0;
-      if (slider) {
-        slider.value = Math.min(Math.max(Math.round(amt), 100), 10000);
-      }
-    } else if (customInput && customInput.value !== "") {
-      amt = parseFloat(customInput.value);
-      if (isNaN(amt)) amt = 562.45;
-    } else if (slider) {
-      amt = parseFloat(slider.value) || 500;
-    }
-
+  function update() {
+    let amt = parseFloat(slider.value) || 500;
     const rate = getActiveRate();
     const pFee = Math.round(amt * rate * 100) / 100;
     const sPay = Math.round((amt - pFee) * 100) / 100;
@@ -828,13 +811,7 @@ function setupRevenueCalculator() {
     });
   }
 
-  if (slider) {
-    slider.addEventListener("input", () => update("slider"));
-  }
-
-  if (customInput) {
-    customInput.addEventListener("input", () => update("input"));
-  }
+  slider.addEventListener("input", update);
 
   rateBtns.forEach(btn => {
     btn.addEventListener("click", () => {
@@ -849,25 +826,25 @@ function setupRevenueCalculator() {
           customRateRow.style.display = "none";
         }
       }
-      update("rate");
+      update();
     });
   });
 
   if (customRateInput) {
-    customRateInput.addEventListener("input", () => update("rate"));
+    customRateInput.addEventListener("input", update);
   }
 
   presetChips.forEach(chip => {
     chip.addEventListener("click", () => {
       const targetVal = parseFloat(chip.dataset.amount);
-      if (customInput) customInput.value = targetVal;
-      if (slider) slider.value = Math.min(Math.max(Math.round(targetVal), 100), 10000);
-      update("preset");
+      slider.value = targetVal;
+      update();
     });
   });
 
-  // Initial calculation run with default ₹562.45
-  update("init");
+  // Initial calculation run with default ₹500
+  slider.value = 500;
+  update();
 }
 
 // Shared Listeners
@@ -1332,11 +1309,8 @@ function appendVajraMessage(text, type) {
 
 function localVajraFallback(prompt, persona) {
   const p = prompt.toLowerCase();
-  if (p.includes("fee") || p.includes("10%") || p.includes("20%") || p.includes("commission") || p.includes("economic") || p.includes("escrow") || p.includes("562") || p.includes("cut") || p.includes("split")) {
-    return "⚡ **SkillBridge Unit Economics & Fair Fee Structure:**\n\n• **SkillBridge Platform Fee:** Flat **10%** (Includes 18% GST invoice for businesses).\n• **Traditional Freelance Fee (Upwork/Fiverr):** Up to **20%**.\n\n📊 **Example on a ₹562.45 Custom Gig:**\n• *SkillBridge (10%):* Student receives **₹506.20**, Platform fee is **₹56.25**.\n• *Traditional (20%):* Student receives **₹449.96**, Platform fee is **₹112.49**.\n• *Student Advantage:* Student retains **+₹56.24 extra cash (+12.5% more net earnings!)**.\n\n🔒 All escrow funds are secured upfront and released in 1 click upon deliverable sign-off.";
-  }
-  if (p.includes("tam") || p.includes("sam") || p.includes("som") || p.includes("investor") || p.includes("projection") || p.includes("cac") || p.includes("ltv")) {
-    return "⚡ **SkillBridge Startup Pitch & Market Metrics:**\n\n• **TAM (Total Addressable Market):** ₹35,000 Cr ($4.2B) Indian student & creator gig economy.\n• **SAM:** ₹6,800 Cr ($820M) Tier 1 & 2 campus micro-task outsourcing.\n• **SOM:** ₹375 Cr ($45M) 3-year campus capture target.\n• **LTV / CAC Ratio:** **17.1x** (₹145 CAC vs ₹2,480 annual student LTV).\n• **3-Year Target:** 150,000 verified students, ₹90 Cr GMV, ₹9.0 Cr Net Revenue at 10% take-rate.";
+  if (p.includes("fee") || p.includes("10%") || p.includes("20%") || p.includes("commission") || p.includes("economic") || p.includes("escrow") || p.includes("cut") || p.includes("split")) {
+    return "⚡ **SkillBridge Unit Economics & Fair Fee Structure:**\n\n• **SkillBridge Platform Fee:** Flat **10%** (Includes 18% GST invoice for businesses).\n• **Traditional Freelance Fee (Upwork/Fiverr):** Up to **20%**.\n\n📊 **Example on a ₹500 Standard Micro-Gig:**\n• *SkillBridge (10%):* Student receives **₹450**, Platform fee is **₹50**.\n• *Traditional (20%):* Student receives **₹400**, Platform fee is **₹100**.\n• *Student Advantage:* Student retains **+₹50 extra cash (+12.5% more net earnings!)**.\n\n🔒 All escrow funds are secured upfront and released in 1 click upon deliverable sign-off.";
   }
   if (p.includes("proposal") || p.includes("pitch") || p.includes("gig") || p.includes("apply")) {
     return "⚡ **SkillBridge Proposal Draft:**\n\n\"Namaste! I saw your requirement for the creative design project. I am a university student with practical experience in graphic design and digital media tools. I can create professional, high-converting deliverables customized to your brand guidelines.\n\n✅ Delivery: Within 24-48 hours\n✅ Free Revisions: 1 included\n✅ Full Commercial IP Rights transferred upon milestone approval.\"\n\n*Click below to insert this into the proposal form!*";
